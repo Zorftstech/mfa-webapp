@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 
 import UserProvider, { useUserContext } from '@/contexts/user-context';
 import WorkspaceProvider from '@/contexts/workspace-context';
+import Header from '@/layout/header';
 import Topbar from '@/layout/topbar';
 
 import './globals.css';
@@ -21,7 +22,7 @@ export default function RootClientLayout({
   return (
     <Providers>
       <main className="min-h-screen">
-        <Topbar />
+        <Header />
         {children}
       </main>
     </Providers>
