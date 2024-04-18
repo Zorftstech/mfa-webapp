@@ -30,11 +30,15 @@ const buttonVariants = cva(
       isFullWidth: {
         true: 'w-full',
       },
+      isRelative: {
+        true: 'relative',
+      },
     },
     defaultVariants: {
       variant: 'default',
       size: 'default',
       isFullWidth: false,
+      isRelative: false,
     },
   },
 );

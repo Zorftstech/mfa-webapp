@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 
 import UserProvider, { useUserContext } from '@/contexts/user-context';
 import WorkspaceProvider from '@/contexts/workspace-context';
+import Topbar from '@/layout/topbar';
 
 import './globals.css';
 
@@ -17,5 +18,12 @@ export default function RootClientLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <Providers>{children}</Providers>;
+  return (
+    <Providers>
+      <main className="min-h-screen">
+        <Topbar />
+        {children}
+      </main>
+    </Providers>
+  );
 }

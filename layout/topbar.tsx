@@ -1,12 +1,14 @@
 'use client';
 
 // @ts-ignore
-import { BellDotIcon, LucidePlus, Search } from 'lucide-react';
+import { BellDotIcon, LucidePlus, Search, HeartIcon, ShoppingBag } from 'lucide-react';
 import React, { useState } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+
+import { Separator } from '@/components/ui/separator';
 
 import { useUserContext } from '@/contexts/user-context';
 import { Routes } from '@/routes';
@@ -20,23 +22,15 @@ import logo from '../images/logo.png';
 const Topbar = () => {
   const { user } = useUserContext();
   const pathname = usePathname();
-  const [searchInput, setSearchInput] = useState('');
-
-  const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchInput(event.target.value);
-  };
-
-  // const currentRoute = pathname;
-  // console.log(currentRoute);
 
   return (
-    <section className="flex w-full items-center justify-between border border-secondary px-8 py-4">
+    <section className="flex w-full items-center justify-between border border-secondary px-8 py-2">
       <div className="flex min-w-[24rem] items-center justify-between gap-8">
         <Image src={logo} alt="mfa-logo" />
         <div className="flex h-full w-full items-center rounded-md px-4" style={{ gap: '40px' }}>
           {Routes.map((route, index) => (
             <Link
-              className={`mx-6 text-sm hover:underline ${pathname === route.href ? 'text-red-500' : 'text-black'}`}
+              className={`mx-6 text-sm hover:underline ${pathname === route.href ? 'text-text-dim' : 'text-black'}`}
               key={index}
               href={route.href}
             >
@@ -47,13 +41,24 @@ const Topbar = () => {
       </div>
 
       <div className="flex items-center gap-4">
-        <Button variant="ghost" className="flex gap-2 rounded-full border px-3 py-2">
-          <LucidePlus className="w-4 text-gray-200" />
-          <Text className="text-xs">New Issue</Text>
+        <Button variant={'ghost'} size={'none'}>
+          <HeartIcon className="w-6" />
         </Button>
-        <Button variant={'ghost'} className="flex gap-2 rounded-full border px-3 py-2">
-          <BellDotIcon className="w-5" />
-        </Button>
+        <Separator orientation="vertical" />
+        <div className="flex items-center justify-start gap-4">
+          <Button variant={'ghost'} size={'none'} isRelative={true}>
+            <ShoppingBag className="w-6" />
+            <span className="absolute bottom-3 top-1 h-4 w-4 border border-red-500"></span>
+          </Button>
+          <span className="flex flex-col">
+            <Text weight={'normal'} size={'xs'}>
+              Shopping cart
+            </Text>
+            <Text weight={'bold'} size={'xs'}>
+              NGN 57.00
+            </Text>
+          </span>
+        </div>
         <ProfileIconDropdown />
       </div>
     </section>
