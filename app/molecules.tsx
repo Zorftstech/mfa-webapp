@@ -8,7 +8,7 @@ import { Text } from '@/components/ui/text';
 export const Hero = () => {
   return (
     <div
-      className="relative flex flex-col items-center justify-center gap-4 border border-primary bg-primary px-4"
+      className="relative flex flex-col items-center justify-center gap-6 border border-primary bg-primary px-4"
       style={{
         height: '400px',
         backgroundImage: `url(/images/home/herobg.png)`,
@@ -16,7 +16,7 @@ export const Hero = () => {
         backgroundSize: 'contain',
       }}
     >
-      <Text style={{ fontSize: '2em' }} weight={'bold'} variant={'white'}>
+      <Text style={{ fontSize: '2em', textAlign: 'center' }} weight={'bold'} variant={'white'}>
         Need foodstuffs? Search here...
       </Text>
       <div className="relative w-full max-w-lg">

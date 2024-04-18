@@ -61,4 +61,5 @@ export type Route = {
   id: number;
   href: string;
   title: string;
+  components?: any;
 };
