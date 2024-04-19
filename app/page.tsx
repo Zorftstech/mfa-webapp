@@ -3,12 +3,14 @@ import Link from 'next/link';
 
 import { Text } from '@/components/ui/text';
 
-import { Hero } from './molecules';
+import FarmOfftake from './molecules/farm-offtake';
+import Hero from './molecules/hero';
 
 export default function Home() {
   return (
     <>
       <Hero />
+      <FarmOfftake />
     </>
   );
 }
