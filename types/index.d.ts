@@ -63,3 +63,12 @@ export type Route = {
   title: string;
   components?: any;
 };
+
+export type ShopItem = {
+  id: number;
+  image_url: any;
+  title: string;
+  reviews: number;
+  rating: number;
+  price: number;
+};

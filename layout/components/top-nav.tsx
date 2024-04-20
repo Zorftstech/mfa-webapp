@@ -13,7 +13,7 @@ export function TopNav() {
   return (
     <NavigationMenu>
       <NavigationMenuList>
-        <Each of={Routes} render={(route: any, index: number) => <LinkItem route={route} />} />
+        <Each of={Routes} render={(route: any) => <LinkItem route={route} />} />
       </NavigationMenuList>
     </NavigationMenu>
   );

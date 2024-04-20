@@ -1,37 +1,35 @@
 import { ArrowRight } from 'lucide-react';
 import React from 'react';
 
-import Image from 'next/image';
-
+import Each from '@/components/helpers/each';
 import Container from '@/components/shared/container';
+import OfftakeBanner from '@/components/shared/offtake-banner';
+import ShopItem from '@/components/shared/shop-item';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
-import Timer from '@/components/ui/timer';
 
-import bg from '../../images/farm-offtake.png';
+import { ShopItem as ItemType } from '@/types';
+
+import dummyItem from '../../images/dummy-item.png';
+
+const dummyItems: ItemType[] = [
+  { id: 1, image_url: dummyItem, title: 'Orange (200g)', rating: 4.5, reviews: 12, price: 2000.0 },
+  { id: 2, image_url: dummyItem, title: 'Orange (200g)', rating: 4.5, reviews: 12, price: 200.0 },
+  { id: 3, image_url: dummyItem, title: 'Orange (200g)', rating: 4.5, reviews: 12, price: 200.0 },
+  { id: 4, image_url: dummyItem, title: 'Orange (200g)', rating: 4.5, reviews: 12, price: 200.0 },
+  { id: 5, image_url: dummyItem, title: 'Orange (200g)', rating: 4.5, reviews: 12, price: 200.0 },
+  { id: 6, image_url: dummyItem, title: 'Orange (200g)', rating: 4.5, reviews: 12, price: 200.0 },
+  { id: 7, image_url: dummyItem, title: 'Orange (200g)', rating: 4.5, reviews: 12, price: 200.0 },
+  { id: 8, image_url: dummyItem, title: 'Orange (200g)', rating: 4.5, reviews: 12, price: 200.0 },
+];
 
 function FarmOfftake() {
   return (
     <Container backgroundColor="bg-gray-100">
-      <main className="mx-auto flex max-w-[1440px] flex-col items-center justify-center gap-1 border border-red-500 py-4">
-        <div className="relative overflow-hidden rounded-2xl">
-          <Image src={bg} alt="bg" width={800} height={600} />
-          <div className="absolute right-0 top-0 h-full max-w-[350px] p-4">
-            <Text variant={'secondary'} size={'xl'} weight={'semibold'}>
-              FARM OFFTAKE
-            </Text>
-            <Text className="my-2 text-gray-300" size={'xs'} weight={'medium'}>
-              Free on all your order, Free Delivery and 30 days money-back guarantee
-            </Text>
-            <Timer />
-            <Button className="mt-4 rounded-3xl px-6 text-sm">
-              Shop Now
-              <ArrowRight className="w-4 text-white" />
-            </Button>
-          </div>
-        </div>
-        <div className="w-full border border-blue-500 py-4">
-          <div className="flex w-full items-center justify-between">
+      <main className="mx-auto flex w-full max-w-[1440px] flex-col items-center justify-center gap-1 py-4">
+        <OfftakeBanner />
+        <div className="w-full py-4">
+          <div className="flex w-full items-center justify-between px-4">
             <Text size={'xl'} weight={'semibold'}>
               Farm Offtake
             </Text>
@@ -39,6 +37,9 @@ function FarmOfftake() {
               View All
               <ArrowRight className="w-4 text-primary-2" />
             </Button>
+          </div>
+          <div className="grid w-full grid-cols-1 gap-6 p-4 md:grid-cols-4">
+            <Each of={dummyItems} render={item => <ShopItem itemDetails={item} />} />
           </div>
         </div>
       </main>

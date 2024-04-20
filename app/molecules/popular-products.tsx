@@ -3,7 +3,6 @@ import React from 'react';
 
 import Each from '@/components/helpers/each';
 import Container from '@/components/shared/container';
-import FlashSaleBanner from '@/components/shared/flashsale-banner';
 import ShopItem from '@/components/shared/shop-item';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
@@ -23,15 +22,14 @@ const dummyItems: ItemType[] = [
   { id: 8, image_url: dummyItem, title: 'Orange (200g)', rating: 4.5, reviews: 12, price: 200.0 },
 ];
 
-function FlashSales() {
+function PopularProducts() {
   return (
     <Container backgroundColor="bg-white">
       <main className="mx-auto flex w-full max-w-[1440px] flex-col items-center justify-center gap-1 py-4">
-        <FlashSaleBanner />
         <div className="w-full py-4">
           <div className="flex w-full items-center justify-between px-4">
-            <Text size={'2xl'} weight={'semibold'}>
-              Flash Sale
+            <Text size={'xl'} weight={'semibold'}>
+              Popular Products
             </Text>
             <Button variant={'ghost'} className=" rounded-3xl bg-gray-100 text-sm text-primary-2">
               View All
@@ -47,4 +45,4 @@ function FlashSales() {
   );
 }
 
-export default FlashSales;
+export default PopularProducts;
