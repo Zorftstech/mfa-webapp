@@ -1,12 +1,21 @@
 import { useState, useEffect } from 'react';
 
 function getWindowDimensions() {
-  const { innerWidth: width, innerHeight: height } = window;
-  return {
-    width,
-    height,
-    isDesktop: width > 768,
-  };
+  if (typeof window !== 'undefined') {
+    const { innerWidth: width, innerHeight: height } = window;
+    return {
+      width,
+      height,
+      isDesktop: width > 768,
+    };
+  } else {
+    // Return default values if window is not available (for server-side rendering)
+    return {
+      width: 0,
+      height: 0,
+      isDesktop: false,
+    };
+  }
 }
 
 export default function useWindowDimensions() {
