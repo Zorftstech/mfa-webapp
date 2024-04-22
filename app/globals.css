@@ -34,6 +34,7 @@ body {
 
     --text: #1b1f28;
     --text-dim: #32475c61;
+    --text-light: #ccc;
     --text-link: var(--primary);
   }
 }

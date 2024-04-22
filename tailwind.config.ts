@@ -23,7 +23,7 @@ const config = {
       colors: {
         text: {
           DEFAULT: 'var(--text)',
-          dim: '#00B207',
+          dim: 'var(--text-dim)',
           link: 'var(--text-link)',
         },
         primary: {
