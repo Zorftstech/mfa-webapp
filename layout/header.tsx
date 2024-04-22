@@ -39,47 +39,41 @@ const Header = () => {
       </Show>
       <section className="flex w-full items-center justify-between border border-secondary px-4 py-2 md:px-8">
         <div className="flex min-w-[24rem] items-center justify-between gap-8">
-          <Show>
-            <Show.When isTrue={width < 801}>
-              <Button variant={'ghost'} size={'none'} onClick={handleVisibility}>
-                <AlignJustify className="w-4" />
-              </Button>
-            </Show.When>
-          </Show>
+          <Button
+            style={{ display: width <= 860 ? 'block' : 'none' }}
+            variant={'ghost'}
+            size={'none'}
+            onClick={handleVisibility}
+          >
+            <AlignJustify className="w-4" />
+          </Button>
           <Image src={logo} alt="mfa-logo" />
-          <Show>
-            <Show.When isTrue={width > 800}>
-              <TopNav />
-            </Show.When>
-          </Show>
+          <TopNav />
         </div>
         <div className="flex items-center gap-4">
-          <Show>
-            <Show.When isTrue={width > 1035}>
-              <>
-                <Button variant={'ghost'} size={'none'}>
-                  <HeartIcon className="w-6" />
-                </Button>
-                <Separator orientation="vertical" />
-                <div className="flex items-center justify-start gap-4">
-                  <Button variant={'ghost'} size={'none'} className="relative pr-2">
-                    <ShoppingBag className="w-6" />
-                    <span className="absolute right-0 rounded-full bg-primary px-2" style={{ top: '-5px' }}>
-                      <Text variant={'white'} size={'xs'} style={{ fontSize: '10px' }}>
-                        0
-                      </Text>
-                    </span>
-                  </Button>
-                  <span className="flex flex-col">
-                    <Text size={'xs'}>Shopping cart</Text>
-                    <Text weight={'bold'} size={'xs'}>
-                      NGN 57.00
-                    </Text>
-                  </span>
-                </div>
-              </>
-            </Show.When>
-          </Show>
+          <span className="items-center gap-2" style={{ display: width > 1040 ? 'flex' : 'none' }}>
+            <Button variant={'ghost'} size={'none'}>
+              <HeartIcon className="w-6" />
+            </Button>
+            <Separator orientation="vertical" />
+            <div className="flex items-center justify-start gap-4">
+              <Button variant={'ghost'} size={'none'} className="relative pr-2">
+                <ShoppingBag className="w-6" />
+                <span className="absolute right-0 rounded-full bg-primary px-2" style={{ top: '-5px' }}>
+                  <Text variant={'white'} size={'xs'} style={{ fontSize: '10px' }}>
+                    0
+                  </Text>
+                </span>
+              </Button>
+              <span className="flex flex-col">
+                <Text size={'xs'}>Shopping cart</Text>
+                <Text weight={'bold'} size={'xs'}>
+                  NGN 57.00
+                </Text>
+              </span>
+            </div>
+          </span>
+
           <ProfileIconDropdown />
         </div>
       </section>
