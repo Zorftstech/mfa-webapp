@@ -35,7 +35,7 @@ function Items() {
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-white">
               <SelectItem value="default">Default Sorting</SelectItem>
               <SelectItem value="custom">Custom Sorting</SelectItem>
             </SelectContent>
