@@ -46,7 +46,7 @@ function FlashSaleBanner() {
             OFF
           </Text>
         </span>
-        <div className="flex items-center gap-2 rounded-md bg-white p-2">
+        <div className="flex items-center justify-between gap-2 rounded-md bg-white p-2">
           <Text size={'sm'} weight={'semibold'}>
             Closing in:
           </Text>

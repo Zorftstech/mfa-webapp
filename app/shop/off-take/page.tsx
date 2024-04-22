@@ -26,7 +26,7 @@ const dummyItems: ItemType[] = [
 function page() {
   return (
     <div>
-      <RouteDisplay route={'Farm Offtake'} />
+      <RouteDisplay route="Farm Offtake" />
       <Container backgroundColor="bg-gray-100">
         <main className="mx-auto mt-8 flex w-full max-w-[1440px] flex-col items-center justify-center gap-1 py-4">
           <OfftakeBanner />
