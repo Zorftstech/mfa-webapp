@@ -19,8 +19,6 @@ import { Route } from '@/types';
 const LinkItem = ({ route }: { route: Route }) => {
   const pathname = usePathname();
 
-  console.log(pathname);
-
   if (route.components) {
     return (
       <NavigationMenuItem>
