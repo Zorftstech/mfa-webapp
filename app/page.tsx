@@ -7,6 +7,7 @@ import FarmOfftake from './molecules/farm-offtake';
 import FlashSales from './molecules/flash-sale';
 import Hero from './molecules/hero';
 import PopularProducts from './molecules/popular-products';
+import Testimonials from './molecules/testimonials';
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       <FarmOfftake />
       <PopularProducts />
       <FlashSales />
+      <Testimonials />
     </>
   );
 }
