@@ -1,7 +1,3 @@
-import Newsletter from '@/components/shared/newsletter';
-
-import Footer from '@/layout/footer';
-
 import FarmOfftake from './molecules/farm-offtake';
 import FlashSales from './molecules/flash-sale';
 import Hero from './molecules/hero';
@@ -18,8 +14,6 @@ export default function Home() {
       <FlashSales />
       <Testimonials />
       <Sdg />
-      <Newsletter />
-      <Footer />
     </>
   );
 }

@@ -37,8 +37,6 @@ function page() {
           </div>
         </main>
       </Container>
-      <Newsletter />
-      <Footer />
     </div>
   );
 }
