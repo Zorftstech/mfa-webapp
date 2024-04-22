@@ -6,10 +6,10 @@ import Newsletter from '@/components/shared/newsletter';
 import OfftakeBanner from '@/components/shared/offtake-banner';
 import ShopItem from '@/components/shared/shop-item';
 
+import dummyItem from '@/images/dummy-item.png';
 import Footer from '@/layout/footer';
 import { ShopItem as ItemType } from '@/types';
 
-import dummyItem from '../../../images/dummy-item.png';
 import RouteDisplay from '../route-display';
 
 const dummyItems: ItemType[] = [

@@ -6,10 +6,10 @@ import FlashSaleBanner from '@/components/shared/flashsale-banner';
 import Newsletter from '@/components/shared/newsletter';
 import ShopItem from '@/components/shared/shop-item';
 
+import dummyItem from '@/images/dummy-item.png';
 import Footer from '@/layout/footer';
 import { ShopItem as ItemType } from '@/types';
 
-import dummyItem from '../../../images/dummy-item.png';
 import RouteDisplay from '../route-display';
 
 const dummyItems: ItemType[] = [
@@ -27,8 +27,8 @@ function page() {
   return (
     <div>
       <RouteDisplay route="Flash Sales" />
-      <Container backgroundColor="bg-white">
-        <main className="mx-auto flex w-full max-w-[1440px] flex-col items-center justify-center gap-1 py-4">
+      <Container backgroundColor="bg-gray-100">
+        <main className="mx-auto mt-8 flex w-full max-w-[1440px] flex-col items-center justify-center gap-1 py-4">
           <FlashSaleBanner />
           <div className="w-full py-4">
             <div className="grid w-full grid-cols-1 gap-4 p-4 md:grid-cols-2 lg:grid-cols-4">

@@ -4,8 +4,11 @@ import { useEffect } from 'react';
 
 import { useRouter } from 'next/navigation';
 
+import Newsletter from '@/components/shared/newsletter';
+
 import UserProvider, { useUserContext } from '@/contexts/user-context';
 import WorkspaceProvider from '@/contexts/workspace-context';
+import Footer from '@/layout/footer';
 import Header from '@/layout/header';
 import Topbar from '@/layout/topbar';
 
@@ -24,6 +27,8 @@ export default function RootClientLayout({
       <main className="min-h-screen">
         <Header />
         {children}
+        <Newsletter />
+        <Footer />
       </main>
     </Providers>
   );
