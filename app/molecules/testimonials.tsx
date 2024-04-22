@@ -27,7 +27,7 @@ function Testimonials() {
           </div>
           <CarouselContent>
             {Array.from({ length: 5 }).map((_, index) => (
-              <TestimonialItem key={index} index={index} />
+              <TestimonialItem key={index} />
             ))}
           </CarouselContent>
         </Carousel>

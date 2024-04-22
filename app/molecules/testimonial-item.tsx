@@ -6,9 +6,9 @@ import { CarouselItem } from '@/components/ui/carousel';
 import { Ratings } from '@/components/ui/rating';
 import { Text } from '@/components/ui/text';
 
-function TestimonialItem({ index }: { index: number }) {
+function TestimonialItem() {
   return (
-    <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+    <CarouselItem className="md:basis-1/2 lg:basis-1/3">
       <div className="p-1">
         <Card className="w-full bg-white">
           <CardHeader>
