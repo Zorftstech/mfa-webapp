@@ -40,7 +40,7 @@ const Header = () => {
       <section className="flex w-full items-center justify-between border border-secondary px-4 py-2 md:px-8">
         <div className="flex min-w-[24rem] items-center justify-between gap-8">
           <Button
-            style={{ display: width <= 860 ? 'block' : 'none' }}
+            style={{ display: window.innerWidth <= 860 ? 'block' : 'none' }}
             variant={'ghost'}
             size={'none'}
             onClick={handleVisibility}
@@ -51,7 +51,7 @@ const Header = () => {
           <TopNav />
         </div>
         <div className="flex items-center gap-4">
-          <span className="items-center gap-2" style={{ display: width > 1040 ? 'flex' : 'none' }}>
+          <span className="items-center gap-2" style={{ display: window.innerWidth > 1040 ? 'flex' : 'none' }}>
             <Button variant={'ghost'} size={'none'}>
               <HeartIcon className="w-6" />
             </Button>

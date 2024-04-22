@@ -19,10 +19,14 @@ import { Route } from '@/types';
 const LinkItem = ({ route }: { route: Route }) => {
   const pathname = usePathname();
 
+  console.log(pathname);
+
   if (route.components) {
     return (
       <NavigationMenuItem>
-        <NavigationMenuTrigger>Shop</NavigationMenuTrigger>
+        <NavigationMenuTrigger className={`${pathname.includes(route.href) && 'text-primary'}`}>
+          {route.title}
+        </NavigationMenuTrigger>
         <NavigationMenuContent>
           <ul className="flex w-[400px] gap-3 bg-white p-4 md:w-[500px] lg:w-[600px]">
             <Each
@@ -55,7 +59,7 @@ const LinkItem = ({ route }: { route: Route }) => {
 const ListItem = React.forwardRef<React.ElementRef<'a'>, React.ComponentPropsWithoutRef<'a'>>(
   ({ className, title, children, ...props }, ref) => {
     return (
-      <li className="rounded-md duration-200 hover:bg-gray-100" style={{ width: '200px' }}>
+      <li className="rounded-md duration-200 hover:bg-gray-100" style={{ width: '250px' }}>
         <NavigationMenuLink asChild>
           <a
             ref={ref}
@@ -65,7 +69,7 @@ const ListItem = React.forwardRef<React.ElementRef<'a'>, React.ComponentPropsWit
             )}
             {...props}
           >
-            <div className="text-sm font-medium leading-none">{title}</div>
+            <div className="mb-2 text-sm font-medium leading-none">{title}</div>
             <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">{children}</p>
           </a>
         </NavigationMenuLink>

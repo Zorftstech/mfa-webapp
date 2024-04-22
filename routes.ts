@@ -8,26 +8,27 @@ export const Routes: Route[] = [
     title: 'Shop',
     components: [
       {
-        title: 'Alert Dialog',
-        href: '/docs/primitives/alert-dialog',
-        description: 'A modal dialog that interrupts the user with important content and expects a response.',
-      },
-      {
-        title: 'Hover Card',
-        href: '/docs/primitives/hover-card',
-        description: 'For sighted users to preview content available behind a link.',
-      },
-      {
-        title: 'Progress',
-        href: '/docs/primitives/progress',
+        title: 'Categories',
+        href: '/shop/categories',
         description:
-          'Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.',
+          'Browse through our wide range of products organized into distinct categories for easy navigation and discovery.',
+      },
+      {
+        title: 'Farm Offtake',
+        href: '/shop/off-take',
+        description:
+          'Explore our farm off-take section where you can find fresh produce directly from the farm to your table, ensuring quality and freshness.',
+      },
+      {
+        title: 'Flash Sales',
+        href: '/shop/flash-sales',
+        description:
+          "Don't miss out on our limited-time flash sales offering exciting discounts on select products. Grab them before they're gone!",
       },
     ],
   },
-  { id: 3, href: '/flash-sales', title: 'Flash Sales' },
-  { id: 4, href: '/about-us', title: 'About Us' },
-  { id: 5, href: '/contact-us', title: 'Contact Us' },
-  { id: 6, href: '/faq', title: 'FAQs' },
-  { id: 7, href: '/blog', title: 'Blog' },
+  { id: 3, href: '/about-us', title: 'About Us' },
+  { id: 4, href: '/contact-us', title: 'Contact Us' },
+  { id: 5, href: '/faq', title: 'FAQs' },
+  { id: 6, href: '/blog', title: 'Blog' },
 ];

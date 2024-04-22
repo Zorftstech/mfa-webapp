@@ -35,7 +35,7 @@ function OfftakeBanner() {
     <div className="relative overflow-hidden rounded-2xl">
       <Image src={bg} alt="bg" width={800} height={600} />
       <div className="absolute right-0 top-0 h-full max-w-[350px] p-4">
-        <Text variant={'secondary'} size={'xl'} weight={'semibold'}>
+        <Text className="text-primary-2" size={'xl'} weight={'semibold'}>
           FARM OFFTAKE
         </Text>
         <Text className="my-2 text-gray-300" size={'xs'} weight={'medium'}>
