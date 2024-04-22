@@ -14,7 +14,7 @@ const images = [paystack, flutterwave, mastercard, visa];
 
 function Copyright() {
   return (
-    <div className="flex w-full items-center justify-between py-6">
+    <div className="flex w-full flex-col items-center justify-between gap-2 px-4 py-6 sm:flex-row">
       <Text style={{ color: '#989898' }} size={'xs'} weight={'medium'}>
         &copy; MY FOOD ANGELS.COM, All rights reserved.
       </Text>
