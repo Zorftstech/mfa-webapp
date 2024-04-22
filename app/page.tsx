@@ -1,12 +1,10 @@
-import Image from 'next/image';
-import Link from 'next/link';
-
-import { Text } from '@/components/ui/text';
+import Newsletter from '@/components/shared/newsletter';
 
 import FarmOfftake from './molecules/farm-offtake';
 import FlashSales from './molecules/flash-sale';
 import Hero from './molecules/hero';
 import PopularProducts from './molecules/popular-products';
+import Sdg from './molecules/sdg';
 import Testimonials from './molecules/testimonials';
 
 export default function Home() {
@@ -17,6 +15,8 @@ export default function Home() {
       <PopularProducts />
       <FlashSales />
       <Testimonials />
+      <Sdg />
+      <Newsletter />
     </>
   );
 }

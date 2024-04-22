@@ -9,12 +9,12 @@ import TestimonialItem from './testimonial-item';
 function Testimonials() {
   return (
     <Container backgroundColor="bg-gray-100">
-      <main className="mx-auto flex w-full max-w-[1440px] flex-col items-center justify-center gap-1 py-4">
+      <main className="mx-auto flex w-full max-w-[1440px] flex-col items-center justify-center gap-1 px-4 py-4">
         <Carousel
           opts={{
             align: 'start',
           }}
-          className="w-full px-4"
+          className="w-full"
         >
           <div className="mb-4 flex w-full items-center justify-between">
             <Text size={'xl'} weight={'bold'}>
