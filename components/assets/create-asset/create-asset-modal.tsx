@@ -8,8 +8,7 @@ import { z } from 'zod';
 
 import processError from '@/lib/error';
 
-import { useCreateAsset } from '@/app/dashboard/facility/[id]/assets/hooks/use-create-asset';
-
+// import { useCreateAsset } from '@/app/dashboard/facility/[id]/assets/hooks/use-create-asset';
 import { Button } from '../../ui/button';
 import { Dialog, DialogClose, DialogContent, DialogHeader } from '../../ui/dialog';
 import { Form, FormControl, FormField, FormItem } from '../../ui/form';
@@ -46,7 +45,7 @@ const CreateAssetModal = () => {
     },
     mode: 'onSubmit',
   });
-  const { mutate, isPending: isCreateAssetPending } = useCreateAsset();
+  // const { mutate, isPending: isCreateAssetPending } = useCreateAsset();
 
   const onCloseForm = (open: boolean) => {
     onOpenChange(open);
@@ -55,25 +54,25 @@ const CreateAssetModal = () => {
 
   const onSubmit = async (values: CreateAssetFormFields) => {
     console.log({ values });
-    try {
-      mutate(values, {
-        onSuccess: () => {
-          toast(`Asset ${values.name} created successfully`);
-          onOpenChange(false);
+    // try {
+    //   mutate(values, {
+    //     onSuccess: () => {
+    //       toast(`Asset ${values.name} created successfully`);
+    //       onOpenChange(false);
 
-          if (createMore) {
-            onOpenChange(true);
-            form.reset();
-          }
-        },
-        onError: error => {
-          console.log({ error });
-          toast.error(`An error occured while creating asset ${values.name}. Try again`);
-        },
-      });
-    } catch (error: unknown) {
-      if (error instanceof AxiosError) processError(error);
-    }
+    //       if (createMore) {
+    //         onOpenChange(true);
+    //         form.reset();
+    //       }
+    //     },
+    //     onError: error => {
+    //       console.log({ error });
+    //       toast.error(`An error occured while creating asset ${values.name}. Try again`);
+    //     },
+    //   });
+    // } catch (error: unknown) {
+    //   if (error instanceof AxiosError) processError(error);
+    // }
   };
 
   return (
@@ -147,7 +146,11 @@ const CreateAssetModal = () => {
                     Create more
                   </Label>
                 </div>
-                <Button disabled={isCreateAssetPending} type="submit" className="h-7">
+                <Button
+                  // disabled={isCreateAssetPending}
+                  type="submit"
+                  className="h-7"
+                >
                   {form.formState.isSubmitting ? <Spinner /> : 'Save'}
                 </Button>
               </div>

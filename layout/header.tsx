@@ -9,7 +9,6 @@ import { Show } from '@/components/helpers/show';
 import { Separator } from '@/components/ui/separator';
 
 import { useUserContext } from '@/contexts/user-context';
-import useWindowDimensions from '@/hooks/useWindowDimensions';
 
 import ProfileIconDropdown from '../components/dashboard/profile-icon-dropdown';
 import { Button } from '../components/ui/button';
@@ -18,11 +17,10 @@ import logo from '../public/images/home/logo.png';
 
 import { MobileNav } from './components/mobile-nav';
 import { TopNav } from './components/top-nav';
+import './header.css';
 
 const Header = () => {
   const { user } = useUserContext();
-
-  const { width } = useWindowDimensions();
 
   const [isVisible, setIsVisible] = useState<Boolean>(false);
 
@@ -39,19 +37,14 @@ const Header = () => {
       </Show>
       <section className="flex w-full items-center justify-between border border-secondary px-4 py-2 md:px-8">
         <div className="flex min-w-[24rem] items-center justify-between gap-8">
-          <Button
-            style={{ display: window.innerWidth <= 860 ? 'block' : 'none' }}
-            variant={'ghost'}
-            size={'none'}
-            onClick={handleVisibility}
-          >
+          <Button className="hamburger-btn" variant={'ghost'} size={'none'} onClick={handleVisibility}>
             <AlignJustify className="w-4" />
           </Button>
           <Image src={logo} alt="mfa-logo" />
           <TopNav />
         </div>
         <div className="flex items-center gap-4">
-          <span className="items-center gap-2" style={{ display: window.innerWidth > 1040 ? 'flex' : 'none' }}>
+          <span className="wishlist-cart items-center gap-2">
             <Button variant={'ghost'} size={'none'}>
               <HeartIcon className="w-6" />
             </Button>
@@ -73,7 +66,6 @@ const Header = () => {
               </span>
             </div>
           </span>
-
           <ProfileIconDropdown />
         </div>
       </section>

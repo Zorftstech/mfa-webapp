@@ -12,7 +12,7 @@ import { Text } from '../ui/text';
 
 const Shop = ({ itemDetails }: { itemDetails: ShopItem }) => {
   return (
-    <Card className="w-full bg-white px-4 py-6">
+    <Card className="w-full border-none bg-white px-4 py-6 shadow-none">
       <CardContent className="w-full p-0">
         <div className="flex w-full items-center justify-center">
           <Image src={itemDetails.image_url} alt={itemDetails.title} width={300} height={300} />

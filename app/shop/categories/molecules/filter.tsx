@@ -6,16 +6,12 @@ import React from 'react';
 import { Accordion } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 
-import useWindowDimensions from '@/hooks/useWindowDimensions';
-
 import Price from './price';
 import ProductCategories from './product-categories';
 
 function Filter() {
-  const { width } = useWindowDimensions();
-
   return (
-    <aside style={{ display: width > 860 ? 'block' : 'none' }} className="flex-1 p-4">
+    <aside className="filter-section flex-1 p-4">
       <Button className="w-full rounded-2xl">
         Filter
         <FilterIcon className="w-3" />

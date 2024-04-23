@@ -16,7 +16,7 @@ import Timer from '../ui/timer';
 function FlashSaleBanner() {
   const { width } = useWindowDimensions();
 
-  if (width < 745) {
+  if (width && width < 745) {
     return (
       <main className="w-full px-2">
         <div className="flex w-full items-center justify-between rounded-md border border-[#DFC900] bg-[#DFC900] p-4">

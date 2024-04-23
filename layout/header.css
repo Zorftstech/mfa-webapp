@@ -1,0 +1,23 @@
+.hamburger-btn {
+  display: none; /* Default display is none */
+
+  @media screen and (max-width: 768px) {
+    display: block; /* Display block if screen width is less than or equal to 768px */
+  }
+}
+
+.wishlist-cart {
+  display: flex; /* Default display is none */
+
+  @media screen and (max-width: 1040px) {
+    display: none; /* Display block if screen width is less than or equal to 768px */
+  }
+}
+
+.top-nav {
+  display: block; /* Default display is none */
+
+  @media screen and (max-width: 768px) {
+    display: none; /* Display block if screen width is less than or equal to 768px */
+  }
+}

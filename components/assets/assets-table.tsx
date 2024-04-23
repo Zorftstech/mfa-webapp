@@ -5,8 +5,7 @@ import React, { useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
-import { useAssets } from '@/app/dashboard/facility/[id]/assets/hooks/use-assets';
-
+// import { useAssets } from '@/app/dashboard/facility/[id]/assets/hooks/use-assets';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 
 import AssetPanel from './asset-panel';

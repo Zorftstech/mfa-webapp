@@ -39,7 +39,10 @@ function FlashSales() {
             </Button>
           </div>
           <div className="grid w-full grid-cols-1 gap-4 p-4 md:grid-cols-2 lg:grid-cols-4">
-            <Each of={dummyItems} render={item => <ShopItem itemDetails={item} />} />
+            <Each
+              of={dummyItems}
+              render={(item: ItemType, index: number) => <ShopItem key={index} itemDetails={item} />}
+            />
           </div>
         </div>
       </main>

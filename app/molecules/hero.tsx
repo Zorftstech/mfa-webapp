@@ -40,7 +40,10 @@ export default function Hero() {
         <Search className="absolute right-4 top-[25%] w-4" />
       </div>
       <div className="category w-full max-w-lg p-2">
-        <Each of={herocategories} render={category => <CategoryItem category={category} />} />
+        <Each
+          of={herocategories}
+          render={(category: category, index: number) => <CategoryItem key={index} category={category} />}
+        />
       </div>
     </div>
   );

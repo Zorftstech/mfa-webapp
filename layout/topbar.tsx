@@ -46,7 +46,7 @@ const Topbar = () => {
         </Button>
         <Separator orientation="vertical" />
         <div className="flex items-center justify-start gap-4">
-          <Button variant={'ghost'} size={'none'} isRelative={true}>
+          <Button variant={'ghost'} size={'none'}>
             <ShoppingBag className="w-6" />
             <span className="absolute bottom-3 top-1 h-4 w-4 border border-red-500"></span>
           </Button>

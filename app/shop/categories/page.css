@@ -1,0 +1,7 @@
+.filter-section {
+  display: block; /* Default display is none */
+
+  @media screen and (max-width: 860px) {
+    display: none; /* Display block if screen width is less than or equal to 768px */
+  }
+}

@@ -16,7 +16,7 @@ import Timer from '../ui/timer';
 function OfftakeBanner() {
   const { width } = useWindowDimensions();
 
-  if (width < 745) {
+  if (width && width < 745) {
     return (
       <main className="w-full px-2">
         <div className="flex w-full items-center justify-between rounded-md border border-red-500 bg-red-500 p-4">

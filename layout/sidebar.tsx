@@ -17,8 +17,7 @@ import FacilityDropdown from '@/components/facility/facility-dropdown';
 
 import { cn } from '@/lib/utils/css';
 
-import { useFacilities } from '@/app/dashboard/facility/hooks/use-facilities';
-
+// import { useFacilities } from '@/app/dashboard/facility/hooks/use-facilities';
 import CreateFacilityModal from '../components/facility/create-facility-modal';
 import { Button } from '../components/ui/button';
 import { Text } from '../components/ui/text';

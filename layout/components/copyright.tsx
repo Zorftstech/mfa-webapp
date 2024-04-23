@@ -19,7 +19,10 @@ function Copyright() {
         &copy; MY FOOD ANGELS.COM, All rights reserved.
       </Text>
       <div className="flex items-center justify-end gap-2">
-        <Each of={images} render={item => <Image className="h-10 w-10" src={item} alt="Partners" />} />
+        <Each
+          of={images}
+          render={(item, index) => <Image key={index} className="h-10 w-10" src={item} alt="Partners" />}
+        />
       </div>
     </div>
   );

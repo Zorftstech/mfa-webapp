@@ -40,8 +40,8 @@ export default function Timer({ className }: { className?: string }) {
       <span className="flex items-center gap-2">
         <Each
           of={timeElements}
-          render={item => (
-            <Text className={className} weight={'semibold'} size={'xl'}>
+          render={(item, index) => (
+            <Text key={index} className={className} weight={'semibold'} size={'xl'}>
               {item}
             </Text>
           )}

@@ -3,8 +3,7 @@
 import { EllipsisVertical } from 'lucide-react';
 import React, { useState } from 'react';
 
-import { useAssets } from '@/app/dashboard/facility/[id]/assets/hooks/use-assets';
-
+// import { useAssets } from '@/app/dashboard/facility/[id]/assets/hooks/use-assets';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 
 import AssetPanel from './issues-panel';
@@ -69,7 +68,7 @@ const DUMMY_ASSETS = [
 
 const IssuesTable = () => {
   const [currentAsset, setCurrentAsset] = useState({});
-  const { data: assets } = useAssets();
+  // const { data: assets } = useAssets();
   // remove before push
 
   return (

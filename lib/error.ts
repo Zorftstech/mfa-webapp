@@ -5,7 +5,9 @@ const processError = (error: AxiosError, cb?: CallableFunction) => {
   let msg = '';
   let isProdEnv = process.env.NODE_ENV === 'production';
 
+  //@ts-ignore
   if (error?.response?.data?.message) {
+    //@ts-ignore
     msg = error?.response?.data?.message;
 
     if (!cb) {
@@ -14,7 +16,9 @@ const processError = (error: AxiosError, cb?: CallableFunction) => {
       cb(msg);
     }
     return msg;
+    //@ts-ignore
   } else if (error?.response?.data?.detail && error?.response?.data?.detail instanceof Array) {
+    //@ts-ignore
     error?.response?.data?.detail?.map(det => {
       msg = det?.msg;
       let field = det?.loc?.slice(-1);
@@ -29,7 +33,9 @@ const processError = (error: AxiosError, cb?: CallableFunction) => {
       }
       return 'incomplete or incorrect details';
     });
+    //@ts-ignore
   } else if (error?.response?.data?.detail) {
+    //@ts-ignore
     msg = error?.response?.data?.detail;
 
     if (msg == 'Invalid Credentials') {

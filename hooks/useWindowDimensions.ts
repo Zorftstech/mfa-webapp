@@ -13,8 +13,8 @@ function getWindowDimensions() {
   } else {
     // Return default values if window is not available (for server-side rendering)
     return {
-      width: 0,
-      height: 0,
+      width: null,
+      height: null,
       isDesktop: false,
     };
   }

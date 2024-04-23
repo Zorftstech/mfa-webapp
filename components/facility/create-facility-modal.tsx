@@ -9,7 +9,7 @@ import { z } from 'zod';
 import processError from '@/lib/error';
 import { $http } from '@/lib/http';
 
-import { useCreateFacility } from '@/app/dashboard/facility/hooks/use-create-facility';
+// import { useCreateFacility } from '@/app/dashboard/facility/hooks/use-create-facility';
 import { useWorkspaceContext } from '@/contexts/workspace-context';
 
 import { Button } from '../ui/button';
@@ -37,7 +37,7 @@ type CreateFacilityFormFields = z.infer<typeof createFacilitySchema>;
 // rewrite this to use a context exposing controls to trigger its open states
 const CreateFacilityModal = ({ isOpen, setIsOpen }: { isOpen: boolean; setIsOpen: (val: boolean) => void }) => {
   const { currentWorkspace } = useWorkspaceContext();
-  const { mutate } = useCreateFacility();
+  // const { mutate } = useCreateFacility();
   const form = useForm({
     resolver: zodResolver(createFacilitySchema),
     defaultValues: {

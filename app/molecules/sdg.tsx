@@ -30,8 +30,11 @@ function Sdg() {
       <div className="grid w-full grid-cols-1 gap-4 p-4 md:grid-cols-3">
         <Each
           of={sdgItems}
-          render={item => (
-            <div className="flex flex-col items-center justify-center gap-4 bg-gradient-to-br from-[#b2dd43] to-[#488d18] p-4">
+          render={(item: any, index: number) => (
+            <div
+              key={index}
+              className="flex flex-col items-center justify-center gap-4 bg-gradient-to-br from-[#b2dd43] to-[#488d18] p-4"
+            >
               <Text className="text-center uppercase text-white" size={'lg'} weight={'medium'}>
                 {item.title}
               </Text>

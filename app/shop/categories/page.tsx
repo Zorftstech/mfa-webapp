@@ -4,6 +4,7 @@ import RouteDisplay from '../route-display';
 
 import Filter from './molecules/filter';
 import Items from './molecules/items';
+import './page.css';
 
 function page() {
   return (
