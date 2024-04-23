@@ -11,7 +11,7 @@ import QuickLinks from './components/quick-links';
 function Footer() {
   return (
     <Container backgroundColor="bg-black">
-      <main className="mx-auto w-full max-w-[1440px]">
+      <main style={{ maxWidth: '1200px' }} className="mx-auto w-full">
         <div className="mb-4 grid w-full grid-cols-1 gap-8 px-4 py-4 md:grid-cols-3">
           <ContactDetails />
           <QuickLinks />

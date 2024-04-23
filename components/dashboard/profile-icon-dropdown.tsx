@@ -38,7 +38,7 @@ const ProfileIconDropdown = ({ children }: { children?: React.ReactNode }) => {
       </Dropdown.Trigger>
       <Dropdown.Content className="mt-2 w-[15rem] border bg-white px-0  py-0 shadow-lg transition-all duration-300 ease-linear">
         <Dropdown.Item
-          key={crypto.randomUUID()}
+          // key={crypto.randomUUID()}
           className=" flex cursor-pointer items-center gap-[0.75rem] px-[1.25rem] py-[0.75rem] pt-6 text-[0.9rem] leading-[1.3rem] tracking-[0.01rem] hover:!bg-primary-1"
         >
           <Text className="mb-3 whitespace-nowrap  font-semibold" size={'sm'}>
@@ -52,7 +52,7 @@ const ProfileIconDropdown = ({ children }: { children?: React.ReactNode }) => {
         <hr />
 
         <Dropdown.Item
-          key={crypto.randomUUID()}
+          // key={crypto.randomUUID()}
           className=" flex cursor-pointer items-center gap-[0.75rem] px-[1.25rem] py-[0.45rem] text-[0.9rem] leading-[1.3rem] tracking-[0.01rem] hover:!bg-primary-1"
         >
           <Text className="my-3 whitespace-nowrap " size={'sm'}>
@@ -60,7 +60,7 @@ const ProfileIconDropdown = ({ children }: { children?: React.ReactNode }) => {
           </Text>
         </Dropdown.Item>
         <Dropdown.Item
-          key={crypto.randomUUID()}
+          // key={crypto.randomUUID()}
           className=" flex cursor-pointer items-center gap-[0.75rem] px-[1.25rem] py-[0.45rem] text-[0.9rem] leading-[1.3rem] tracking-[0.01rem] hover:!bg-primary-1"
         >
           <Text className="my-3 whitespace-nowrap " size={'sm'}>
@@ -68,7 +68,7 @@ const ProfileIconDropdown = ({ children }: { children?: React.ReactNode }) => {
           </Text>
         </Dropdown.Item>
         <Dropdown.Item
-          key={crypto.randomUUID()}
+          // key={crypto.randomUUID()}
           className=" flex cursor-pointer items-center gap-[0.75rem] px-[1.25rem] py-[0.45rem] text-[0.9rem] leading-[1.3rem] tracking-[0.01rem] hover:!bg-primary-1"
         >
           <Text className="my-3 whitespace-nowrap " size={'sm'}>
@@ -78,7 +78,7 @@ const ProfileIconDropdown = ({ children }: { children?: React.ReactNode }) => {
 
         <hr />
         <Dropdown.Item
-          key={crypto.randomUUID()}
+          // key={crypto.randomUUID()}
           className=" flex cursor-pointer items-center gap-[0.75rem] py-[0.75rem] text-[0.9rem] leading-[1.3rem] tracking-[0.01rem] hover:!bg-primary-1"
         >
           <Button

@@ -7,7 +7,10 @@ import { NewsletterForm } from './newsletter-form';
 
 function Newsletter() {
   return (
-    <main className="mx-auto flex w-full max-w-[1440px] flex-col items-center justify-center gap-1 bg-white px-4 py-4">
+    <main
+      style={{ maxWidth: '1200px' }}
+      className="mx-auto flex w-full flex-col items-center justify-center gap-1 bg-white px-4 py-4"
+    >
       <div className="grid w-full grid-cols-1 gap-4 p-4 md:grid-cols-2">
         <div className="flex flex-col items-center justify-start gap-2 px-4 md:items-start">
           <Text size={'2xl'} weight={'semibold'}>

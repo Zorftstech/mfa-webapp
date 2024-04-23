@@ -9,7 +9,7 @@ function page() {
   return (
     <div className="bg-gray-100">
       <RouteDisplay route="Categories" />
-      <main className="mt-6 flex w-full items-start justify-center gap-2 p-4">
+      <main style={{ maxWidth: '1200px' }} className="mx-auto mt-6 flex w-full items-start justify-center gap-2 p-4">
         <Filter />
         <Items />
       </main>

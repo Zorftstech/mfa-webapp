@@ -26,7 +26,10 @@ const dummyItems: ItemType[] = [
 function FlashSales() {
   return (
     <Container backgroundColor="bg-white">
-      <main className="mx-auto flex w-full max-w-[1440px] flex-col items-center justify-center gap-1 py-4">
+      <main
+        style={{ maxWidth: '1200px' }}
+        className="mx-auto flex w-full flex-col items-center justify-center gap-1 py-4"
+      >
         <FlashSaleBanner />
         <div className="w-full py-4">
           <div className="flex w-full items-center justify-between px-4">

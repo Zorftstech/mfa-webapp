@@ -28,7 +28,10 @@ function page() {
     <div>
       <RouteDisplay route="Flash Sales" />
       <Container backgroundColor="bg-gray-100">
-        <main className="mx-auto mt-8 flex w-full max-w-[1440px] flex-col items-center justify-center gap-1 py-4">
+        <main
+          style={{ maxWidth: '1200px' }}
+          className="mx-auto mt-8 flex w-full flex-col items-center justify-center gap-1 py-4"
+        >
           <FlashSaleBanner />
           <div className="w-full py-4">
             <div className="grid w-full grid-cols-1 gap-4 p-4 md:grid-cols-2 lg:grid-cols-4">

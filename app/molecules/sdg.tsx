@@ -23,11 +23,14 @@ const sdgItems = [
 
 function Sdg() {
   return (
-    <main className="mx-auto flex w-full max-w-[1440px] flex-col items-center justify-center gap-1 px-4 py-4">
+    <main
+      style={{ maxWidth: '1200px' }}
+      className="mx-auto flex w-full flex-col items-center justify-center gap-1 px-4 py-4"
+    >
       <Text className="my-4 w-full text-left" size={'xl'} weight={'bold'}>
         Sustainable Development Goals (SDGs)
       </Text>
-      <div className="grid w-full grid-cols-1 gap-4 p-4 md:grid-cols-3">
+      <div className="grid w-full grid-cols-1 gap-4 py-4 md:grid-cols-3">
         <Each
           of={sdgItems}
           render={(item: any, index: number) => (

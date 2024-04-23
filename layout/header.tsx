@@ -37,43 +37,48 @@ const Header = () => {
           <MobileNav handleVisibility={handleVisibility} />
         </Show.When>
       </Show>
-      <section className="flex w-full items-center justify-between border border-secondary px-4 py-2 md:px-8">
-        <div className="flex min-w-[24rem] items-center justify-between gap-8">
-          {width && width <= 860 && (
-            <Button variant={'ghost'} size={'none'} onClick={handleVisibility}>
-              <AlignJustify className="w-4" />
-            </Button>
-          )}
-          <Image src={logo} alt="mfa-logo" />
-          {width && width > 860 && <TopNav />}
-        </div>
-        <div className="flex items-center gap-4">
-          {width && width > 1040 && (
-            <div className="flex items-center gap-2">
-              <Button variant={'ghost'} size={'none'}>
-                <HeartIcon className="w-6" />
+      <section className="w-full">
+        <main
+          style={{ maxWidth: '1200px' }}
+          className="mx-auto flex w-full items-center justify-between px-4 py-2 md:px-8"
+        >
+          <div className="flex min-w-[24rem] items-center justify-between gap-8">
+            {width && width <= 860 && (
+              <Button variant={'ghost'} size={'none'} onClick={handleVisibility}>
+                <AlignJustify className="w-4" />
               </Button>
-              <Separator orientation="vertical" />
-              <div className="flex items-center justify-start gap-4">
-                <Button variant={'ghost'} size={'none'} className="relative pr-2">
-                  <ShoppingBag className="w-6" />
-                  <span className="absolute right-0 rounded-full bg-primary px-2" style={{ top: '-5px' }}>
-                    <Text variant={'white'} size={'xs'} style={{ fontSize: '10px' }}>
-                      0
+            )}
+            <Image src={logo} alt="mfa-logo" className="h-20 w-12" />
+            {width && width > 860 && <TopNav />}
+          </div>
+          <div className="flex items-center gap-4">
+            {width && width > 1040 && (
+              <div className="flex items-center gap-2">
+                <Button variant={'ghost'} size={'none'}>
+                  <HeartIcon className="w-6" />
+                </Button>
+                <Separator orientation="vertical" />
+                <div className="flex items-center justify-start gap-4">
+                  <Button variant={'ghost'} size={'none'} className="relative pr-2">
+                    <ShoppingBag className="w-6" />
+                    <span className="absolute right-0 rounded-full bg-primary px-2" style={{ top: '-5px' }}>
+                      <Text variant={'white'} size={'xs'} style={{ fontSize: '10px' }}>
+                        0
+                      </Text>
+                    </span>
+                  </Button>
+                  <span className="flex flex-col">
+                    <Text size={'xs'}>Shopping cart</Text>
+                    <Text weight={'bold'} size={'xs'}>
+                      NGN 57.00
                     </Text>
                   </span>
-                </Button>
-                <span className="flex flex-col">
-                  <Text size={'xs'}>Shopping cart</Text>
-                  <Text weight={'bold'} size={'xs'}>
-                    NGN 57.00
-                  </Text>
-                </span>
+                </div>
               </div>
-            </div>
-          )}
-          <ProfileIconDropdown />
-        </div>
+            )}
+            <ProfileIconDropdown />
+          </div>
+        </main>
       </section>
     </>
   );
