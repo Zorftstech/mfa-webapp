@@ -42,7 +42,7 @@ function Items() {
           </Select>
         </div>
       </div>
-      <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid w-full grid-cols-2 gap-4 md:grid-cols-3">
         <Each of={dummyItems} render={(item: any, index: number) => <ShopItem key={index} itemDetails={item} />} />
       </div>
       <ItemPagination />

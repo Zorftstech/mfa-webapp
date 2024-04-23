@@ -30,18 +30,18 @@ export default function Timer({ className }: { className?: string }) {
 
     if (!days) return `${hours} hr : ${minutes} m : ${seconds} s`;
 
-    return `${days} days : ${hours} hr : ${minutes} m : ${seconds} s`;
+    return `${days}d : ${hours}h : ${minutes}m : ${seconds}s`;
   };
 
   if (className) {
     const timeElements = formatTime(timeLeft).split(':');
     // console.log(timeElements);
     return (
-      <span className="flex items-center gap-2">
+      <span className="flex flex-wrap items-center gap-2">
         <Each
           of={timeElements}
-          render={(item, index) => (
-            <Text key={index} className={className} weight={'semibold'} size={'xl'}>
+          render={(item: any, index: number) => (
+            <Text key={index} className={className}>
               {item}
             </Text>
           )}

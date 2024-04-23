@@ -20,7 +20,7 @@ const formSchema = z.object({
   }),
 });
 
-export function NewsletterForm() {
+export function NewsletterForm({ mode }: { mode?: 'light' | 'dark' }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -45,7 +45,11 @@ export function NewsletterForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input className="rounded-2xl border border-gray-100 bg-gray-100" placeholder="Full name*" {...field} />
+                <Input
+                  className={`rounded-2xl border ${mode === 'dark' ? 'border-[#393939] bg-[#393939] text-white' : 'border-gray-100 bg-gray-100'}`}
+                  placeholder="Full name*"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -57,7 +61,11 @@ export function NewsletterForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input className="rounded-2xl border border-gray-100 bg-gray-100" placeholder="E-mail*" {...field} />
+                <Input
+                  className={`rounded-2xl border ${mode === 'dark' ? 'border-[#393939] bg-[#393939] text-white' : 'border-gray-100 bg-gray-100'}`}
+                  placeholder="E-mail*"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -70,7 +78,7 @@ export function NewsletterForm() {
             <FormItem>
               <FormControl>
                 <Input
-                  className="rounded-2xl border border-gray-100 bg-gray-100"
+                  className={`rounded-2xl border ${mode === 'dark' ? 'border-[#393939] bg-[#393939] text-white' : 'border-gray-100 bg-gray-100'}`}
                   placeholder="Phone Number*"
                   {...field}
                 />

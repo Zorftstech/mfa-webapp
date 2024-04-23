@@ -34,7 +34,7 @@ function page() {
         >
           <FlashSaleBanner />
           <div className="w-full py-4">
-            <div className="grid w-full grid-cols-1 gap-4 p-4 md:grid-cols-2 lg:grid-cols-4">
+            <div className="grid w-full grid-cols-2 gap-4 p-4 md:grid-cols-3 lg:grid-cols-4">
               <Each
                 of={dummyItems}
                 render={(item: any, index: number) => <ShopItem key={index} itemDetails={item} />}

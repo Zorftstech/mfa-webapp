@@ -41,13 +41,13 @@ const Shop = ({ itemDetails }: { itemDetails: ShopItem }) => {
         <Text className="mt-2" size={'md'} weight={'semibold'}>
           {itemDetails.title}
         </Text>
-        <div className="my-2 flex w-full items-center justify-between">
+        <div className="my-2 flex w-full flex-col items-start justify-between gap-2 md:flex-row md:items-center">
           <Text size={'xs'} weight={'medium'} className="flex items-center gap-1 text-gray-500">
             <StarIcon className="w-3" />
             {itemDetails.rating} ({itemDetails.reviews} reviews)
           </Text>
           <Text weight={'semibold'} size={'sm'}>
-            NGN {itemDetails.price.toLocaleString()}
+            ₦{itemDetails.price.toLocaleString()}
           </Text>
         </div>
         <Button className="mt-4 w-full rounded-3xl text-sm">

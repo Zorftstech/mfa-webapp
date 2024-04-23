@@ -16,13 +16,12 @@ function ProductImage({ images }: { images: any }) {
     setActiveImg(index);
   };
 
-  console.log(activeImg);
   return (
     <div>
       <div className="flex w-full items-center justify-center">
         <Image src={images[activeImg]} alt={'Product Image'} />
       </div>
-      <div className={`${styles.sub_image} mt-6 w-full`}>
+      <div className={`${styles.sub_image} mt-8 w-full`}>
         <Each
           of={images}
           render={(item: any, index: any) => (

@@ -19,12 +19,15 @@ function OfftakeBanner() {
   if (width && width < 745) {
     return (
       <main className="w-full px-2">
-        <div className="flex w-full items-center justify-between rounded-md border border-red-500 bg-red-500 p-4">
-          <Text variant={'white'} size={'lg'} weight={'semibold'}>
+        <div className="flex w-full items-center justify-between rounded-md border border-red-600 bg-red-600 p-2">
+          <Text variant={'white'} size={'sm'} weight={'semibold'}>
             Farm Offtake
           </Text>
-          <div className="flex items-center gap-2 rounded-md  p-2">
-            <Timer className="rounded-md bg-white p-2 text-xs text-black" />
+          <div className="flex items-center justify-end gap-2 rounded-md p-2">
+            <Text variant={'white'} size={'xs'} weight={'medium'}>
+              Closing in:
+            </Text>
+            <Timer className="rounded-md bg-white p-2 text-xs font-medium text-black" />
           </div>
         </div>
       </main>

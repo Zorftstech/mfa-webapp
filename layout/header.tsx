@@ -1,6 +1,6 @@
 'use client';
 
-import { HeartIcon, ShoppingBag, AlignJustify } from 'lucide-react';
+import { HeartIcon, AlignJustify } from 'lucide-react';
 import React, { useState } from 'react';
 
 import Image from 'next/image';
@@ -17,6 +17,7 @@ import { Text } from '../components/ui/text';
 import logo from '../public/images/home/logo.png';
 
 import { MobileNav } from './components/mobile-nav';
+import ShoppingCart from './components/shopping-cart';
 import { TopNav } from './components/top-nav';
 
 const Header = () => {
@@ -40,7 +41,7 @@ const Header = () => {
       <section className="w-full">
         <main
           style={{ maxWidth: '1200px' }}
-          className="mx-auto flex w-full items-center justify-between px-4 py-2 md:px-8"
+          className="mx-auto flex w-full items-center justify-between px-4 py-6 md:px-8"
         >
           <div className="flex min-w-[24rem] items-center justify-between gap-8">
             {width && width <= 860 && (
@@ -48,25 +49,23 @@ const Header = () => {
                 <AlignJustify className="w-4" />
               </Button>
             )}
-            <Image src={logo} alt="mfa-logo" className="h-20 w-12" />
-            {width && width > 860 && <TopNav />}
+            {width && width > 860 && (
+              <>
+                <Image src={logo} alt="mfa-logo" className="h-20 w-12" />
+                <TopNav />
+              </>
+            )}
           </div>
-          <div className="flex items-center gap-4">
-            {width && width > 1040 && (
+          {width && width <= 860 && <Image src={logo} alt="mfa-logo" className="h-20 w-12" />}
+          {width && width >= 1040 && (
+            <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
                 <Button variant={'ghost'} size={'none'}>
                   <HeartIcon className="w-6" />
                 </Button>
                 <Separator orientation="vertical" />
                 <div className="flex items-center justify-start gap-4">
-                  <Button variant={'ghost'} size={'none'} className="relative pr-2">
-                    <ShoppingBag className="w-6" />
-                    <span className="absolute right-0 rounded-full bg-primary px-2" style={{ top: '-5px' }}>
-                      <Text variant={'white'} size={'xs'} style={{ fontSize: '10px' }}>
-                        0
-                      </Text>
-                    </span>
-                  </Button>
+                  <ShoppingCart />
                   <span className="flex flex-col">
                     <Text size={'xs'}>Shopping cart</Text>
                     <Text weight={'bold'} size={'xs'}>
@@ -75,9 +74,11 @@ const Header = () => {
                   </span>
                 </div>
               </div>
-            )}
-            <ProfileIconDropdown />
-          </div>
+
+              <ProfileIconDropdown />
+            </div>
+          )}
+          {width && width < 1040 && <ShoppingCart />}
         </main>
       </section>
     </>

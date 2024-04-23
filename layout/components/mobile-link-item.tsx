@@ -6,6 +6,9 @@ import Each from '@/components/helpers/each';
 
 import { Route } from '@/types';
 
+const className =
+  'w-full rounded-lg border border-gray-100 bg-gray-100 py-4 text-center text-sm focus:border-gray-700 focus:bg-gray-700';
+
 function MobileLinkItem({ item }: { item: Route }) {
   if (item.components) {
     return (
@@ -13,11 +16,7 @@ function MobileLinkItem({ item }: { item: Route }) {
         <Each
           of={item.components}
           render={(item: any, index: number) => (
-            <Link
-              className="w-full rounded-lg border border-gray-100 bg-gray-100 py-4 text-center text-sm"
-              key={index}
-              href={item.href}
-            >
+            <Link className={className} key={index} href={item.href}>
               {item.title}
             </Link>
           )}
@@ -27,11 +26,7 @@ function MobileLinkItem({ item }: { item: Route }) {
   }
 
   return (
-    <Link
-      className="w-full rounded-lg border border-gray-100 bg-gray-100 py-4 text-center text-sm"
-      key={item.id}
-      href={item.href}
-    >
+    <Link className={className} key={item.id} href={item.href}>
       {item.title}
     </Link>
   );

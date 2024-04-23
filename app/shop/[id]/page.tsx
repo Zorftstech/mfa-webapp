@@ -28,11 +28,11 @@ function page() {
       <Container>
         <main
           style={{ maxWidth: '1200px' }}
-          className="mx-auto mt-8 flex w-full flex-col items-center justify-center gap-1 border border-red-500 py-4"
+          className="mx-auto mt-8 flex w-full flex-col items-center justify-center gap-1 py-4"
         >
-          <div className="grid w-full grid-cols-1 gap-2 border border-blue-500 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid w-full grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
             <ProductImage images={orange.images} />
-            <ProductDescription />
+            <ProductDescription currentItem={orange} />
             <SuggestedProducts />
           </div>
         </main>

@@ -19,12 +19,15 @@ function FlashSaleBanner() {
   if (width && width < 745) {
     return (
       <main className="w-full px-2">
-        <div className="flex w-full items-center justify-between rounded-md border border-[#DFC900] bg-[#DFC900] p-4">
-          <Text variant={'white'} size={'lg'} weight={'semibold'}>
+        <div className="flex w-full items-center justify-between rounded-md border border-[#DFC900] bg-[#DFC900] p-2">
+          <Text variant={'white'} size={'sm'} weight={'semibold'}>
             Flash Sale
           </Text>
           <div className="flex items-center gap-2 rounded-md bg-white p-2">
-            <Timer className="rounded-md bg-[#7ab42c] p-2 text-xs text-white" />
+            <Text variant={'primary'} size={'xs'} weight={'semibold'}>
+              Closing in:
+            </Text>
+            <Timer className="rounded-md bg-[#7ab42c] p-2 text-xs font-medium text-white" />
           </div>
         </div>
       </main>
