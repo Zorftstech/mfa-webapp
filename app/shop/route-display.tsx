@@ -13,7 +13,7 @@ function RouteDisplay({ route }: { route: string }) {
       }}
       className="flex w-full items-center justify-between bg-black p-8"
     >
-      <div className="flex items-center justify-start gap-2">
+      <div style={{ maxWidth: '1200px' }} className="mx-auto flex w-full items-center justify-start gap-2">
         <ShoppingBag className="w-6 text-white" />
         <ChevronRight className="w-6 text-white" />
         <Text className="text-primary-2" weight={'medium'} size={'sm'}>

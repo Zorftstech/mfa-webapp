@@ -67,6 +67,7 @@ export type Route = {
 export type ShopItem = {
   id: number;
   image_url: any;
+  images?: any[];
   title: string;
   reviews: number;
   rating: number;
