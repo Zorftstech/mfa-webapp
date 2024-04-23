@@ -1,4 +1,4 @@
-.filter-section {
+.filter_section {
   display: block; /* Default display is none */
 
   @media screen and (max-width: 860px) {

@@ -6,12 +6,14 @@ import React from 'react';
 import { Accordion } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 
+import styles from '../page.module.css';
+
 import Price from './price';
 import ProductCategories from './product-categories';
 
 function Filter() {
   return (
-    <aside className="filter-section flex-1 p-4">
+    <aside className={`${styles.filter_section} flex-1 p-4`}>
       <Button className="w-full rounded-2xl">
         Filter
         <FilterIcon className="w-3" />

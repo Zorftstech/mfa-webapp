@@ -11,7 +11,7 @@ import LinkItem from './link-item';
 
 export function TopNav() {
   return (
-    <NavigationMenu className="top-nav">
+    <NavigationMenu>
       <NavigationMenuList>
         <Each of={Routes} render={(route: any, index: any) => <LinkItem key={index} route={route} />} />
       </NavigationMenuList>
