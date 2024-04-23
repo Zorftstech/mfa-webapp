@@ -26,7 +26,7 @@ function Items() {
   return (
     <main className="flex-[4] p-4">
       <div className="mb-4 flex w-full items-center justify-between">
-        <Text size={'sm'} weight={'medium'}>
+        <Text size={'xs'} weight={'medium'}>
           Showing 1-20 of 500 results
         </Text>
         <div className="flex items-center justify-end gap-1">

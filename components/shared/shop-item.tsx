@@ -16,7 +16,8 @@ import styles from './shop-item.module.css';
 
 const Shop = ({ itemDetails }: { itemDetails: ShopItem }) => {
   return (
-    <Card className="w-full cursor-pointer border border-transparent bg-white px-4 py-6 shadow-none duration-300 hover:border-gray-300">
+    <Card className="relative w-full cursor-pointer border border-transparent bg-white px-4 py-6 shadow-none duration-300 hover:border-gray-300">
+      <HeartIcon className="absolute right-3 top-3 z-20 w-6 text-gray-600" />
       <CardContent className="w-full p-0">
         <div className={`${styles.img_container} relative flex w-full items-center justify-center`}>
           <Image src={itemDetails.image_url} alt={itemDetails.title} width={300} height={300} />

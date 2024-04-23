@@ -16,7 +16,7 @@ const orange: ItemType = {
   image_url: dummyItem,
   images: [dummyItem, dummyItem, dummyItem, dummyItem],
   title: 'Nigerian Orange',
-  rating: 4.5,
+  rating: 4,
   reviews: 12,
   price: 2000.0,
 };
