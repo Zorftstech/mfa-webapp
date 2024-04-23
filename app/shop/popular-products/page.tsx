@@ -2,12 +2,11 @@ import React from 'react';
 
 import Each from '@/components/helpers/each';
 import Container from '@/components/shared/container';
-import OfftakeBanner from '@/components/shared/offtake-banner';
 import ShopItem from '@/components/shared/shop-item';
 
-import dummyItem from '@/images/dummy-item.png';
 import { ShopItem as ItemType } from '@/types';
 
+import dummyItem from '../../../images/dummy-item.png';
 import RouteDisplay from '../route-display';
 
 const dummyItems: ItemType[] = [
@@ -24,13 +23,12 @@ const dummyItems: ItemType[] = [
 function page() {
   return (
     <div>
-      <RouteDisplay route="Farm Offtake" />
+      <RouteDisplay route="Popular Products" />
       <Container backgroundColor="bg-gray-100">
         <main
           style={{ maxWidth: '1200px' }}
           className="mx-auto mt-8 flex w-full flex-col items-center justify-center gap-1 py-4"
         >
-          <OfftakeBanner />
           <div className="w-full py-4">
             <div className="grid w-full grid-cols-1 gap-4 p-4 md:grid-cols-2 lg:grid-cols-4">
               <Each

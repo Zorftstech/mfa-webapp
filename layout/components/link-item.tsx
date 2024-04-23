@@ -57,7 +57,7 @@ const LinkItem = ({ route }: { route: Route }) => {
 const ListItem = React.forwardRef<React.ElementRef<'a'>, React.ComponentPropsWithoutRef<'a'>>(
   ({ className, title, children, ...props }, ref) => {
     return (
-      <li className="rounded-md duration-200 hover:bg-gray-100" style={{ width: '200px' }}>
+      <li className="rounded-md duration-200 hover:bg-gray-100" style={{ width: '150px' }}>
         <NavigationMenuLink asChild>
           <a
             ref={ref}
@@ -67,8 +67,8 @@ const ListItem = React.forwardRef<React.ElementRef<'a'>, React.ComponentPropsWit
             )}
             {...props}
           >
-            <div className="mb-2 text-sm font-medium leading-none">{title}</div>
-            <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">{children}</p>
+            <div className="mb-2 text-sm font-semibold leading-none">{title}</div>
+            <p className="line-clamp-2 text-xs leading-snug text-gray-400">{children}</p>
           </a>
         </NavigationMenuLink>
       </li>
