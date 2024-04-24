@@ -4,8 +4,7 @@ import { ArrowRight } from 'lucide-react';
 import React from 'react';
 
 import Image from 'next/image';
-
-import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 import useWindowDimensions from '@/hooks/useWindowDimensions';
 
@@ -45,10 +44,13 @@ function OfftakeBanner() {
           Free on all your order, Free Delivery and 30 days money-back guarantee
         </Text>
         <Timer />
-        <Button className="mt-4 rounded-3xl px-6 text-sm">
+        <Link
+          href={'/shop/off-take'}
+          className="mt-4 flex w-[50%] items-center justify-center gap-1 rounded-3xl bg-primary-2 px-6 py-2 text-xs text-white"
+        >
           Shop Now
           <ArrowRight className="w-4 text-white" />
-        </Button>
+        </Link>
       </div>
     </div>
   );

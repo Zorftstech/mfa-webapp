@@ -38,10 +38,10 @@ const Header = () => {
           <MobileNav handleVisibility={handleVisibility} />
         </Show.When>
       </Show>
-      <section className="w-full">
+      <section className="fixed z-40 w-full  border-b border-gray-100 bg-white shadow">
         <main
           style={{ maxWidth: '1200px' }}
-          className="mx-auto flex w-full items-center justify-between px-4 py-6 md:px-8"
+          className="mx-auto flex w-full items-center justify-between px-4 py-4 md:px-8"
         >
           <div className="flex min-w-[24rem] items-center justify-between gap-8">
             {width && width <= 860 && (

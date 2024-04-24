@@ -4,8 +4,7 @@ import { ArrowRight } from 'lucide-react';
 import React from 'react';
 
 import Image from 'next/image';
-
-import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 import useWindowDimensions from '@/hooks/useWindowDimensions';
 
@@ -55,10 +54,13 @@ function FlashSaleBanner() {
           </Text>
           <Timer className="rounded-md bg-[#7ab42c] p-2 text-xs text-white" />
         </div>
-        <Button className="mt-4 rounded-3xl px-6 text-sm">
+        <Link
+          href={'/shop/flash-sales'}
+          className="mt-4 flex w-[50%] items-center justify-center gap-1 rounded-3xl bg-[#7ab42c] px-6 py-2 text-xs text-white"
+        >
           Shop Now
           <ArrowRight className="w-4 text-white" />
-        </Button>
+        </Link>
       </div>
     </div>
   );

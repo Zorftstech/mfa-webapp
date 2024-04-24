@@ -30,7 +30,7 @@ export default function Hero() {
   const { width } = useWindowDimensions();
   return (
     <div
-      className="relative flex h-[400px] flex-col items-center justify-center gap-6 border border-primary bg-primary px-4"
+      className="relative flex h-[400px] flex-col items-center justify-center gap-6 border border-primary bg-primary px-4 pt-6"
       style={{
         backgroundImage: `url(/images/home/herobg.png)`,
         backgroundRepeat: 'repeat',
@@ -38,7 +38,7 @@ export default function Hero() {
       }}
     >
       {width && width > 768 && (
-        <Text style={{ fontSize: '2em', textAlign: 'center' }} weight={'semibold'} variant={'white'}>
+        <Text style={{ fontSize: '2em', textAlign: 'center', marginTop: '60px' }} weight={'semibold'} variant={'white'}>
           Need foodstuffs? Search here...
         </Text>
       )}

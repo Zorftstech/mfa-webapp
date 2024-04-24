@@ -17,7 +17,10 @@ function Footer() {
 
   return (
     <Container className="py-0" backgroundColor="bg-black">
-      <main style={{ maxWidth: '1200px' }} className="mx-auto w-full pt-4">
+      <main
+        style={{ maxWidth: '1200px', marginBottom: width && width <= 768 ? '100px' : '25px' }}
+        className="mx-auto w-full pt-4"
+      >
         <div className="mb-4 grid w-full grid-cols-1 gap-8 px-4 pt-4 md:grid-cols-3">
           <ContactDetails />
           <QuickLinks />
