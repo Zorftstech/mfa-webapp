@@ -1,16 +1,24 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+'use client';
+
 import React from 'react';
 
 import Each from '@/components/helpers/each';
 import Container from '@/components/shared/container';
 import FlashSaleBanner from '@/components/shared/flashsale-banner';
-import Newsletter from '@/components/shared/newsletter';
 import ShopItem from '@/components/shared/shop-item';
 
+import useWindowDimensions from '@/hooks/useWindowDimensions';
 import dummyItem from '@/images/dummy-item.png';
-import Footer from '@/layout/footer';
 import { ShopItem as ItemType } from '@/types';
 
 import RouteDisplay from '../route-display';
+
+/* eslint-disable react-hooks/rules-of-hooks */
+
+/* eslint-disable react-hooks/rules-of-hooks */
+
+/* eslint-disable react-hooks/rules-of-hooks */
 
 const dummyItems: ItemType[] = [
   { id: 1, image_url: dummyItem, title: 'Orange (200g)', rating: 4.5, reviews: 12, price: 2000.0 },
@@ -24,9 +32,11 @@ const dummyItems: ItemType[] = [
 ];
 
 function page() {
+  const { width } = useWindowDimensions();
+
   return (
-    <div>
-      <RouteDisplay route="Flash Sales" />
+    <div style={{ paddingTop: '69px' }}>
+      {width && width >= 768 && <RouteDisplay route="Flash Sales" />}
       <Container backgroundColor="bg-gray-100">
         <main
           style={{ maxWidth: '1200px' }}

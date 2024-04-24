@@ -39,7 +39,7 @@ export default function Hero() {
     >
       {width && width > 768 && (
         <Text style={{ fontSize: '2em', textAlign: 'center', marginTop: '60px' }} weight={'semibold'} variant={'white'}>
-          Need foodstuffs? Search here...
+          Need foodstuffs? ...
         </Text>
       )}
       <div className="flex w-full max-w-lg items-center justify-between gap-2">

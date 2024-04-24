@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 import Each from '@/components/helpers/each';
@@ -5,6 +7,7 @@ import Container from '@/components/shared/container';
 import OfftakeBanner from '@/components/shared/offtake-banner';
 import ShopItem from '@/components/shared/shop-item';
 
+import useWindowDimensions from '@/hooks/useWindowDimensions';
 import dummyItem from '@/images/dummy-item.png';
 import { ShopItem as ItemType } from '@/types';
 
@@ -22,9 +25,11 @@ const dummyItems: ItemType[] = [
 ];
 
 function page() {
+  /* eslint-disable react-hooks/rules-of-hooks */
+  const { width } = useWindowDimensions();
   return (
-    <div>
-      <RouteDisplay route="Farm Offtake" />
+    <div style={{ paddingTop: '69px' }}>
+      {width && width >= 768 && <RouteDisplay route="Farm Offtake" />}
       <Container backgroundColor="bg-gray-100">
         <main
           style={{ maxWidth: '1200px' }}

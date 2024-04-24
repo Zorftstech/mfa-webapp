@@ -26,7 +26,7 @@ const LinkItem = ({ route }: { route: Route }) => {
           {route.title}
         </NavigationMenuTrigger>
         <NavigationMenuContent>
-          <ul className="flex w-[400px] gap-3 bg-white p-4 md:w-[500px] lg:w-[600px]">
+          <ul className="flex min-w-[400px] gap-3 bg-white p-4 md:min-w-[500px] lg:min-w-[600px]">
             <Each
               of={route.components}
               render={(component: any, index: any) => (
@@ -57,7 +57,7 @@ const LinkItem = ({ route }: { route: Route }) => {
 const ListItem = React.forwardRef<React.ElementRef<'a'>, React.ComponentPropsWithoutRef<'a'>>(
   ({ className, title, children, ...props }, ref) => {
     return (
-      <li className="rounded-md duration-200 hover:bg-gray-100" style={{ width: '150px' }}>
+      <li className="rounded-md duration-200 hover:bg-gray-100" style={{ width: '200px' }}>
         <NavigationMenuLink asChild>
           <a
             ref={ref}

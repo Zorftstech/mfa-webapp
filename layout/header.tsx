@@ -1,5 +1,3 @@
-'use client';
-
 import { HeartIcon, AlignJustify } from 'lucide-react';
 import React, { useState } from 'react';
 
@@ -25,7 +23,7 @@ const Header = () => {
 
   const { width } = useWindowDimensions();
 
-  const [isVisible, setIsVisible] = useState<Boolean>(false);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const handleVisibility = () => {
     setIsVisible(!isVisible);
@@ -38,7 +36,7 @@ const Header = () => {
           <MobileNav handleVisibility={handleVisibility} />
         </Show.When>
       </Show>
-      <section className="fixed z-40 w-full  border-b border-gray-100 bg-white shadow">
+      <section className="fixed top-0 z-40 w-full bg-white shadow">
         <main
           style={{ maxWidth: '1200px' }}
           className="mx-auto flex w-full items-center justify-between px-4 py-4 md:px-8"
