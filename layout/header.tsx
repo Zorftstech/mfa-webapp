@@ -2,6 +2,7 @@ import { HeartIcon, AlignJustify } from 'lucide-react';
 import React, { useState } from 'react';
 
 import Image from 'next/image';
+import Link from 'next/link';
 
 import { Show } from '@/components/helpers/show';
 import { Separator } from '@/components/ui/separator';
@@ -58,9 +59,9 @@ const Header = () => {
           {width && width >= 1040 && (
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
-                <Button variant={'ghost'} size={'none'}>
+                <Link href={'/shop/wishlist'} className="">
                   <HeartIcon className="w-6" />
-                </Button>
+                </Link>
                 <Separator orientation="vertical" />
                 <div className="flex items-center justify-start gap-4">
                   <ShoppingCart />

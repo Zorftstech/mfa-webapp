@@ -46,7 +46,7 @@ function page() {
           style={{ maxWidth: '1200px' }}
           className="mx-auto mt-8 flex w-full flex-col items-center justify-center gap-1 py-4"
         >
-          <div className="grid w-full grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid w-full grid-cols-1 gap-2 p-4 md:grid-cols-2 lg:grid-cols-3">
             <ProductImage images={orange.images} />
             <ProductDescription currentItem={orange} />
             <SuggestedProducts />

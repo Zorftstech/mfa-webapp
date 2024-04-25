@@ -28,9 +28,9 @@ function ProductDescription({ currentItem }: { currentItem: ShopItem }) {
         <Text size={'2xl'} weight={'semibold'}>
           {currentItem.title}
         </Text>
-        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100">
+        <Button className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100">
           <HeartIcon className="w-4 text-gray-600" />
-        </div>
+        </Button>
       </div>
       <div className="mt-4 flex items-end justify-start gap-2">
         <Ratings value={currentItem.rating} />
