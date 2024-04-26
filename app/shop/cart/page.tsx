@@ -107,7 +107,7 @@ function page() {
             My Shopping cart
           </Text>
           {width && width <= 768 && (
-            <div className="mb-5 w-full p-4">
+            <div className="my-5 w-full bg-white p-4">
               {invoices.map(invoice => (
                 <div
                   className="flex w-full items-center justify-between border-b border-gray-300 px-3 py-5"

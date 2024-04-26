@@ -10,6 +10,7 @@ import { Text } from '@/components/ui/text';
 
 import useWindowDimensions from '@/hooks/useWindowDimensions';
 import dummyItem from '@/images/dummy-item.png';
+import tomato from '@/images/tomato.png';
 import { ShopItem as ItemType } from '@/types';
 
 import RouteDisplay from '../route-display';
@@ -21,7 +22,7 @@ import ProductImage from './molecules/product-image';
 const orange: ItemType = {
   id: 1,
   image_url: dummyItem,
-  images: [dummyItem, dummyItem, dummyItem, dummyItem],
+  images: [dummyItem, tomato, dummyItem, dummyItem],
   title: 'Nigerian Orange',
   rating: 4,
   reviews: 12,

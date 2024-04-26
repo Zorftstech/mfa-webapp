@@ -18,7 +18,7 @@ function ProductImage({ images }: { images: any }) {
 
   return (
     <div>
-      <div className="flex w-full items-center justify-center">
+      <div className="flex h-[300px] w-full items-center justify-center">
         <Image src={images[activeImg]} alt={'Product Image'} />
       </div>
       <div className={`${styles.sub_image} mt-8 w-full`}>
