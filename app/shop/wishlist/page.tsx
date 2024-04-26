@@ -123,9 +123,11 @@ function page() {
                         {invoice.status}
                       </Text>
                     </TableCell>
-                    <TableCell className="flex h-full items-center justify-between gap-2">
+                    <TableCell className="">
                       <Button className="rounded-3xl px-4 text-xs">Add to Cart</Button>
-                      <Button className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-gray-200 text-black">
+                    </TableCell>
+                    <TableCell className="">
+                      <Button className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-gray-200 text-black">
                         <X className="w-3" />
                       </Button>
                     </TableCell>

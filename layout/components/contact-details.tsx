@@ -11,9 +11,9 @@ import logo from '../../images/logo.png';
 import twitter from '../../images/twitter.png';
 
 const socials = [
-  { id: 1, title: 'facebook', image_href: facebook, href: '/' },
-  { id: 2, title: 'twitter', image_href: twitter, href: '/' },
-  { id: 3, title: 'instagram', image_href: instagram, href: '/' },
+  { id: 1, title: 'facebook', image_href: facebook, href: 'https://www.facebook.com/myfoodangels' },
+  { id: 2, title: 'twitter', image_href: twitter, href: 'https://twitter.com/mile12marketwo1' },
+  { id: 3, title: 'instagram', image_href: instagram, href: 'https://www.instagram.com/mile12marketwoman' },
 ];
 
 function ContactDetails() {
@@ -45,6 +45,7 @@ function ContactDetails() {
               className="flex h-6 w-6 items-center justify-center rounded-full border border-primary-2 bg-primary-2"
               key={image.id}
               href={'/'}
+              target="_blank"
             >
               <Image className="h-3 w-3" src={image.image_href} alt={image.title} />
             </Link>

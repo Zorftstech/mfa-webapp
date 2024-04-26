@@ -73,7 +73,6 @@ const Header = () => {
                   </span>
                 </div>
               </div>
-
               <ProfileIconDropdown />
             </div>
           )}

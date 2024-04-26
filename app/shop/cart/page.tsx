@@ -85,7 +85,7 @@ const CartTotal = () => {
         Have a coupon code?
       </Text>
       <div className="mt-5 flex w-full items-center justify-between overflow-hidden rounded-full border border-gray-300 p-1">
-        <Input type="text" placeholder="Coupon code" className="border-none" />
+        <input type="text" placeholder="Coupon code" className="border-none pl-2 text-xs outline-none focus:ring-0" />
         <Button className="rounded-3xl bg-black px-5 text-xs text-white">Apply</Button>
       </div>
     </div>
@@ -101,7 +101,7 @@ function page() {
       <Container backgroundColor="bg-gray-100">
         <main
           style={{ maxWidth: '1200px' }}
-          className="mx-auto mt-8 flex w-full flex-col items-center justify-center gap-1 py-4"
+          className="mx-auto my-8 flex w-full flex-col items-center justify-center gap-1 py-4"
         >
           <Text size={'md'} weight={'semibold'}>
             My Shopping cart
@@ -166,7 +166,7 @@ function page() {
                     <TableRow>
                       <TableHead className="text-xs">PRODUCT</TableHead>
                       <TableHead className="text-xs">PRICE</TableHead>
-                      <TableHead className="text-xs">QUANTITY</TableHead>
+                      <TableHead className="text-center text-xs">QUANTITY</TableHead>
                       <TableHead className="text-right">{}</TableHead>
                     </TableRow>
                   </TableHeader>
@@ -179,9 +179,9 @@ function page() {
                             <Text size={'sm'}>{invoice.name}</Text>
                           </div>
                         </TableCell>
-                        <TableCell>{invoice.price}</TableCell>
+                        <TableCell>₦{invoice.price.toLocaleString()}</TableCell>
                         <TableCell className="">
-                          <div className="flex w-fit items-center gap-2 rounded-full border border-gray-300 p-2">
+                          <div className="mx-auto flex w-fit items-center gap-2 rounded-full border border-gray-300 p-2">
                             <Button
                               // onClick={handleMinus}
                               className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-gray-200 text-black"
@@ -199,9 +199,11 @@ function page() {
                             </Button>
                           </div>
                         </TableCell>
-                        <TableCell className="flex h-full items-center justify-between gap-2">
+                        <TableCell className="">
                           <Button className="rounded-3xl px-4 text-xs">Add to Cart</Button>
-                          <Button className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-gray-200 text-black">
+                        </TableCell>
+                        <TableCell className="">
+                          <Button className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-gray-200 text-black">
                             <X className="w-3" />
                           </Button>
                         </TableCell>
