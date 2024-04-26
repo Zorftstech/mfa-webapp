@@ -10,10 +10,10 @@ import Each from '@/components/helpers/each';
 import { Text } from '@/components/ui/text';
 
 const links = [
-  { id: 1, title: 'Home', href: '/', sub_href: '/shop', icon: <Home className="w-10" /> },
-  { id: 2, title: 'Cart', href: '/shop/cart', sub_href: '/shop/cart', icon: <ShoppingCart className="w-10" /> },
-  { id: 3, title: 'Wishlist', href: '/shop/wishlist', sub_href: '/shop/cart', icon: <Heart className="w-10" /> },
-  { id: 4, title: 'Account', href: '/account', sub_href: '/shop/cart', icon: <User className="w-10" /> },
+  { id: 1, title: 'Home', href: '/', icon: <Home className="w-10" /> },
+  { id: 2, title: 'Cart', href: '/shop/cart', icon: <ShoppingCart className="w-10" /> },
+  { id: 3, title: 'Wishlist', href: '/shop/wishlist', icon: <Heart className="w-10" /> },
+  { id: 4, title: 'Account', href: '/account', icon: <User className="w-10" /> },
 ];
 function BottomNav() {
   const pathname = usePathname();
@@ -24,17 +24,11 @@ function BottomNav() {
         of={links}
         render={(item: any, index: number) => (
           <Link
-            className={`flex flex-1 flex-col ${pathname.includes(item.href) || pathname.includes(item.sub_href) ? 'text-primary-2' : 'text-gray-700'} items-center justify-center gap-2`}
+            className={`flex flex-1 flex-col ${pathname === item.href ? 'text-primary-2' : 'text-gray-700'} items-center justify-center gap-2`}
             href={item.href}
           >
             {item.icon}
-            <Text
-              className={
-                pathname.includes(item.href) || pathname.includes(item.sub_href) ? 'text-primary-2' : 'text-gray-700'
-              }
-              size={'xs'}
-              weight={'medium'}
-            >
+            <Text className={pathname === item.href ? 'text-primary-2' : 'text-gray-700'} size={'xs'} weight={'medium'}>
               {item.title}
             </Text>
           </Link>
