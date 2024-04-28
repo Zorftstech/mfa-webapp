@@ -4,8 +4,8 @@
 
 ## Requirements
 
-- NPM v9.6+
-- Node 18
+-  NPM v9.6+
+-  Node 18
 
 ## SETUP GUIDE
 

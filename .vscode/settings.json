@@ -1,23 +1,10 @@
 {
-  // Formatting using Prettier by default for all languages
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-
-  "editor.formatOnSave": true,
-
-  // Formatting using Prettier for JavaScript, overrides VSCode default.
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  // Linting using ESLint.
-  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
-
-  // Ensure enough terminal history is preserved when running tests.
-  "terminal.integrated.scrollback": 10000,
-
-  // Disable TypeScript surveys.
-  "typescript.surveys.enabled": false
+   "typescript.tsdk": "node_modules/.pnpm/typescript@5.0.4/node_modules/typescript/lib",
+   "typescript.enablePromptUseWorkspaceTsdk": true,
+   "workbench.colorCustomizations": {
+      "activityBar.background": "#193324",
+      "titleBar.activeBackground": "#244732",
+      "titleBar.activeForeground": "#F7FBF9"
+   }
+   // "peacock.color": "blue"
 }

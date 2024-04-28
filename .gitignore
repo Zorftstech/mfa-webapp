@@ -4,7 +4,6 @@
 /node_modules
 /.pnp
 .pnp.js
-.yarn/install-state.gz
 
 # testing
 /coverage
@@ -14,6 +13,7 @@
 /out/
 
 # production
+.env
 /build
 
 # misc
@@ -34,3 +34,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+.contentlayer
+
+#server
+appbuild.old/
+appbuild/
+logs/
+server_scripts/
+
+package-lock.json
+
