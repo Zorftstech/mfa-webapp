@@ -41,9 +41,9 @@ export default function Hero() {
             Need foodstuffs? ...
          </h2>
 
-         <Text className=" hidden text-center text-3xl font-semibold text-white md:block">
+         {/* <Text className=" hidden text-center text-3xl font-semibold text-white md:block">
             Need foodstuffs? ...
-         </Text>
+         </Text> */}
 
          <div className="flex w-full max-w-lg items-center justify-between gap-2">
             <div className="relative w-full">
