@@ -66,17 +66,10 @@ function page() {
                 <ArrowUpDown className="w-3 text-white" />
               </div>
             </div>
-            <div className="flex w-full items-center justify-between px-4">
+            <div className="flex w-full items-center justify-start px-4">
               <Text size={'lg'} weight={'semibold'}>
                 Popular Products
               </Text>
-              <Link
-                href={'/shop/popular-products'}
-                className="flex items-center justify-start gap-1 rounded-3xl bg-gray-100 px-4 py-2 text-sm text-primary-2"
-              >
-                View All
-                <ArrowRight className="w-4 text-primary-2" />
-              </Link>
             </div>
             <div className="grid w-full grid-cols-2 gap-4 p-4 md:grid-cols-3 lg:grid-cols-4">
               <Each
@@ -102,7 +95,7 @@ function page() {
             </div>
             <div className="grid w-full grid-cols-2 gap-4 p-4 md:grid-cols-3 lg:grid-cols-4">
               <Each
-                of={recommendedItems}
+                of={recentItems}
                 render={(item: ItemType, index: number) => <ShopItem key={index} itemDetails={item} />}
               />
             </div>

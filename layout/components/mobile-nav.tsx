@@ -24,7 +24,10 @@ export function MobileNav({ handleVisibility }: { handleVisibility: any }) {
         </Button>
       </div>
       <div style={{ height: '60%' }} className="flex w-full flex-col items-center justify-between gap-2 p-4">
-        <Each of={Routes} render={(item, index) => <MobileLinkItem key={index} item={item} />} />
+        <Each
+          of={Routes}
+          render={(item: any, index) => <MobileLinkItem handleVisibility={handleVisibility} key={index} item={item} />}
+        />
       </div>
       <div className="flex w-full flex-1 items-center justify-center">
         <Image src={logo} alt="mfa_logo" />

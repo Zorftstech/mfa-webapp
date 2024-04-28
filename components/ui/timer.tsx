@@ -7,7 +7,7 @@ import Each from '../helpers/each';
 
 import { Text } from './text';
 
-const initialTime = 60 * 6000000;
+const initialTime = 60 * 600000;
 const interval = 1000;
 
 export default function Timer({ className }: { className?: string }) {
@@ -23,19 +23,16 @@ export default function Timer({ className }: { className?: string }) {
   }, []);
 
   const formatTime = (milliseconds: number) => {
-    const days = Math.floor(milliseconds / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((milliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const hours = Math.floor(milliseconds / (1000 * 60 * 60));
     const minutes = Math.floor((milliseconds % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((milliseconds % (1000 * 60)) / 1000);
 
-    if (!days) return `${hours} hr : ${minutes} m : ${seconds} s`;
-
-    return `${days}d : ${hours}h : ${minutes}m : ${seconds}s`;
+    return `${hours}h : ${minutes}m : ${seconds}s`;
   };
 
+  const timeElements = formatTime(timeLeft).split(':');
+
   if (className) {
-    const timeElements = formatTime(timeLeft).split(':');
-    // console.log(timeElements);
     return (
       <span className="flex flex-wrap items-center gap-2">
         <Each
@@ -51,8 +48,24 @@ export default function Timer({ className }: { className?: string }) {
   }
 
   return (
-    <Text size={'xl'} weight={'semibold'} variant={'white'}>
-      {formatTime(timeLeft)}
-    </Text>
+    <div className="flex items-center gap-2">
+      {/* {formatTime(timeLeft)} */}
+      <Each
+        of={timeElements}
+        render={(item: any, index: number) => (
+          <span>
+            <Text
+              className={`${item.includes('h') ? 'text-[#7ab42c]' : ''}`}
+              key={index}
+              size={'xl'}
+              weight={'semibold'}
+              variant={'white'}
+            >
+              {item} {index + 1 !== timeElements.length && <span>:</span>}
+            </Text>
+          </span>
+        )}
+      />
+    </div>
   );
 }

@@ -9,7 +9,7 @@ function Newsletter({ mode }: { mode?: 'light' | 'dark' }) {
   return (
     <main
       style={{ maxWidth: '1200px' }}
-      className={`mx-auto flex w-full flex-col items-center justify-center gap-1 ${mode === 'dark' ? 'bg-black' : 'bg-white'} py-4`}
+      className={`mx-auto flex w-full flex-col items-center justify-center gap-1 ${mode === 'dark' ? 'bg-black' : 'bg-white'} py-8`}
     >
       <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
         <div className="flex flex-col items-start justify-start gap-2 px-4 md:items-start">

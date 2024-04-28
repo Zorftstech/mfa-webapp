@@ -5,8 +5,6 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { Card, CardContent } from '@/components/ui/card';
-
 import { ShopItem } from '@/types';
 
 import { Button } from '../ui/button';
@@ -16,9 +14,12 @@ import styles from './shop-item.module.css';
 
 const Shop = ({ itemDetails }: { itemDetails: ShopItem }) => {
   return (
-    <Card className="relative w-full cursor-pointer border border-transparent bg-white px-4 py-6 shadow-none duration-300 hover:border-gray-300">
+    <Link
+      href={`/shop/${itemDetails.id}`}
+      className="relative w-full cursor-pointer border border-transparent bg-white px-4 py-6 shadow-none duration-300 hover:border-gray-300"
+    >
       <HeartIcon className="absolute right-3 top-3 z-20 w-6 text-gray-600" />
-      <CardContent className="w-full p-0">
+      <div className="w-full p-0">
         <div className={`${styles.img_container} relative flex w-full items-center justify-center`}>
           <Image src={itemDetails.image_url} alt={itemDetails.title} width={300} height={300} />
           <div className="absolute bottom-0 flex w-full items-center justify-between border border-gray-300 bg-gray-200">
@@ -54,8 +55,8 @@ const Shop = ({ itemDetails }: { itemDetails: ShopItem }) => {
         <Button className="mt-4 w-full rounded-3xl text-xs">
           Add to Cart <ShoppingCartIcon className="w-3 text-white" />
         </Button>
-      </CardContent>
-    </Card>
+      </div>
+    </Link>
   );
 };
 

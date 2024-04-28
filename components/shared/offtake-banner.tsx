@@ -37,7 +37,7 @@ function OfftakeBanner() {
     <div className="relative overflow-hidden rounded-2xl">
       <Image src={bg} alt="bg" width={800} height={600} />
       <div className="absolute right-0 top-0 h-full max-w-[350px] p-4">
-        <Text className="text-primary-2" size={'xl'} weight={'semibold'}>
+        <Text className="text-[#7ab42c]" size={'xl'} weight={'semibold'}>
           FARM OFFTAKE
         </Text>
         <Text className="my-2 text-gray-300" size={'xs'} weight={'medium'}>
@@ -46,7 +46,7 @@ function OfftakeBanner() {
         <Timer />
         <Link
           href={'/shop/off-take'}
-          className="mt-4 flex w-[50%] items-center justify-center gap-1 rounded-3xl bg-primary-2 px-6 py-2 text-xs text-white"
+          className="mt-4 flex w-[50%] items-center justify-center gap-1 rounded-3xl bg-[#7ab42c] px-6 py-2 text-xs text-white"
         >
           Shop Now
           <ArrowRight className="w-4 text-white" />
