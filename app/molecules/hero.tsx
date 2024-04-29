@@ -12,6 +12,7 @@ import dummyimg from "../../images/dummy-category.png";
 
 import "./categories.css";
 import CategoryItem from "./category-item";
+import { Button } from "@/components/ui/button";
 
 interface category {
    id: number;
@@ -43,7 +44,7 @@ export default function Hero() {
 
          {/* <Text className=" hidden text-center text-3xl font-semibold text-white md:block">
             Need foodstuffs? ...
-         </Text> */}
+         </Text>
 
          <div className="flex w-full max-w-lg items-center justify-between gap-2">
             <div className="relative w-full">
