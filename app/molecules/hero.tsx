@@ -46,9 +46,9 @@ export default function Hero() {
             Need foodstuffs? ...
          </Text> */}
 
-         <Button className="hidden rounded-full bg-white px-8 py-6 text-primary-2 shadow-lg md:block">
+         {/* <Button className="block rounded-full bg-white px-8 py-6 text-primary-2 shadow-lg md:hidden">
             View all
-         </Button>
+         </Button> */}
 
          <div className="flex w-full max-w-lg items-center justify-between gap-2">
             <div className="relative w-full">

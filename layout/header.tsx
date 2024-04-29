@@ -40,34 +40,26 @@ const Header = () => {
          <section className="fixed top-0 z-40 w-full bg-white shadow">
             <main
                style={{ maxWidth: "1200px" }}
-               className="mx-auto flex w-full items-center justify-between px-4 py-4 md:px-8"
+               className="mx-auto flex w-full max-w-[1200px] items-center justify-between px-4 py-4 md:px-8"
             >
                <div className="flex min-w-[24rem] items-center justify-between gap-8">
-                  {/* {width && width <= 860 && (
+                  {width && width <= 860 && (
                      <Button variant={"ghost"} size={"none"} onClick={handleVisibility}>
                         <AlignJustify className="w-4" />
                      </Button>
                   )}
+
                   {width && width > 860 && (
                      <>
                         <Image src={logo} alt="mfa-logo" className="h-20 w-12" />
                         <TopNav />
                      </>
-                  )} */}
+                  )}
 
-                  <Button
-                     variant={"ghost"}
-                     size={"none"}
-                     onClick={handleVisibility}
-                     className="md:hidden"
-                  >
-                     <AlignJustify className="w-4" />
-                  </Button>
-
-                  <div className="hidden md:flex">
+                  {/* <div className="hidden md:flex">
                      <Image src={logo} alt="mfa-logo" className="h-20 w-12" />
                      <TopNav />
-                  </div>
+                  </div> */}
                </div>
                {width && width <= 860 && <Image src={logo} alt="mfa-logo" className="h-20 w-12" />}
                {width && width >= 1040 && (
