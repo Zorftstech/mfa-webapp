@@ -43,15 +43,31 @@ const Header = () => {
                className="mx-auto flex w-full items-center justify-between px-4 py-4 md:px-8"
             >
                <div className="flex min-w-[24rem] items-center justify-between gap-8">
-                  <button className="block sm:hidden" onClick={handleVisibility}>
-                     <AlignJustify className="w-4" />
-                  </button>
+                  {/* {width && width <= 860 && (
+                     <Button variant={"ghost"} size={"none"} onClick={handleVisibility}>
+                        <AlignJustify className="w-4" />
+                     </Button>
+                  )}
                   {width && width > 860 && (
                      <>
                         <Image src={logo} alt="mfa-logo" className="h-20 w-12" />
                         <TopNav />
                      </>
-                  )}
+                  )} */}
+
+                  <Button
+                     variant={"ghost"}
+                     size={"none"}
+                     onClick={handleVisibility}
+                     className="md:hidden"
+                  >
+                     <AlignJustify className="w-4" />
+                  </Button>
+
+                  <div className="hidden md:flex">
+                     <Image src={logo} alt="mfa-logo" className="h-20 w-12" />
+                     <TopNav />
+                  </div>
                </div>
                {width && width <= 860 && <Image src={logo} alt="mfa-logo" className="h-20 w-12" />}
                {width && width >= 1040 && (
