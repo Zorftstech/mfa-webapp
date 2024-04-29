@@ -12,6 +12,7 @@ import dummyimg from "../../images/dummy-category.png";
 
 import "./categories.css";
 import CategoryItem from "./category-item";
+import { Button } from "@/components/ui/button";
 
 interface category {
    id: number;
@@ -44,6 +45,9 @@ export default function Hero() {
          <Text className=" hidden text-center text-3xl font-semibold text-white md:block">
             Need foodstuffs? ...
          </Text>
+         <Button className="hidden rounded-full bg-white px-8 py-6 text-primary-2 shadow-lg md:block">
+            View all
+         </Button>
 
          <div className="flex w-full max-w-lg items-center justify-between gap-2">
             <div className="relative w-full">
