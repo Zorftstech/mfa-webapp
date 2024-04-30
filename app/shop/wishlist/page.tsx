@@ -8,35 +8,11 @@ import { Text } from "@/components/ui/text";
 import WishListMobile from "./molecules/wishlist-mobile";
 import WishListTable from "./molecules/wishlist-table";
 
-import tomato from "@/images/tomato.png";
-
 import RouteDisplay from "../route-display";
 
 import ShareItem from "@/components/shared/share-item";
 
-const data = [
-   {
-      id: 1,
-      image: tomato,
-      name: "Tomato",
-      price: 20000,
-      status: "In Stock",
-   },
-   {
-      id: 2,
-      image: tomato,
-      name: "Tomato",
-      price: 20000,
-      status: "In Stock",
-   },
-   {
-      id: 3,
-      image: tomato,
-      name: "Tomato",
-      price: 20000,
-      status: "In Stock",
-   },
-];
+import { wishlistItems } from "@/app/dummyItem";
 
 function page() {
    return (
@@ -47,8 +23,8 @@ function page() {
                <Text size={"lg"} weight={"semibold"}>
                   My Wishlist
                </Text>
-               <WishListMobile data={data} />
-               <WishListTable data={data} />
+               <WishListMobile data={wishlistItems} />
+               <WishListTable data={wishlistItems} />
                <div className="flex w-full items-center justify-start px-4">
                   <ShareItem />
                </div>

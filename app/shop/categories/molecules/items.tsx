@@ -26,7 +26,7 @@ function Items() {
             <div className="flex items-center justify-end gap-1">
                <ArrowUpDown className="w-3" />
                <Select>
-                  <SelectTrigger className="w-[180px]">
+                  <SelectTrigger className="w-[180px] bg-white">
                      <SelectValue placeholder="Sort by" />
                   </SelectTrigger>
                   <SelectContent className="bg-white">

@@ -1,10 +1,14 @@
-import React from "react";
+"use client";
+import React, { useContext } from "react";
 import Image from "next/image";
 import { Text } from "@/components/ui/text";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
+import { CartContext } from "@/contexts/cart-context";
 
 function WishListMobile({ data }: { data: any }) {
+   const { handlePlus } = useContext(CartContext);
+
    return (
       <div className="mb-5 block w-full p-4 md:hidden">
          {data.map((item: any) => (
@@ -27,7 +31,12 @@ function WishListMobile({ data }: { data: any }) {
                         {item.status}
                      </Text>
                      <Text size={"sm"}>₦{item.price.toLocaleString()}</Text>
-                     <Button className="mt-4 rounded-3xl px-4 text-xs">Add to Cart</Button>
+                     <Button
+                        onClick={() => handlePlus(item)}
+                        className="mt-4 rounded-3xl px-4 text-xs"
+                     >
+                        Add to Cart
+                     </Button>
                   </div>
                </div>
                <Button className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-gray-200 text-black">

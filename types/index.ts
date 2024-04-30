@@ -220,16 +220,17 @@ export type Route = {
 };
 
 export type ShopItem = {
-   id: number;
+   id: any;
    image_url?: any;
    image?: any;
    images?: any[];
    title?: string;
-   name?: string;
+   name: string;
    reviews: number;
    rating: number;
    price: number;
-   no_of_items?: number;
+   no_of_items: number;
+   status?: string;
 };
 export type User = {
    id: number;

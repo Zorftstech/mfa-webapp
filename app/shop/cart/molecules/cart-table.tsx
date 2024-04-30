@@ -22,40 +22,7 @@ import CartTotal from "./cart-total";
 import Link from "next/link";
 
 function CartTable() {
-   const { currentCart, setCurrentCart } = useContext(CartContext);
-
-   const handleMinus = (item: any) => {
-      const currentItemIndex = currentCart.findIndex((cartItem) => cartItem.id === item.id);
-      if (currentItemIndex !== -1) {
-         const updatedCart = [...currentCart];
-         updatedCart[currentItemIndex] = {
-            ...item,
-            no_of_items: Math.max(item.no_of_items - 1, 1),
-         };
-         setCurrentCart(updatedCart);
-      } else {
-         setCurrentCart([...currentCart, { ...item, no_of_items: 1 }]);
-      }
-   };
-
-   const handlePlus = (item: any) => {
-      const currentItemIndex = currentCart.findIndex((cartItem) => cartItem.id === item.id);
-      if (currentItemIndex !== -1) {
-         const updatedCart = [...currentCart];
-         updatedCart[currentItemIndex] = {
-            ...item,
-            no_of_items: item.no_of_items + 1,
-         };
-         setCurrentCart(updatedCart);
-      } else {
-         setCurrentCart([...currentCart, { ...item, no_of_items: 1 }]);
-      }
-   };
-
-   const handleRemove = (itemId: string) => {
-      const updatedCart = currentCart.filter((item) => item.id !== itemId);
-      setCurrentCart(updatedCart);
-   };
+   const { currentCart, handleMinus, handlePlus, handleRemove } = useContext(CartContext);
 
    return (
       <div className="flex w-full flex-col items-start justify-between gap-4 lg:flex-row">
@@ -75,7 +42,7 @@ function CartTable() {
                         <TableRow key={item.id}>
                            <TableCell className="font-medium">
                               <div className="flex items-center gap-2">
-                                 <Image src={item.image} alt={item.name} />
+                                 <Image className="w-20" src={item.image} alt={item.name} />
                                  <Text size={"sm"}>{item.name}</Text>
                               </div>
                            </TableCell>

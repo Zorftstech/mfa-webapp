@@ -1,5 +1,6 @@
 import { ShopItem as ItemType } from "@/types";
 import dummyItem from "../images/dummy-item.png";
+import tomato from "../images/tomato.png";
 
 export const dummyItems: ItemType[] = [
    {
@@ -148,6 +149,39 @@ export const recentItems: ItemType[] = [
       image: dummyItem,
       no_of_items: 1,
       name: "Orange (200g)",
+      rating: 4.5,
+      reviews: 12,
+      price: 200.0,
+   },
+];
+
+export const wishlistItems: ItemType[] = [
+   {
+      id: 222,
+      image: tomato,
+      no_of_items: 1,
+      name: "Tomato",
+      status: "In Stock",
+      rating: 4.5,
+      reviews: 12,
+      price: 2000.0,
+   },
+   {
+      id: 223,
+      image: tomato,
+      no_of_items: 1,
+      name: "Tomato",
+      status: "In Stock",
+      rating: 4.5,
+      reviews: 12,
+      price: 200.0,
+   },
+   {
+      id: 224,
+      image: tomato,
+      no_of_items: 1,
+      name: "Tomato",
+      status: "In Stock",
       rating: 4.5,
       reviews: 12,
       price: 200.0,

@@ -17,27 +17,7 @@ import styles from "./shop-item.module.css";
 import { CartContext } from "@/contexts/cart-context";
 
 const Shop = ({ itemDetails }: { itemDetails: ShopItem }) => {
-   const { currentCart, setCurrentCart } = useContext(CartContext);
-
-   const handlePlus = (item: any, e: React.MouseEvent<HTMLButtonElement>) => {
-      e.stopPropagation();
-      const currentItemIndex = currentCart.findIndex((cartItem) => cartItem.id === item.id);
-      if (currentItemIndex !== -1) {
-         const updatedCart = [...currentCart];
-         updatedCart[currentItemIndex] = {
-            ...item,
-            no_of_items: item.no_of_items + 1,
-         };
-         setCurrentCart(updatedCart);
-      } else {
-         // Item not found in cart, add it to the cart with quantity 1
-         setCurrentCart([...currentCart, { ...item, no_of_items: 1 }]);
-      }
-   };
-
-   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-      e.stopPropagation();
-   };
+   const { handlePlus } = useContext(CartContext);
 
    return (
       <div
@@ -49,10 +29,10 @@ const Shop = ({ itemDetails }: { itemDetails: ShopItem }) => {
             <div
                className={`${styles.img_container} relative flex w-full items-center justify-center`}
             >
-               <Image src={itemDetails.image} alt={'image'} width={300} height={300} />
+               <Image src={itemDetails.image} alt={"image"} width={300} height={300} />
                <div className="absolute bottom-0 flex w-full items-center justify-between border border-gray-300 bg-gray-200">
                   <button
-                     onClick={(e) => handlePlus(itemDetails, e)}
+                     onClick={(e) => handlePlus(itemDetails)}
                      className="flex w-[50%] flex-col items-center justify-center rounded-none p-0"
                   >
                      <HeartIcon className="w-4" />
@@ -61,7 +41,6 @@ const Shop = ({ itemDetails }: { itemDetails: ShopItem }) => {
                      </Text>
                   </button>
                   <Link
-                     onClick={handleLinkClick}
                      className="flex w-[50%] flex-col items-center justify-center py-[11.5px]"
                      href={`/shop/${itemDetails.id}`}
                   >
@@ -89,7 +68,7 @@ const Shop = ({ itemDetails }: { itemDetails: ShopItem }) => {
                </Text>
             </div>
             <Button
-               onClick={(e) => handlePlus(itemDetails, e)}
+               onClick={(e) => handlePlus(itemDetails)}
                className="mt-4 w-full rounded-3xl text-xs"
             >
                Add to Cart <ShoppingCartIcon className="w-3 text-white" />

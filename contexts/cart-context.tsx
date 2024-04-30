@@ -1,52 +1,49 @@
 import { createContext, useContext, useState } from "react";
 import tomato from "../images/tomato.png";
 
+interface CartItem {
+   id: any;
+   image?: any;
+   no_of_items: number;
+   name: string;
+   price: number;
+   status?: string;
+}
+
 interface CartContextType {
-   currentCart: any[]; // Define the type of currentCart
-   setCurrentCart: React.Dispatch<React.SetStateAction<any[]>>; // Define the type of setCurrentCart
+   currentCart: CartItem[];
+   setCurrentCart: React.Dispatch<React.SetStateAction<CartItem[]>>;
+   handleMinus: (item: CartItem) => void;
+   handlePlus: (item: CartItem) => void;
+   handleRemove: (itemId: any) => void;
 }
 
 const CartContext = createContext<CartContextType>({
    currentCart: [],
    setCurrentCart: () => {},
+   handleMinus: () => {},
+   handlePlus: () => {},
+   handleRemove: () => {},
 });
 
 const CartProvider = ({ children }: { children: React.ReactNode }) => {
-   const [currentCart, setCurrentCart] = useState<any[]>([
-      {
-         id: 1,
-         image: tomato,
-         no_of_items: 1,
-         name: "Tomato",
-         price: 20000,
-         status: "In Stock",
-      },
-      {
-         id: 2,
-         image: tomato,
-         no_of_items: 1,
-         name: "Tomato",
-         price: 20000,
-         status: "In Stock",
-      },
-   ]);
+   const [currentCart, setCurrentCart] = useState<CartItem[]>([]);
 
-   const handleMinus = (item: any) => {
+   const handleMinus = (item: CartItem) => {
       const currentItemIndex = currentCart.findIndex((cartItem) => cartItem.id === item.id);
       if (currentItemIndex !== -1) {
          const updatedCart = [...currentCart];
          updatedCart[currentItemIndex] = {
             ...item,
-            no_of_items: Math.max(item.no_of_items - 1, 1), // Ensure minimum quantity is 1
+            no_of_items: Math.max(item.no_of_items - 1, 1),
          };
          setCurrentCart(updatedCart);
       } else {
-         // Item not found in cart, add it to the cart with quantity 1
          setCurrentCart([...currentCart, { ...item, no_of_items: 1 }]);
       }
    };
 
-   const handlePlus = (item: any) => {
+   const handlePlus = (item: CartItem) => {
       const currentItemIndex = currentCart.findIndex((cartItem) => cartItem.id === item.id);
       if (currentItemIndex !== -1) {
          const updatedCart = [...currentCart];
@@ -56,18 +53,19 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
          };
          setCurrentCart(updatedCart);
       } else {
-         // Item not found in cart, add it to the cart with quantity 1
          setCurrentCart([...currentCart, { ...item, no_of_items: 1 }]);
       }
    };
 
-   const handleRemove = (itemId: string) => {
+   const handleRemove = (itemId: number) => {
       const updatedCart = currentCart.filter((item) => item.id !== itemId);
       setCurrentCart(updatedCart);
    };
 
    return (
-      <CartContext.Provider value={{ currentCart, setCurrentCart }}>
+      <CartContext.Provider
+         value={{ currentCart, setCurrentCart, handleMinus, handlePlus, handleRemove }}
+      >
          {children}
       </CartContext.Provider>
    );

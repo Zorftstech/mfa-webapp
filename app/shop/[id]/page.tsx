@@ -20,19 +20,52 @@ import ProductImage from "./molecules/product-image";
 
 const orange: ItemType = {
    id: 1,
-   image_url: dummyItem,
+   image: dummyItem,
    images: [dummyItem, tomato, dummyItem, dummyItem],
    name: "Nigerian Orange",
+   no_of_items: 1,
    rating: 4,
    reviews: 12,
    price: 2000.0,
 };
 
 const dummyItems: ItemType[] = [
-   { id: 1, image: dummyItem, name: "Orange (200g)", rating: 4.5, reviews: 12, price: 2000.0 },
-   { id: 2, image: dummyItem, name: "Orange (200g)", rating: 4.5, reviews: 12, price: 200.0 },
-   { id: 3, image: dummyItem, name: "Orange (200g)", rating: 4.5, reviews: 12, price: 200.0 },
-   { id: 4, image: dummyItem, name: "Orange (200g)", rating: 4.5, reviews: 12, price: 200.0 },
+   {
+      id: 1,
+      image: dummyItem,
+      name: "Orange (200g)",
+      rating: 4.5,
+      reviews: 12,
+      price: 2000.0,
+      no_of_items: 1,
+   },
+   {
+      id: 2,
+      image: dummyItem,
+      name: "Orange (200g)",
+      rating: 4.5,
+      reviews: 12,
+      price: 200.0,
+      no_of_items: 1,
+   },
+   {
+      id: 3,
+      image: dummyItem,
+      name: "Orange (200g)",
+      rating: 4.5,
+      reviews: 12,
+      price: 200.0,
+      no_of_items: 1,
+   },
+   {
+      id: 4,
+      image: dummyItem,
+      name: "Orange (200g)",
+      rating: 4.5,
+      reviews: 12,
+      price: 200.0,
+      no_of_items: 1,
+   },
 ];
 
 function page() {

@@ -86,15 +86,6 @@ function ProductDescription({ currentItem }: { currentItem: ShopItem }) {
                   </Button>
                )}
             />
-            {/* <Button className={`rounded-2xl border border-[#7ab42c] bg-[#7ab42c] px-4 py-1 text-white`}>
-               Half Paint Bucket
-            </Button>
-            <Button className={`rounded-2xl border border-gray-300 px-4 py-1 text-gray-600`}>
-               Paint Bucket 3KG
-            </Button>
-            <Button className={`rounded-2xl border border-gray-300 px-4 py-1 text-gray-600`}>
-               50KG Basket
-            </Button> */}
          </div>
          <Separator className="my-4" />
          <div className="my-3">

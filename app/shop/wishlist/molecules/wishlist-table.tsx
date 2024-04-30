@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useContext } from "react";
 import {
    Table,
    TableBody,
@@ -13,9 +14,11 @@ import Image from "next/image";
 import { Text } from "@/components/ui/text";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
-import ShareItem from "@/components/shared/share-item";
+import { CartContext } from "@/contexts/cart-context";
 
 function WishListTable({ data }: { data: any }) {
+   const { handlePlus } = useContext(CartContext);
+
    return (
       <div className="w-full px-8">
          <Table className="mt-6 hidden w-full md:table">
@@ -48,7 +51,12 @@ function WishListTable({ data }: { data: any }) {
                         </Text>
                      </TableCell>
                      <TableCell className="">
-                        <Button className="rounded-3xl px-4 text-xs">Add to Cart</Button>
+                        <Button
+                           onClick={() => handlePlus(item)}
+                           className="rounded-3xl px-4 text-xs"
+                        >
+                           Add to Cart
+                        </Button>
                      </TableCell>
                      <TableCell className="">
                         <Button className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-gray-200 text-black">

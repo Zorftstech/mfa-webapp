@@ -10,40 +10,7 @@ import CartTotal from "./cart-total";
 import { CartContext } from "@/contexts/cart-context";
 
 function CartMobile() {
-   const { currentCart, setCurrentCart } = useContext(CartContext);
-
-   const handleMinus = (item: any) => {
-      const currentItemIndex = currentCart.findIndex((cartItem) => cartItem.id === item.id);
-      if (currentItemIndex !== -1) {
-         const updatedCart = [...currentCart];
-         updatedCart[currentItemIndex] = {
-            ...item,
-            no_of_items: Math.max(item.no_of_items - 1, 1),
-         };
-         setCurrentCart(updatedCart);
-      } else {
-         setCurrentCart([...currentCart, { ...item, no_of_items: 1 }]);
-      }
-   };
-
-   const handlePlus = (item: any) => {
-      const currentItemIndex = currentCart.findIndex((cartItem) => cartItem.id === item.id);
-      if (currentItemIndex !== -1) {
-         const updatedCart = [...currentCart];
-         updatedCart[currentItemIndex] = {
-            ...item,
-            no_of_items: item.no_of_items + 1,
-         };
-         setCurrentCart(updatedCart);
-      } else {
-         setCurrentCart([...currentCart, { ...item, no_of_items: 1 }]);
-      }
-   };
-
-   const handleRemove = (itemId: string) => {
-      const updatedCart = currentCart.filter((item) => item.id !== itemId);
-      setCurrentCart(updatedCart);
-   };
+   const { currentCart, handleMinus, handlePlus, handleRemove } = useContext(CartContext);
 
    return (
       <div className="my-5 block w-full bg-white p-4 md:hidden">

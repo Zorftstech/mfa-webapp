@@ -20,8 +20,6 @@ import Each from "@/components/helpers/each";
 function ShoppingCart() {
    const { currentCart } = useContext(CartContext);
 
-   console.log(currentCart);
-
    return (
       <Popover>
          <PopoverTrigger asChild>
@@ -31,11 +29,9 @@ function ShoppingCart() {
                   className="absolute right-0 rounded-full bg-primary px-2"
                   style={{ top: "-5px" }}
                >
-                  {currentCart.length && (
-                     <Text variant={"white"} size={"xs"} style={{ fontSize: "10px" }}>
-                        {currentCart.length}
-                     </Text>
-                  )}
+                  <Text variant={"white"} size={"xs"} style={{ fontSize: "10px" }}>
+                     {currentCart.length}
+                  </Text>
                </span>
             </Button>
          </PopoverTrigger>
