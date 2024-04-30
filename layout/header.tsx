@@ -1,3 +1,4 @@
+"use client";
 import { HeartIcon, AlignJustify } from "lucide-react";
 import React, { useState } from "react";
 
@@ -38,31 +39,21 @@ const Header = () => {
             </Show.When>
          </Show>
          <section className="fixed top-0 z-40 w-full bg-white shadow">
-            <main
-               style={{ maxWidth: "1200px" }}
-               className="mx-auto flex w-full max-w-[1200px] items-center justify-between px-4 py-4 md:px-8"
-            >
-               <div className="flex min-w-[24rem] items-center justify-between gap-8">
-                  {width && width <= 860 && (
-                     <Button variant={"ghost"} size={"none"} onClick={handleVisibility}>
-                        <AlignJustify className="w-4" />
-                     </Button>
-                  )}
-
-                  {width && width > 860 && (
-                     <>
-                        <Image src={logo} alt="mfa-logo" className="h-20 w-12" />
-                        <TopNav />
-                     </>
-                  )}
-
-                  {/* <div className="hidden md:flex">
-                     <Image src={logo} alt="mfa-logo" className="h-20 w-12" />
-                     <TopNav />
-                  </div> */}
+            <main className="mx-auto flex w-full max-w-[1200px] items-center justify-between px-4 py-4 md:px-8">
+               <Button
+                  className="block md:hidden"
+                  variant={"ghost"}
+                  size={"none"}
+                  onClick={handleVisibility}
+               >
+                  <AlignJustify className="w-4" />
+               </Button>
+               <div className="hidden min-w-[24rem] items-center justify-between gap-8 md:flex">
+                  <Image src={logo} alt="mfa-logo" className="h-20 w-12" />
+                  <TopNav />
                </div>
-               {width && width <= 860 && <Image src={logo} alt="mfa-logo" className="h-20 w-12" />}
-               {width && width >= 1040 && (
+               <Image src={logo} alt="mfa-logo" className="block h-20 w-12 md:hidden" />
+               {width && width > 1040 && (
                   <div className="flex items-center gap-4">
                      <div className="flex items-center gap-2">
                         <Link href={"/shop/wishlist"} className="">
@@ -82,7 +73,8 @@ const Header = () => {
                      <ProfileIconDropdown />
                   </div>
                )}
-               {width && width < 1040 && <ShoppingCart />}
+
+               {width && width <= 1040 && <ShoppingCart />}
             </main>
          </section>
       </>

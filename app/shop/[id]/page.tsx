@@ -8,7 +8,6 @@ import ShopItem from "@/components/shared/shop-item";
 import SuggestedProducts from "@/components/shared/suggested-products";
 import { Text } from "@/components/ui/text";
 
-import useWindowDimensions from "@/hooks/useWindowDimensions";
 import dummyItem from "@/images/dummy-item.png";
 import tomato from "@/images/tomato.png";
 import { ShopItem as ItemType } from "@/types";
@@ -23,25 +22,23 @@ const orange: ItemType = {
    id: 1,
    image_url: dummyItem,
    images: [dummyItem, tomato, dummyItem, dummyItem],
-   title: "Nigerian Orange",
+   name: "Nigerian Orange",
    rating: 4,
    reviews: 12,
    price: 2000.0,
 };
 
 const dummyItems: ItemType[] = [
-   { id: 1, image_url: dummyItem, title: "Orange (200g)", rating: 4.5, reviews: 12, price: 2000.0 },
-   { id: 2, image_url: dummyItem, title: "Orange (200g)", rating: 4.5, reviews: 12, price: 200.0 },
-   { id: 3, image_url: dummyItem, title: "Orange (200g)", rating: 4.5, reviews: 12, price: 200.0 },
-   { id: 4, image_url: dummyItem, title: "Orange (200g)", rating: 4.5, reviews: 12, price: 200.0 },
+   { id: 1, image: dummyItem, name: "Orange (200g)", rating: 4.5, reviews: 12, price: 2000.0 },
+   { id: 2, image: dummyItem, name: "Orange (200g)", rating: 4.5, reviews: 12, price: 200.0 },
+   { id: 3, image: dummyItem, name: "Orange (200g)", rating: 4.5, reviews: 12, price: 200.0 },
+   { id: 4, image: dummyItem, name: "Orange (200g)", rating: 4.5, reviews: 12, price: 200.0 },
 ];
 
 function page() {
-   // eslint-disable-next-line react-hooks/rules-of-hooks
-   //  const { width } = useWindowDimensions();
    return (
       <div className="pt-[69px]">
-         <RouteDisplay route={orange.title} />
+         <RouteDisplay route={orange.name || ""} />
          <Container>
             <main className="mx-auto mt-8 flex w-full max-w-[1200px] flex-col items-center justify-center gap-1 py-4">
                <div className="grid w-full grid-cols-1 gap-2 p-4 md:grid-cols-2 lg:grid-cols-3">

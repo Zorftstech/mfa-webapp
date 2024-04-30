@@ -41,15 +41,6 @@ export default function Hero() {
          <h2 className="mt-[3.75rem] hidden text-center text-3xl font-semibold text-white md:block">
             Need foodstuffs? ...
          </h2>
-
-         {/* <Text className=" hidden text-center text-3xl font-semibold text-white md:block">
-            Need foodstuffs? ...
-         </Text> */}
-
-         {/* <Button className="block rounded-full bg-white px-8 py-6 text-primary-2 shadow-lg md:hidden">
-            View all
-         </Button> */}
-
          <div className="flex w-full max-w-lg items-center justify-between gap-2">
             <div className="relative w-full">
                {width && width < 769 && <Search className="absolute left-4 top-[25%] w-4" />}

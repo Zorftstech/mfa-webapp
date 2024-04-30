@@ -11,9 +11,22 @@ import { Text } from "@/components/ui/text";
 import { ShopItem } from "@/types";
 
 import ShareItem from "@/components/shared/share-item";
+import Each from "@/components/helpers/each";
 
 function ProductDescription({ currentItem }: { currentItem: ShopItem }) {
    const [productCount, setProductCount] = useState(1);
+
+   const [selectedWeightId, setSelectedWeightId] = useState(1);
+
+   const handleWeight = (id: any) => {
+      setSelectedWeightId(id);
+   };
+
+   const dummyWeights = [
+      { id: 1, title: "Half Paint Bucket" },
+      { id: 2, title: "Paint Bucket 3KG" },
+      { id: 3, title: "50KG Basket" },
+   ];
 
    const handleAdd = () => {
       setProductCount(productCount + 1);
@@ -57,27 +70,31 @@ function ProductDescription({ currentItem }: { currentItem: ShopItem }) {
             <Text size={"sm"} weight={"medium"}>
                Weight:
             </Text>
-            <Text
-               className="rounded-2xl border border-[#7ab42c] bg-[#7ab42c] px-4 py-1 text-white"
-               size={"xs"}
-               weight={"normal"}
-            >
+            <Each
+               of={dummyWeights}
+               render={(item) => (
+                  <Button
+                     key={item.id}
+                     onClick={() => setSelectedWeightId(item.id)}
+                     className={
+                        item.id === selectedWeightId
+                           ? `rounded-2xl border border-[#7ab42c] bg-[#7ab42c] px-4 py-1 text-white`
+                           : `rounded-2xl border border-gray-300 bg-white px-4 py-1 text-gray-600`
+                     }
+                  >
+                     {item.title}
+                  </Button>
+               )}
+            />
+            {/* <Button className={`rounded-2xl border border-[#7ab42c] bg-[#7ab42c] px-4 py-1 text-white`}>
                Half Paint Bucket
-            </Text>
-            <Text
-               className="rounded-2xl border border-gray-300 px-4 py-1 text-gray-600"
-               size={"xs"}
-               weight={"normal"}
-            >
+            </Button>
+            <Button className={`rounded-2xl border border-gray-300 px-4 py-1 text-gray-600`}>
                Paint Bucket 3KG
-            </Text>
-            <Text
-               className="rounded-2xl border border-gray-300 px-4 py-1 text-gray-600"
-               size={"xs"}
-               weight={"normal"}
-            >
+            </Button>
+            <Button className={`rounded-2xl border border-gray-300 px-4 py-1 text-gray-600`}>
                50KG Basket
-            </Text>
+            </Button> */}
          </div>
          <Separator className="my-4" />
          <div className="my-3">

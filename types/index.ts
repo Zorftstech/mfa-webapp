@@ -221,12 +221,15 @@ export type Route = {
 
 export type ShopItem = {
    id: number;
-   image_url: any;
+   image_url?: any;
+   image?: any;
    images?: any[];
-   title: string;
+   title?: string;
+   name?: string;
    reviews: number;
    rating: number;
    price: number;
+   no_of_items?: number;
 };
 export type User = {
    id: number;

@@ -9,23 +9,9 @@ import OfftakeBanner from "@/components/shared/offtake-banner";
 import ShopItem from "@/components/shared/shop-item";
 import { Text } from "@/components/ui/text";
 
-import { Button } from "@/components/ui/button";
-import { AlignJustify } from "lucide-react";
-
 import { ShopItem as ItemType } from "@/types";
 
-import dummyItem from "../../images/dummy-item.png";
-
-const dummyItems: ItemType[] = [
-   { id: 1, image_url: dummyItem, title: "Orange (200g)", rating: 4.5, reviews: 12, price: 2000.0 },
-   { id: 2, image_url: dummyItem, title: "Orange (200g)", rating: 4.5, reviews: 12, price: 200.0 },
-   { id: 3, image_url: dummyItem, title: "Orange (200g)", rating: 4.5, reviews: 12, price: 200.0 },
-   { id: 4, image_url: dummyItem, title: "Orange (200g)", rating: 4.5, reviews: 12, price: 200.0 },
-   { id: 5, image_url: dummyItem, title: "Orange (200g)", rating: 4.5, reviews: 12, price: 200.0 },
-   { id: 6, image_url: dummyItem, title: "Orange (200g)", rating: 4.5, reviews: 12, price: 200.0 },
-   { id: 7, image_url: dummyItem, title: "Orange (200g)", rating: 4.5, reviews: 12, price: 200.0 },
-   { id: 8, image_url: dummyItem, title: "Orange (200g)", rating: 4.5, reviews: 12, price: 200.0 },
-];
+import { dummyItems } from "../dummyItem";
 
 function FarmOfftake() {
    return (
