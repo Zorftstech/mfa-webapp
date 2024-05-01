@@ -157,3 +157,5 @@ export const isAfricanCountry = (country: string) => {
 
    return countriesInAfrica[country as keyof typeof countriesInAfrica] === true;
 };
+
+export const isWidthGreaterOrEqualTo768 = (width: number | null) => width && width >= 768;
