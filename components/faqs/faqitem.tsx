@@ -15,8 +15,8 @@ const FAQItem = ({ faqDetail }: { faqDetail: IFAQObj }) => {
       <Accordion type="single" collapsible className="w-full">
          <AccordionItem className={styles.AccordionItem} value="item-1">
             <AccordionTrigger
-               IconComp={PlusIcon}
-               iconClassName={styles.AccordionIcon}
+               // IconComp={PlusIcon}
+               // iconClassName={styles.AccordionIcon}
                className={styles.AccordionTrigger}
             >
                <Text className="text-[16px] font-[700]">{faqDetail.question}</Text>

@@ -4,7 +4,6 @@ import { Search, ArrowUpDown, ArrowUpDownIcon } from "lucide-react";
 
 import Each from "@/components/helpers/each";
 import { Input } from "@/components/ui/input";
-import { Text } from "@/components/ui/text";
 
 import useWindowDimensions from "@/hooks/useWindowDimensions";
 
@@ -12,7 +11,6 @@ import dummyimg from "../../images/dummy-category.png";
 
 import "./categories.css";
 import CategoryItem from "./category-item";
-import { Button } from "@/components/ui/button";
 
 interface category {
    id: number;
@@ -43,20 +41,16 @@ export default function Hero() {
          </h2>
          <div className="flex w-full max-w-lg items-center justify-between gap-2">
             <div className="relative w-full">
-               {width && width < 769 && <Search className="absolute left-4 top-[25%] w-4" />}
+               <Search className="absolute left-4 top-[25%] block w-4 md:hidden" />
                <Input
-                  className={` ${
-                     width && width < 769 && "pl-[40px]"
-                  } w-full rounded-full bg-white py-6 `}
+                  className="w-full rounded-full bg-white py-6 pl-[40px] md:pl-2"
                   placeholder={width && width > 768 ? "I am looking for..." : "What do you need?"}
                />
-               {width && width > 768 && <Search className="absolute right-4 top-[25%] w-4" />}
+               <Search className="absolute right-4 top-[25%] hidden w-4 md:block" />
             </div>
-            {width && width < 769 && (
-               <div className="flex h-full w-12 items-center justify-center rounded-full bg-white">
-                  <ArrowUpDown className="w-3 text-gray-800" />
-               </div>
-            )}
+            <div className="flex h-full w-12 items-center justify-center rounded-full bg-white md:hidden">
+               <ArrowUpDown className="w-3 text-gray-800" />
+            </div>
          </div>
          <div className="category w-full max-w-lg p-2">
             <Each

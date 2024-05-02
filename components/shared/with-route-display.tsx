@@ -21,7 +21,7 @@ const WithRouteDisplay = ({
    const { width } = useWindowDimensions();
 
    return (
-      <div style={{ paddingTop: "69px" }}>
+      <div className="pt-[69px]">
          {isWidthGreaterOrEqualTo768(width) && <RouteDisplay route={route} />}
          <Container backgroundColor="bg-gray-100">
             <section

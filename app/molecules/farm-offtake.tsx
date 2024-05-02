@@ -16,8 +16,7 @@ import { dummyItems } from "../dummyItem";
 function FarmOfftake() {
    return (
       <Container backgroundColor="bg-gray-100">
-         <main className="mx-auto flex w-full max-w-[1200px] flex-col items-center justify-center gap-1 py-4">
-            <div className="md:hidden"></div>
+         <main className="mx-auto flex w-full max-w-[1200px] flex-col items-center justify-center gap-1 py-8">
             <OfftakeBanner />
             <div className="mt-4 w-full py-4">
                <div className="flex w-full items-center justify-between px-4">

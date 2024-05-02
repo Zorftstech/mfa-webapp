@@ -70,7 +70,14 @@ const Header = () => {
                            </span>
                         </div>
                      </div>
-                     <ProfileIconDropdown />
+                     {/* <ProfileIconDropdown /> */}
+                     <Link
+                        style={{ marginLeft: "50px" }}
+                        className="text-sm font-medium text-gray-600 hover:underline"
+                        href={"/account/signin"}
+                     >
+                        Login / Register
+                     </Link>
                   </div>
                )}
 

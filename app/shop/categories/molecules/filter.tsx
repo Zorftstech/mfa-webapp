@@ -1,29 +1,38 @@
-'use client';
+"use client";
 
-import { Filter as FilterIcon } from 'lucide-react';
-import React from 'react';
+import { Filter as FilterIcon } from "lucide-react";
+import React from "react";
 
-import { Accordion } from '@/components/ui/accordion';
-import { Button } from '@/components/ui/button';
+import {
+   Accordion,
+   AccordionItem,
+   AccordionContent,
+   AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
 
-import styles from '../page.module.css';
+import styles from "../page.module.css";
 
-import Price from './price';
-import ProductCategories from './product-categories';
+import Price from "./price";
+import ProductCategories from "./product-categories";
+import Recommended from "./recommended";
+import RecentlyViewed from "./recently-viewed";
 
 function Filter() {
-  return (
-    <aside className={`${styles.filter_section} flex-1 p-4`}>
-      <Button className="w-full rounded-2xl">
-        Filter
-        <FilterIcon className="w-3" />
-      </Button>
-      <Accordion type="single" collapsible className="mt-3 w-full rounded-xl bg-white px-4 py-2">
-        <ProductCategories />
-        <Price />
-      </Accordion>
-    </aside>
-  );
+   return (
+      <aside className={`${styles.filter_section} flex-[1.5] p-2`}>
+         <Button className="w-full rounded-2xl">
+            Filter
+            <FilterIcon className="w-3" />
+         </Button>
+         <Accordion type="single" collapsible className="mt-3 w-full rounded-xl bg-white px-4 py-2">
+            <ProductCategories />
+            <Price />
+            <Recommended />
+            <RecentlyViewed />
+         </Accordion>
+      </aside>
+   );
 }
 
 export default Filter;

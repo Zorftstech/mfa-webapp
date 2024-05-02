@@ -11,6 +11,8 @@ import ShopItem from "@/components/shared/shop-item";
 import { Input } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
 
+import { StickyFilter } from "../categories/molecules/sticky-filter";
+
 import { ShopItem as ItemType } from "@/types";
 
 import RouteDisplay from "../route-display";
@@ -32,12 +34,13 @@ function page() {
                            placeholder={"What do you need?"}
                         />
                      </div>
-                     <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#7ab42c] ">
+                     <StickyFilter />
+                     {/* <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#7ab42c] ">
                         <Filter className="w-3 text-white" />
-                     </div>
-                     <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#7ab42c]">
+                     </div> */}
+                     {/* <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#7ab42c]">
                         <ArrowUpDown className="w-3 text-white" />
-                     </div>
+                     </div> */}
                   </div>
                   <div className="flex w-full items-center justify-start px-4">
                      <Text size={"lg"} weight={"semibold"}>
