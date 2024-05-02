@@ -22,7 +22,10 @@ const FAQItem = ({ faqDetail }: { faqDetail: IFAQObj }) => {
                <Text className="text-[16px] font-[700]">{faqDetail.question}</Text>
             </AccordionTrigger>
             <AccordionContent className={styles.AccordionContent}>
-               {faqDetail.answer}
+               <div
+                  className={styles.AccordionContentDiv}
+                  dangerouslySetInnerHTML={{ __html: faqDetail.answer }}
+               ></div>
             </AccordionContent>
          </AccordionItem>
       </Accordion>

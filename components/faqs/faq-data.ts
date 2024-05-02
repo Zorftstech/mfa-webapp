@@ -1,13 +1,13 @@
 export interface IFAQObj {
    question: string;
-   answer: string;
+   answer: string | any;
 }
 
 export const FAQList: IFAQObj[] = [
    {
       question: "What do we do?",
       answer:
-         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tincidunt suscipit nulla nec feugiat. Praesent fermentum, erat id sagittis placerat, neque quam egestas lorem.",
+         "We are a foodtech online marketplace where fresh food is shopped and delivered quickly across Africa.",
    },
    {
       question: "What are our products and services?",
