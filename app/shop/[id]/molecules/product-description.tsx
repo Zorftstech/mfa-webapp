@@ -1,7 +1,7 @@
 "use client";
 
 import { HeartIcon, ShoppingCartIcon, Plus, Minus } from "lucide-react";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Ratings } from "@/components/ui/rating";
@@ -10,11 +10,19 @@ import { Text } from "@/components/ui/text";
 
 import { ShopItem } from "@/types";
 
+import { CartContext } from "@/contexts/cart-context";
+
 import ShareItem from "@/components/shared/share-item";
 import Each from "@/components/helpers/each";
 
+// import { CartContext } from "@/contexts/cart-context";
+
 function ProductDescription({ currentItem }: { currentItem: ShopItem }) {
    const [productCount, setProductCount] = useState(1);
+
+   // console.log(currentItem, "2");
+
+   const { handlePlus } = useContext(CartContext);
 
    const [selectedWeightId, setSelectedWeightId] = useState(1);
 
@@ -108,7 +116,10 @@ function ProductDescription({ currentItem }: { currentItem: ShopItem }) {
             </div>
          </div>
 
-         <Button className="mt-4 w-full rounded-3xl text-sm">
+         <Button
+            onClick={(e) => handlePlus(currentItem)}
+            className="mt-4 w-full rounded-3xl text-sm"
+         >
             Add to Cart <ShoppingCartIcon className="w-4 text-white" />
          </Button>
          <Separator className="my-4" />
