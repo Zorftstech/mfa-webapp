@@ -20,13 +20,13 @@ const Page = () => {
                <aside
                   className={cn(
                      styles.blogSidebar,
-                     " overflow-auto md:w-[20%] md:min-w-[280px] lg:w-[20%] lg:min-w-[320px] ",
+                     "  h-fit md:w-[20%] md:min-w-[280px] lg:w-[20%] lg:min-w-[320px] ",
                   )}
                >
                   <TopCategories />
                   <RecentlyAddedBlogs />
                </aside>
-               <div className={cn("", styles.blogSection)}>
+               <div className={cn("hideScroll", styles.blogSection)}>
                   <BlogSection />
                </div>
             </div>
