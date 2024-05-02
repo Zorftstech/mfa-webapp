@@ -1,0 +1,9 @@
+.blogSidebar {
+   flex: 0 0 auto;
+   white-space: wrap;
+}
+
+.blogSection {
+   flex: 1 1 auto;
+   overflow: auto;
+}
