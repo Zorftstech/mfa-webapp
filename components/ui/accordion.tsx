@@ -28,7 +28,9 @@ const AccordionTrigger = React.forwardRef<
 >(({ className, children, IconComp, iconClassName, ...props }, ref) => {
    const iconClasses = "text-muted-foreground h-4 w-4 shrink-0 transition-transform duration-200";
 
-   const IconComponent = <IconComp className={iconClasses} /> || (
+   const IconComponent = IconComp ? (
+      <IconComp className={iconClasses} />
+   ) : (
       <ChevronDownIcon className={iconClasses} />
    );
    return (
