@@ -37,6 +37,14 @@
    font-size: 16px;
 }
 
+.AccordionContentDiv a {
+   text-decoration: underline;
+   cursor: pointer;
+}
+.AccordionContentDiv p {
+   margin-bottom: 14px;
+}
+
 .AccordionIcon {
    transition: transform 300ms;
    width: 30px;
