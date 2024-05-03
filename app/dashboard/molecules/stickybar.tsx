@@ -6,11 +6,15 @@ import Each from "@/components/helpers/each";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { X } from "lucide-react";
 
-function Stickybar() {
+function Stickybar({ handleSticky }: { handleSticky: any }) {
    const pathname = usePathname();
    return (
-      <div className="flex flex-1 flex-col items-center justify-start gap-2 border border-blue-500 bg-white p-3">
+      <div className="fixed left-0 z-[100000] flex h-[100vh] w-[70%] flex-1 flex-col items-center justify-start gap-2 bg-white p-3">
+         <div className="flex w-full items-start justify-start px-4 py-2">
+            <X onClick={handleSticky} className="w-4" />
+         </div>
          <Each
             of={dashboardRoutes}
             render={(route: any, index: number) => (
@@ -23,7 +27,7 @@ function Stickybar() {
             )}
          />
 
-         <Button>Logout</Button>
+         <Button className="mt-10 w-full">Logout</Button>
       </div>
    );
 }

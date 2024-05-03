@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 function Sidebar() {
    const pathname = usePathname();
    return (
-      <div className="flex flex-1 flex-col items-center justify-start gap-2 bg-white p-3">
+      <div className="hidden flex-1 flex-col items-center justify-start gap-2 bg-white p-3 md:flex">
          <Each
             of={dashboardRoutes}
             render={(route: any, index: number) => (

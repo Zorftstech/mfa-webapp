@@ -2,18 +2,16 @@ import React from "react";
 import RouteDisplay from "@/components/shared/route-display";
 import Container from "@/components/shared/container";
 import Sidebar from "./molecules/side-bar";
+import DashboardLayout from "./molecules/dashboard-layout";
+import { Text } from "@/components/ui/text";
 
 function page() {
    return (
-      <div className="pt-[69px]">
-         <RouteDisplay route="Dashboard" />
-         <Container backgroundColor="bg-gray-100">
-            <main className="mx-auto flex w-full max-w-[1200px] items-start justify-between gap-2 border border-red-500 py-4">
-               <Sidebar />
-               <div className="flex-[4] border border-red-500"></div>
-            </main>
-         </Container>
-      </div>
+      <DashboardLayout>
+         <div className="border border-gray-300">
+            <Text>Profile</Text>
+         </div>
+      </DashboardLayout>
    );
 }
 
