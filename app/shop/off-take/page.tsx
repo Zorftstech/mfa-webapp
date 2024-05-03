@@ -9,7 +9,7 @@ import ShopItem from "@/components/shared/shop-item";
 
 import { ShopItem as ItemType } from "@/types";
 
-import RouteDisplay from "../route-display";
+import RouteDisplay from "../../../components/shared/route-display";
 
 import { dummyItems } from "@/app/dummyItem";
 

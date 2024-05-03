@@ -7,7 +7,7 @@ import Container from "@/components/shared/container";
 import FlashSaleBanner from "@/components/shared/flashsale-banner";
 import ShopItem from "@/components/shared/shop-item";
 
-import RouteDisplay from "../route-display";
+import RouteDisplay from "../../../components/shared/route-display";
 
 import { dummyItems } from "@/app/dummyItem";
 

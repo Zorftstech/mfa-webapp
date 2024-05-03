@@ -2,11 +2,10 @@
 
 import React from "react";
 
-import RouteDisplay from "../route-display";
+import RouteDisplay from "../../../components/shared/route-display";
 
 import Filter from "./molecules/filter";
 import Items from "./molecules/items";
-
 
 function page() {
    return (

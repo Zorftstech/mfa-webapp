@@ -12,7 +12,7 @@ import dummyItem from "@/images/dummy-item.png";
 import tomato from "@/images/tomato.png";
 import { ShopItem as ItemType } from "@/types";
 
-import RouteDisplay from "../route-display";
+import RouteDisplay from "../../../components/shared/route-display";
 
 import { FeedbackInformation } from "./molecules/feedback-information";
 import ProductDescription from "./molecules/product-description";

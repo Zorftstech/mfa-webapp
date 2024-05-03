@@ -5,7 +5,7 @@ import useWindowDimensions from "@/hooks/useWindowDimensions";
 import { isWidthGreaterOrEqualTo768 } from "@/helper";
 
 import Container from "@/components/shared/container";
-import RouteDisplay from "@/app/shop/route-display";
+import RouteDisplay from "@/components/shared/route-display";
 
 const WithRouteDisplay = ({
    route,

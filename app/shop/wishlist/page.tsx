@@ -8,7 +8,7 @@ import { Text } from "@/components/ui/text";
 import WishListMobile from "./molecules/wishlist-mobile";
 import WishListTable from "./molecules/wishlist-table";
 
-import RouteDisplay from "../route-display";
+import RouteDisplay from "../../../components/shared/route-display";
 
 import ShareItem from "@/components/shared/share-item";
 

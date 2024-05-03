@@ -7,7 +7,7 @@ import { Text } from "@/components/ui/text";
 import tomato from "@/images/tomato.png";
 import CartMobile from "./molecules/cart-mobile";
 import CartTable from "./molecules/cart-table";
-import RouteDisplay from "../route-display";
+import RouteDisplay from "../../../components/shared/route-display";
 
 function page() {
    return (

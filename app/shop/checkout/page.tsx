@@ -15,7 +15,7 @@ import { Text } from "@/components/ui/text";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
 import tomato from "@/images/tomato.png";
 
-import RouteDisplay from "../route-display";
+import RouteDisplay from "../../../components/shared/route-display";
 
 import { CheckoutForm } from "./molecules/form";
 import { PaymentOption } from "./molecules/payment-option";

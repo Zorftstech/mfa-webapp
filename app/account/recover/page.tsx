@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Container from "@/components/shared/container";
-import RouteDisplay from "../../shop/route-display";
+import RouteDisplay from "../../../components/shared/route-display";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
