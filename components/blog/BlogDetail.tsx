@@ -1,22 +1,24 @@
+"use client";
+
 import { format } from "date-fns";
 import Image from "next/image";
 import React from "react";
 import { Blog } from "./mockData";
 import Link from "next/link";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
-import { FilterIcon, MessageSquareIcon, User2Icon } from "lucide-react";
-import Router from "next/router";
+import { useRouter } from "next/navigation";
 import BlogStat from "./BlogStat";
 
 const BlogDetail = (blog: Blog) => {
    const datePosted = format(blog.dateAdded, "d MMM").split(" ");
+   const { push } = useRouter();
    return (
-      <div className="relative rounded-lg bg-white">
+      <div className="group relative rounded-lg bg-white hover:cursor-pointer">
          <div className="relative overflow-hidden  rounded-t-lg">
             <Image
                src={blog.image}
                alt={blog.title}
-               className="h-[250px] w-full object-cover hover:scale-[108%] hover:cursor-pointer hover:transition-all"
+               className="h-[250px] w-full object-cover hover:scale-[108%]  group-hover:transition-all"
             />
 
             <div className="absolute bottom-4 left-4 h-[60px] w-[60px] rounded-full bg-white p-2 text-center">
@@ -24,9 +26,11 @@ const BlogDetail = (blog: Blog) => {
                <p className="text-[12px] uppercase text-[#808080]">{datePosted[1]}</p>
             </div>
          </div>
-         <div className="p-4 hover:cursor-pointer" onClick={() => Router.push("/blog/1")}>
+         <div className=" p-4" onClick={() => push("/blog/1")}>
             <BlogStat {...blog} />
-            <h2 className="mt-4 text-xl font-medium text-[#7AB42C]">{blog.title}</h2>
+            <h2 className="mt-4 text-xl font-medium text-[#7AB42C] hover:underline">
+               {blog.title}
+            </h2>
             <p className="mt-2 text-[#969696] ">
                {blog.description.length > 75
                   ? blog.description.slice(0, 75) + "..."
