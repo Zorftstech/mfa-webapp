@@ -20,7 +20,7 @@ const Page = () => {
                <aside
                   className={cn(
                      styles.blogSidebar,
-                     "  h-fit md:w-[20%] md:min-w-[280px] lg:w-[20%] lg:min-w-[320px] ",
+                     "  hideScroll md:h-[70vh] md:w-[20%] md:min-w-[280px] lg:w-[20%] lg:min-w-[320px] ",
                   )}
                >
                   <TopCategories />
