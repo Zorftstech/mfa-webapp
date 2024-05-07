@@ -10,9 +10,10 @@ import Stickybar from "./stickybar";
 
 interface DashboardLayoutProps {
    children: ReactNode;
+   removePadding?: boolean;
 }
 
-function DashboardLayout({ children }: DashboardLayoutProps) {
+function DashboardLayout({ children, removePadding }: DashboardLayoutProps) {
    const [showSticky, setSticky] = useState(false);
 
    const handleSticky = () => {
@@ -29,7 +30,9 @@ function DashboardLayout({ children }: DashboardLayoutProps) {
                />
                <Sidebar />
                {showSticky && <Stickybar handleSticky={handleSticky} />}
-               <div className="flex-[4] bg-white px-2 py-10 md:py-2">{children}</div>
+               <div className={`flex-[4] bg-white ${removePadding ? "" : "px-2 py-10 md:py-2"}`}>
+                  {children}
+               </div>
             </main>
          </Container>
       </div>

@@ -35,9 +35,9 @@ const Page = () => {
                   <div className="pb-2 pt-8">
                      <BlogStat {...blogs[0]} />
                   </div>
-                  <p className="mb-8 text-[32px] font-[500]">
+                  <h1 className="mb-8 text-[32px] font-[500]">
                      The Juicy Tale of Fresh Oranges: From Tree to Table
-                  </p>
+                  </h1>
                   <div className="flex justify-between">
                      <div className="flex items-center gap-4">
                         <span className="h-[48px] w-[48px] overflow-hidden rounded-full">
