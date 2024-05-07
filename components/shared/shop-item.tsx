@@ -51,22 +51,27 @@ const Shop = ({ itemDetails }: { itemDetails: ShopItem }) => {
                   </Link>
                </div>
             </div>
-            <Text className="mt-2" size={"sm"} weight={"semibold"}>
-               {itemDetails.name}
-            </Text>
-            <div className="my-2 flex w-full flex-col items-start justify-between gap-2 md:flex-row md:items-center">
-               <Text
-                  size={"xs"}
-                  weight={"medium"}
-                  className="flex items-center gap-1 text-gray-500"
-               >
-                  <StarIcon className="w-3" />
-                  {itemDetails.rating} ({itemDetails.reviews} reviews)
+            <Link
+               href={`/shop/${itemDetails.id}`}
+               className="flex w-full flex-col items-start justify-start"
+            >
+               <Text className="mt-2" size={"sm"} weight={"semibold"}>
+                  {itemDetails.name}
                </Text>
-               <Text weight={"semibold"} size={"xs"}>
-                  ₦{itemDetails.price.toLocaleString()}
-               </Text>
-            </div>
+               <div className="my-2 flex w-full flex-col items-start justify-between gap-2 md:flex-row md:items-center">
+                  <Text
+                     size={"xs"}
+                     weight={"medium"}
+                     className="flex items-center gap-1 text-gray-500"
+                  >
+                     <StarIcon className="w-3" />
+                     {itemDetails.rating} ({itemDetails.reviews} reviews)
+                  </Text>
+                  <Text weight={"semibold"} size={"xs"}>
+                     ₦{itemDetails.price.toLocaleString()}
+                  </Text>
+               </div>
+            </Link>
             <Button
                onClick={(e) => handlePlus(itemDetails)}
                className="mt-4 w-full rounded-3xl text-xs"
