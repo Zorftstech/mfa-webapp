@@ -1,3 +1,5 @@
+"use client";
+
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 
@@ -43,9 +45,9 @@ const PasswordInput = React.forwardRef<HTMLInputElement, InputProps>(
          <div className="relative cursor-pointer">
             <span
                onClick={handleVisibility}
-               className="absolute right-2 top-[50%] translate-y-[-50%]"
+               className="absolute right-3 top-[50%] translate-y-[-50%]"
             >
-               {showPassword ? <Eye className="w-3" /> : <EyeOff className="w-3" />}
+               {showPassword ? <Eye className="w-4" /> : <EyeOff className="w-4" />}
             </span>
             <input
                type={showPassword ? "text" : "password"}

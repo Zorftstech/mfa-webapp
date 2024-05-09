@@ -32,7 +32,7 @@ function page() {
                      <SelectTrigger className="w-[180px]">
                         <SelectValue placeholder="Select Month" />
                      </SelectTrigger>
-                     <SelectContent>
+                     <SelectContent className="bg-white">
                         <SelectGroup>
                            <SelectItem value="this_month">This Month</SelectItem>
                            <SelectItem value="last_month">Last Month</SelectItem>
