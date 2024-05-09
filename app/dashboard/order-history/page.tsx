@@ -34,7 +34,7 @@ const Page = () => {
             {pagedData.map((order, idx) => (
                <div
                   key={idx}
-                  className="grid grid-cols-[2fr,2fr,1.5fr] items-end gap-2 rounded-[16px] bg-slate-100 px-4 py-6"
+                  className="grid grid-cols-[2fr,2fr,1.5fr] items-end gap-2 rounded-[16px] bg-slate-50 px-4 py-6"
                >
                   <div>
                      <p className="mb-2 text-[14px] font-semibold text-[#1a1a1a]">
