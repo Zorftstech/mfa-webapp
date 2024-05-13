@@ -1,5 +1,4 @@
 import { createContext, useContext, useState } from "react";
-import tomato from "../images/tomato.png";
 
 interface CartItem {
    id: any;
