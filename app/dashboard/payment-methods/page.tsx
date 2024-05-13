@@ -9,6 +9,7 @@ import paystack from "@/images/paystack.png";
 import flutterwave from "@/images/flutterwave.png";
 import visa from "@/images/blue_visa.png";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 const paymentPlatforms = [
    { id: 1, title: "Paystack", imagehref: paystack },
@@ -31,12 +32,12 @@ function page() {
                   expiryDate="2/14"
                   nameOnCard="CHIOMA AZUKA"
                />
-               <div className="flex flex-col items-center justify-center">
+               <Button variant={"ghost"} className="flex flex-col items-center justify-center">
                   <Plus className="mb-2 w-6 text-[#7ab42c]" />
                   <Text size={"xs"} weight={"medium"}>
                      Add a card
                   </Text>
-               </div>
+               </Button>
             </div>
             <Separator />
             <div className="my-4 flex flex-wrap items-center justify-start gap-4">
@@ -50,7 +51,7 @@ function page() {
                ))}
             </div>
             <Separator />
-            <div className="mb-4 flex items-center gap-2 p-4">
+            <div className="mb-4 flex cursor-pointer items-center gap-2 p-4 hover:underline">
                <Text size={"sm"} weight={"medium"}>
                   Add more payment method
                </Text>{" "}

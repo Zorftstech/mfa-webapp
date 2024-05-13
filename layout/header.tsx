@@ -49,10 +49,10 @@ const Header = () => {
                   <AlignJustify className="w-4" />
                </Button>
                <div className="hidden min-w-[24rem] items-center justify-between gap-8 md:flex">
-                  <Image src={logo} alt="mfa-logo" className="h-20 w-12" />
+                  <Image src={logo} alt="mfa-logo" className="h-8 w-12" />
                   <TopNav />
                </div>
-               <Image src={logo} alt="mfa-logo" className="block h-20 w-12 md:hidden" />
+               <Image src={logo} alt="mfa-logo" className="block h-10 w-12 md:hidden" />
                {width && width > 1040 && (
                   <div className="flex items-center gap-4">
                      <div className="flex items-center gap-2">

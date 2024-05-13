@@ -20,6 +20,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 import { Text } from "@/components/ui/text";
+import { PasswordInput } from "@/components/ui/password-input";
 
 const FormSchema = z.object({
    email: z.string().min(2, {
@@ -81,8 +82,7 @@ function Page() {
                            render={({ field }) => (
                               <FormItem>
                                  <FormControl>
-                                    <Input
-                                       type="password"
+                                    <PasswordInput
                                        className="py-6"
                                        placeholder="Password"
                                        {...field}
@@ -98,8 +98,7 @@ function Page() {
                            render={({ field }) => (
                               <FormItem>
                                  <FormControl>
-                                    <Input
-                                       type="password"
+                                    <PasswordInput
                                        className="py-6"
                                        placeholder="Confirm Password"
                                        {...field}
