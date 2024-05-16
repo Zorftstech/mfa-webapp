@@ -48,10 +48,10 @@ function FarmOfftake() {
                   className={`h-3 w-3 cursor-pointer rounded-full ${currentBannerIndex === 1 ? "bg-[#7ab42c]" : "bg-gray-300"}`}
                ></span>
             </div>
-            <div className={`${currentBannerIndex === 0 ? "block" : "hidden"}`}>
+            <div className={`w-full md:w-fit ${currentBannerIndex === 0 ? "block" : "hidden"}`}>
                <OfftakeBanner />
             </div>
-            <div className={`${currentBannerIndex === 1 ? "block" : "hidden"}`}>
+            <div className={`w-full md:w-fit ${currentBannerIndex === 1 ? "block" : "hidden"}`}>
                <FlashSaleBanner />
             </div>
             <div className="mt-4 w-full py-4">
