@@ -45,15 +45,19 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
    const handlePlus = (item: CartItem) => {
       const currentItemIndex = currentCart.findIndex((cartItem) => cartItem.id === item.id);
       if (currentItemIndex !== -1) {
+         // console.log(currentItemIndex, "1");
          const updatedCart = [...currentCart];
          updatedCart[currentItemIndex] = {
             ...item,
             no_of_items: item.no_of_items + 1,
          };
+         // console.log(updatedCart);
          setCurrentCart(updatedCart);
       } else {
+         // console.log(currentItemIndex, "2");
          setCurrentCart([...currentCart, { ...item, no_of_items: 1 }]);
       }
+      // console.log(currentItemIndex,'3');
    };
 
    const handleRemove = (itemId: number) => {

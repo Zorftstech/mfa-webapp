@@ -29,8 +29,10 @@ const Shop = ({ itemDetails }: { itemDetails: ShopItem }) => {
             <div
                className={`${styles.img_container} relative flex w-full items-center justify-center`}
             >
-               <Image src={itemDetails.image} alt={"image"} width={300} height={300} />
-               <div className="absolute bottom-0 flex w-full items-center justify-between border border-gray-300 bg-gray-200">
+               <Link href={`/shop/${itemDetails.id}`}>
+                  <Image src={itemDetails.image} alt={"image"} width={300} height={300} />
+               </Link>
+               <div className="absolute bottom-0 hidden w-full items-center justify-between border border-gray-300 bg-gray-200 md:flex">
                   <button
                      onClick={(e) => handlePlus(itemDetails)}
                      className="flex w-[50%] flex-col items-center justify-center rounded-none p-0"

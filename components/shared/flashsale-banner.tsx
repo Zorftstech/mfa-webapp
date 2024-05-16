@@ -35,7 +35,7 @@ function FlashSaleBanner() {
 
   return (
     <div className="relative overflow-hidden rounded-2xl">
-      <Image src={bg} alt="bg" width={800} height={600} />
+      <Image src={bg} alt="bg"  width={800} height={600} />
       <div className="absolute right-0 top-0 h-full w-full max-w-[350px] p-4">
         <Text className="my-2 uppercase text-white" size={'sm'} weight={'medium'}>
           Flash Sale

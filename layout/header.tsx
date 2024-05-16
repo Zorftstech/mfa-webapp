@@ -73,7 +73,7 @@ const Header = () => {
                      {/* <ProfileIconDropdown /> */}
                      <Link
                         style={{ marginLeft: "50px" }}
-                        className="text-sm font-medium text-gray-600 hover:underline"
+                        className="text-xs font-medium text-gray-600 hover:underline"
                         href={"/account/signin"}
                      >
                         Login / Register
