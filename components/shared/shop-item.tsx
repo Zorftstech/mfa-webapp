@@ -16,7 +16,9 @@ import styles from "./shop-item.module.css";
 
 import { CartContext } from "@/contexts/cart-context";
 
-const Shop = ({ itemDetails }: { itemDetails: ShopItem }) => {
+import { cn } from "@/lib/utils/css";
+
+const Shop = ({ itemDetails, isFlashSale }: { itemDetails: ShopItem; isFlashSale?: boolean }) => {
    const { handlePlus } = useContext(CartContext);
 
    return (
@@ -24,6 +26,11 @@ const Shop = ({ itemDetails }: { itemDetails: ShopItem }) => {
          //  href={`/shop/${itemDetails.id}`}
          className="relative w-full cursor-pointer border border-transparent bg-white px-4 py-6 shadow-none duration-300 hover:border-gray-300"
       >
+         {isFlashSale && (
+            <div className="absolute left-1 top-1 z-10 rounded-3xl bg-red-800 px-5 py-2 text-xs text-white md:left-3 md:top-3">
+               Save ₦{itemDetails.amountSaved?.toLocaleString()}
+            </div>
+         )}
          <HeartIcon className="absolute right-3 top-3 z-20 w-6 text-gray-600" />
          <div className="w-full p-0">
             <div
@@ -69,9 +76,20 @@ const Shop = ({ itemDetails }: { itemDetails: ShopItem }) => {
                      <StarIcon className="w-3" />
                      {itemDetails.rating} ({itemDetails.reviews} reviews)
                   </Text>
-                  <Text weight={"semibold"} size={"xs"}>
-                     ₦{itemDetails.price.toLocaleString()}
-                  </Text>
+                  <div className="flex items-center justify-end gap-2">
+                     {isFlashSale && (
+                        <Text weight={"semibold"} size={"xs"}>
+                           ₦{itemDetails?.newPrice?.toLocaleString()}
+                        </Text>
+                     )}
+                     <Text
+                        className={cn("", isFlashSale && "text-gray-500 line-through")}
+                        weight={"semibold"}
+                        size={"xs"}
+                     >
+                        ₦{itemDetails.price.toLocaleString()}
+                     </Text>
+                  </div>
                </div>
             </Link>
             <Button

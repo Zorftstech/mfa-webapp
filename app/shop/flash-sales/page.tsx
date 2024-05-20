@@ -13,7 +13,7 @@ import { dummyItems } from "@/app/dummyItem";
 
 function page() {
    return (
-      <div className="pt-[69px]">
+      <div className="pt-[100px]">
          <RouteDisplay route="Flash Sales" />
          <Container backgroundColor="bg-gray-100">
             <main className="mx-auto mt-8 flex w-full max-w-[1200px] flex-col items-center justify-center gap-1 py-4">
@@ -23,7 +23,7 @@ function page() {
                      <Each
                         of={dummyItems}
                         render={(item: any, index: number) => (
-                           <ShopItem key={index} itemDetails={item} />
+                           <ShopItem isFlashSale={true} key={index} itemDetails={item} />
                         )}
                      />
                   </div>

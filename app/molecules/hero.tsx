@@ -29,7 +29,7 @@ export default function Hero() {
    const { width } = useWindowDimensions();
    return (
       <div
-         className="relative flex h-[400px] flex-col items-center justify-center gap-6 border border-primary bg-primary px-4 pt-6"
+         className="relative flex h-[450px] flex-col items-center justify-center gap-6 border border-primary bg-primary px-4 pt-[80px]"
          style={{
             backgroundImage: `url(/images/home/herobg.png)`,
             backgroundRepeat: "repeat",

@@ -11,6 +11,8 @@ export const dummyItems: ItemType[] = [
       rating: 4.5,
       reviews: 12,
       price: 2000.0,
+      newPrice: 1000.0,
+      amountSaved: 1000,
    },
    {
       id: 2,
@@ -20,6 +22,8 @@ export const dummyItems: ItemType[] = [
       rating: 4.5,
       reviews: 12,
       price: 200.0,
+      newPrice: 100.0,
+      amountSaved: 100,
    },
    {
       id: 3,
@@ -29,6 +33,8 @@ export const dummyItems: ItemType[] = [
       rating: 4.5,
       reviews: 12,
       price: 200.0,
+      newPrice: 100.0,
+      amountSaved: 100,
    },
    {
       id: 4,
@@ -38,6 +44,8 @@ export const dummyItems: ItemType[] = [
       rating: 4.5,
       reviews: 12,
       price: 200.0,
+      newPrice: 100.0,
+      amountSaved: 100,
    },
    {
       id: 5,
@@ -47,6 +55,8 @@ export const dummyItems: ItemType[] = [
       rating: 4.5,
       reviews: 12,
       price: 200.0,
+      newPrice: 100.0,
+      amountSaved: 100,
    },
    {
       id: 6,
@@ -56,6 +66,8 @@ export const dummyItems: ItemType[] = [
       rating: 4.5,
       reviews: 12,
       price: 200.0,
+      newPrice: 100.0,
+      amountSaved: 100,
    },
    {
       id: 7,
@@ -65,6 +77,8 @@ export const dummyItems: ItemType[] = [
       rating: 4.5,
       reviews: 12,
       price: 200.0,
+      newPrice: 100.0,
+      amountSaved: 100,
    },
    {
       id: 8,
@@ -74,6 +88,8 @@ export const dummyItems: ItemType[] = [
       rating: 4.5,
       reviews: 12,
       price: 200.0,
+      newPrice: 100.0,
+      amountSaved: 100,
    },
 ];
 

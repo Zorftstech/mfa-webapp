@@ -19,6 +19,7 @@ import logo from "../public/images/home/logo.png";
 import { MobileNav } from "./components/mobile-nav";
 import ShoppingCart from "./components/shopping-cart";
 import { TopNav } from "./components/top-nav";
+import Marquee from "react-marquee-slider";
 
 const Header = () => {
    const { user } = useUserContext();
@@ -39,6 +40,34 @@ const Header = () => {
             </Show.When>
          </Show>
          <section className="fixed top-0 z-40 w-full bg-white shadow">
+            <div className="w-full bg-gray-200 py-2">
+               {width ? (
+                  <Marquee
+                     direction="ltr"
+                     scatterRandomly={false}
+                     onInit={() => {}}
+                     onFinish={() => {}}
+                     resetAfterTries={1}
+                     velocity={25}
+                  >
+                     <Text size={"xs"} weight={"medium"}>
+                        Enjoy 25% off Farm Direct products!
+                     </Text>
+                     <Text size={"xs"} weight={"medium"} className="ml-1">
+                        Shop Now
+                     </Text>
+                  </Marquee>
+               ) : (
+                  <div className="my-1 flex items-center px-5">
+                     <Text size={"xs"} weight={"medium"}>
+                        Enjoy 25% off Farm Direct products!
+                     </Text>
+                     <Text size={"xs"} weight={"medium"} className="ml-1">
+                        Shop Now
+                     </Text>
+                  </div>
+               )}
+            </div>
             <main className="mx-auto flex w-full max-w-[1200px] items-center justify-between px-4 py-4 md:px-8">
                <Button
                   className="block md:hidden"

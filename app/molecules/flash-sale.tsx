@@ -35,7 +35,7 @@ function FlashSales() {
                   <Each
                      of={dummyItems}
                      render={(item: ItemType, index: number) => (
-                        <ShopItem key={index} itemDetails={item} />
+                        <ShopItem isFlashSale={true} key={index} itemDetails={item} />
                      )}
                   />
                </div>

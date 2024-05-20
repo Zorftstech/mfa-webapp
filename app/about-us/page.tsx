@@ -45,7 +45,7 @@ const about_us = [
 
 function page() {
    return (
-      <div className="pt-[69px]">
+      <div className="pt-[100px]">
          <RouteDisplay route={"About Us"} />
          <Container>
             <main className="mx-auto mt-8 flex w-full max-w-[1200px] flex-col items-center justify-center py-4">

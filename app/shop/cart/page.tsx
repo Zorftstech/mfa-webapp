@@ -11,7 +11,7 @@ import RouteDisplay from "../../../components/shared/route-display";
 
 function page() {
    return (
-      <div className="pt-[69px]">
+      <div className="pt-[100px]">
          <RouteDisplay route={"Shopping cart"} />
          <Container backgroundColor="bg-gray-100">
             <main className="mx-auto my-8 flex w-full max-w-[1200px] flex-col items-center justify-center gap-1 p-4">

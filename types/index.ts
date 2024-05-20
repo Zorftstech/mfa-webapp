@@ -231,6 +231,8 @@ export type ShopItem = {
    price: number;
    no_of_items: number;
    status?: string;
+   amountSaved?: number;
+   newPrice?: number;
 };
 export type User = {
    id: number;

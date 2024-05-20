@@ -21,7 +21,7 @@ import { dummyItems, recommendedItems, recentItems } from "@/app/dummyItem";
 
 function page() {
    return (
-      <div className="pt-[69px]">
+      <div className="pt-[100px]">
          <RouteDisplay route="Popular Products" />
          <Container backgroundColor="bg-gray-100">
             <main className="mx-auto mt-8 flex w-full max-w-[1200px] flex-col items-center justify-center gap-1 py-4">

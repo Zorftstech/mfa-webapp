@@ -21,7 +21,7 @@ const WithRouteDisplay = ({
    const { width } = useWindowDimensions();
 
    return (
-      <div className="pt-4 md:pt-[69px]">
+      <div className="pt-4 md:pt-[100px]">
          {isWidthGreaterOrEqualTo768(width) && <RouteDisplay route={route} />}
          <Container backgroundColor="bg-gray-100">
             <section
