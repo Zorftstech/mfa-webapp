@@ -17,7 +17,11 @@ import { CartProvider } from "@/contexts/cart-context";
 import "./globals.css";
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
-   return <UserProvider>{children}</UserProvider>;
+   return (
+      <UserProvider>
+         <CartProvider>{children}</CartProvider>
+      </UserProvider>
+   );
 };
 export default function RootClientLayout({
    children,
@@ -27,14 +31,12 @@ export default function RootClientLayout({
    const { width } = useWindowDimensions();
    return (
       <Providers>
-         <CartProvider>
-            <main className="min-h-screen">
-               <Header />
-               {children}
-               {width && width > 768 && <Newsletter />}
-               <Footer />
-            </main>
-         </CartProvider>
+         <main className="min-h-screen">
+            <Header />
+            {children}
+            {width && width > 768 && <Newsletter />}
+            <Footer />
+         </main>
       </Providers>
    );
 }

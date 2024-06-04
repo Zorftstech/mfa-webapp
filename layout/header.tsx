@@ -105,7 +105,14 @@ const Header = () => {
                         className="text-xs font-medium text-gray-600 hover:underline"
                         href={"/account/signin"}
                      >
-                        Login / Register
+                        Login
+                     </Link>
+                     <Link
+                        style={{ marginLeft: "50px" }}
+                        className="text-xs font-medium text-gray-600 hover:underline"
+                        href={"/account/signin"}
+                     >
+                        / Register
                      </Link>
                   </div>
                )}
