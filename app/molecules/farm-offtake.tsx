@@ -30,7 +30,7 @@ function FarmOfftake() {
          } else {
             handleBannerIndex(0);
          }
-      }, 5000);
+      }, 500000);
 
       return () => clearInterval(interval);
    }, [currentBannerIndex]);

@@ -1,16 +1,20 @@
-import { create } from "zustand";
-import { devtools } from "zustand/middleware";
-import appSlice, { AppStateType } from "./features";
+import { create } from 'zustand';
+import { devtools, persist } from 'zustand/middleware';
+import authSlice, { AuthStateType } from './auth';
+import featuresSlice, { FeaturesStateType } from './features';
 
-export type StoreType = AppStateType;
+export type StoreType = AuthStateType & FeaturesStateType;
 
 const useStore = create<StoreType>()(
-   devtools(
-      (...a) => ({
-         ...appSlice(...a),
-      }),
-      { name: "store" },
-   ),
+  persist(
+    devtools((...a) => ({
+      ...authSlice(...a),
+      ...featuresSlice(...a),
+    })),
+    {
+      name: 'store',
+    },
+  ),
 );
 
 export default useStore;
