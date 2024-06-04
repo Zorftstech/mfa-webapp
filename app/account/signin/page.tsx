@@ -6,7 +6,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
-import { toast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 import {
    Form,
@@ -21,8 +20,20 @@ import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 import { Text } from "@/components/ui/text";
 import { PasswordInput } from "@/components/ui/password-input";
-
-const FormSchema = z.object({
+import useStore from "@/store";
+import {
+   createUserWithEmailAndPassword,
+   signInWithEmailAndPassword,
+   updateProfile,
+} from "firebase/auth";
+import { authFirebase, db } from "@/firebase";
+import { doc, setDoc, getDoc } from "firebase/firestore";
+import ProcessError from "@/lib/error";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import Spinner from "@/components/ui/spinner";
+import { toast } from "sonner";
+const formSchema = z.object({
    email: z.string().min(2, {
       message: "email must be at least 2 characters.",
    }),
@@ -30,25 +41,59 @@ const FormSchema = z.object({
       message: "email must be at least 5 characters.",
    }),
 });
+type formInterface = z.infer<typeof formSchema>;
 
 function Page() {
-   const form = useForm<z.infer<typeof FormSchema>>({
-      resolver: zodResolver(FormSchema),
+   const form = useForm<formInterface>({
+      resolver: zodResolver(formSchema),
+      mode: "all",
       defaultValues: {
          email: "",
          password: "",
       },
    });
 
-   function onSubmit(data: z.infer<typeof FormSchema>) {
-      toast({
-         title: "You submitted the following values:",
-         description: (
-            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-               <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-            </pre>
-         ),
-      });
+   const router = useRouter();
+
+   const { setAuthDetails, setLoggedIn, setCurrentUser } = useStore((store) => store);
+   const { mutate, isPending } = useMutation<any, any, formInterface>({
+      mutationFn: async ({ email, password }) => {
+         const user = await signInWithEmailAndPassword(authFirebase, email, password);
+         return user;
+      },
+      onSuccess: async (data) => {
+         // setAuthDetails(data);
+         setLoggedIn(true);
+         setCurrentUser(data);
+
+         router.push("/dashboard");
+
+         // Create a reference to the document
+         const docRef = doc(db, "webUsers", data.user.uid);
+
+         // Retrieve the document
+         const docSnap = await getDoc(docRef);
+         if (docSnap.exists()) {
+            // Document exists, use the data
+            setAuthDetails({
+               ...docSnap.data(),
+               ...data["_tokenResponse"],
+               id: data.user.uid,
+            });
+            return docSnap.data(); // Return the document data
+         } else {
+            // Document does not exist
+            console.log("No such document!");
+            return null;
+         }
+      },
+      onError: (err) => {
+         ProcessError(err);
+      },
+   });
+
+   function onSubmit(data: formInterface) {
+      mutate(data);
    }
 
    return (
@@ -105,8 +150,8 @@ function Page() {
                               Forgot Password?
                            </Link>
                         </div>
-                        <Button className="w-full rounded-3xl" type="submit">
-                           Login
+                        <Button className="w-full rounded-3xl" type="submit" disabled={isPending}>
+                           {isPending ? <Spinner /> : "Sign In"}
                         </Button>
                         <div className="my-2 flex w-full items-center justify-center gap-1 ">
                            <Text size={"sm"} weight={"medium"}>

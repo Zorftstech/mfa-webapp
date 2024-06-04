@@ -1,12 +1,11 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Container from "@/components/shared/container";
 import RouteDisplay from "../../../components/shared/route-display";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
-import { toast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 import {
    Form,
@@ -21,33 +20,43 @@ import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 import { Text } from "@/components/ui/text";
 
+import { db, authFirebase } from "firebase";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { toast } from "sonner";
+
+import ProcessError from "@/lib/error";
+import Spinner from "@/components/ui/spinner";
 const FormSchema = z.object({
    email: z.string().min(2, {
       message: "email must be at least 2 characters.",
    }),
-   password: z.string().min(2, {
-      message: "email must be at least 5 characters.",
-   }),
 });
 
+type formInterface = z.infer<typeof FormSchema>;
+
 function Page() {
-   const form = useForm<z.infer<typeof FormSchema>>({
+   const [formIsLoading, setFormIsLoading] = useState(false);
+
+   const form = useForm<formInterface>({
       resolver: zodResolver(FormSchema),
       defaultValues: {
          email: "",
-         password: "",
       },
    });
+   const resetPassword = async (email: string) => {
+      setFormIsLoading(true);
+      try {
+         const data = await sendPasswordResetEmail(authFirebase, email);
+         toast.success("Password reset link sent successfully");
+      } catch (error) {
+         ProcessError(error);
+      }
 
-   function onSubmit(data: z.infer<typeof FormSchema>) {
-      toast({
-         title: "You submitted the following values:",
-         description: (
-            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-               <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-            </pre>
-         ),
-      });
+      setFormIsLoading(false);
+   };
+
+   function onSubmit(data: formInterface) {
+      resetPassword(data.email);
    }
 
    return (
@@ -73,8 +82,12 @@ function Page() {
                               </FormItem>
                            )}
                         />
-                        <Button className="w-full rounded-3xl" type="submit">
-                           Recover Account
+                        <Button
+                           className="w-full rounded-3xl"
+                           type="submit"
+                           disabled={formIsLoading}
+                        >
+                           {formIsLoading ? <Spinner /> : "Recover Account"}
                         </Button>
                         <div className="my-2 flex w-full items-center justify-center gap-1 ">
                            <Text size={"sm"} weight={"medium"}>
