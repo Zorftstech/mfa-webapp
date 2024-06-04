@@ -31,7 +31,7 @@ export default function RootClientLayout({
    const { width } = useWindowDimensions();
    return (
       <Providers>
-         <main className="min-h-screen">
+         <main className="hideScroll min-h-screen">
             <Header />
             {children}
             {width && width > 768 && <Newsletter />}

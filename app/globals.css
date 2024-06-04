@@ -42,6 +42,9 @@ body {
    display: none;
 }
 
+.showScroll::-webkit-scrollbar {
+   display: block;
+}
 .buttonStyle {
    position: relative;
    cursor: pointer;

@@ -20,9 +20,9 @@ import { MobileNav } from "./components/mobile-nav";
 import ShoppingCart from "./components/shopping-cart";
 import { TopNav } from "./components/top-nav";
 import Marquee from "react-marquee-slider";
-
+import useStore from "@/store";
 const Header = () => {
-   const { user } = useUserContext();
+   const { loggedIn } = useStore((store) => store);
 
    const { width } = useWindowDimensions();
 
@@ -99,21 +99,27 @@ const Header = () => {
                            </span>
                         </div>
                      </div>
-                     {/* <ProfileIconDropdown /> */}
-                     <Link
-                        style={{ marginLeft: "50px" }}
-                        className="text-xs font-medium text-gray-600 hover:underline"
-                        href={"/account/signin"}
-                     >
-                        Login
-                     </Link>
-                     <Link
-                        style={{ marginLeft: "50px" }}
-                        className="text-xs font-medium text-gray-600 hover:underline"
-                        href={"/account/signin"}
-                     >
-                        / Register
-                     </Link>
+
+                     {loggedIn ? (
+                        <ProfileIconDropdown />
+                     ) : (
+                        <div className="flex">
+                           <Link
+                              style={{ marginLeft: "50px" }}
+                              className="text-xs font-medium text-gray-600 hover:underline"
+                              href={"/account/signin"}
+                           >
+                              Login
+                           </Link>
+                           <Link
+                              style={{ marginLeft: "3px" }}
+                              className="text-xs font-medium text-gray-600 hover:underline"
+                              href={"/account/register"}
+                           >
+                              / Register
+                           </Link>
+                        </div>
+                     )}
                   </div>
                )}
 
