@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowLeft } from "lucide-react";
-
+import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -12,12 +12,17 @@ import useStore from "@/store";
 // would handle some auth checks for authenticated users
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
-   const pathname = usePathname();
    const { authDetails, loggedIn } = useStore((store) => store);
    const router = useRouter();
 
+   useEffect(() => {
+      if (!loggedIn) {
+         router.push("/account/signin");
+      }
+   }, [loggedIn]);
+
    if (!loggedIn) {
-      return router.push("/account/signin");
+      return <></>;
    }
-   return <div className="">{children}</div>;
+   return <div>{children}</div>;
 }
