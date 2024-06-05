@@ -20,7 +20,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 import { Text } from "@/components/ui/text";
 
-import { db, authFirebase } from "firebase";
+import { db, authFirebase } from "@/firebase";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { toast } from "sonner";
 
