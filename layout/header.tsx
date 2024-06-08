@@ -39,7 +39,7 @@ const Header = () => {
                <MobileNav handleVisibility={handleVisibility} />
             </Show.When>
          </Show>
-         <section className="fixed top-0 z-40 w-full bg-white shadow">
+         <section className=" top-0 z-40 w-full bg-white shadow">
             <div className="w-full bg-gray-200 py-2">
                {width ? (
                   <Marquee
