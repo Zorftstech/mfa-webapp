@@ -33,13 +33,18 @@ const Header = () => {
    };
 
    return (
-      <>
+      <div
+         className="fixed top-0 z-40 w-full"
+         style={{
+            zIndex: 1000,
+         }}
+      >
          <Show>
             <Show.When isTrue={isVisible}>
                <MobileNav handleVisibility={handleVisibility} />
             </Show.When>
          </Show>
-         <section className=" top-0 z-40 w-full bg-white shadow">
+         <section className="w-full bg-white shadow">
             <div className="w-full bg-gray-200 py-2">
                {width ? (
                   <Marquee
@@ -126,7 +131,7 @@ const Header = () => {
                {width && width <= 1040 && <ShoppingCart />}
             </main>
          </section>
-      </>
+      </div>
    );
 };
 
