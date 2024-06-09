@@ -18,8 +18,11 @@ import { ShopItem as ItemType } from "@/types";
 import RouteDisplay from "../../../components/shared/route-display";
 
 import { dummyItems, recommendedItems, recentItems } from "@/app/dummyItem";
-
-function page() {
+import { categoriesId } from "@/lib/utils";
+import useProducts from "../hooks/products/useProducts";
+import { shuffleArray } from "@/helper";
+function Page() {
+   const { sortedAndFilteredProducts } = useProducts("all");
    return (
       <div className="pt-[100px]">
          <RouteDisplay route="Popular Products" />
@@ -49,7 +52,7 @@ function page() {
                   </div>
                   <div className="grid w-full grid-cols-2 gap-4 p-4 md:grid-cols-3 lg:grid-cols-4">
                      <Each
-                        of={dummyItems}
+                        of={sortedAndFilteredProducts || dummyItems}
                         render={(item: ItemType, index: number) => (
                            <ShopItem key={index} itemDetails={item} />
                         )}
@@ -62,13 +65,18 @@ function page() {
                   </div>
                   <div className="grid w-full grid-cols-2 gap-4 p-4 md:grid-cols-3 lg:grid-cols-4">
                      <Each
-                        of={recommendedItems}
+                        of={
+                           shuffleArray(sortedAndFilteredProducts || recommendedItems).slice(
+                              0,
+                              4,
+                           ) || recommendedItems
+                        }
                         render={(item: ItemType, index: number) => (
                            <ShopItem key={index} itemDetails={item} />
                         )}
                      />
                   </div>
-                  <div className="mt-8 flex w-full items-center justify-between px-4">
+                  {/* <div className="mt-8 flex w-full items-center justify-between px-4">
                      <Text size={"lg"} weight={"semibold"}>
                         Recently Viewed
                      </Text>
@@ -80,7 +88,7 @@ function page() {
                            <ShopItem key={index} itemDetails={item} />
                         )}
                      />
-                  </div>
+                  </div> */}
                </div>
             </main>
          </Container>
@@ -88,4 +96,4 @@ function page() {
    );
 }
 
-export default page;
+export default Page;

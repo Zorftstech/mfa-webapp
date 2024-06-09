@@ -5,7 +5,7 @@ import PopularProducts from "./molecules/popular-products";
 import Sdg from "./molecules/sdg";
 import Testimonials from "./molecules/testimonials";
 import { revalidateNumber } from "@/lib/utils";
-export const revalidate = revalidateNumber;
+export const revalidate = 60;
 export default function Home() {
    return (
       <main>

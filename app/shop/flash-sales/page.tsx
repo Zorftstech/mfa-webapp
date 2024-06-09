@@ -11,8 +11,12 @@ import RouteDisplay from "../../../components/shared/route-display";
 
 import { dummyItems } from "@/app/dummyItem";
 import { revalidateNumber } from "@/lib/utils";
-export const revalidate = revalidateNumber;
-function page() {
+import { categoriesId } from "@/lib/utils";
+import useProducts from "../hooks/products/useProducts";
+
+export const revalidate = 60;
+function Page() {
+   const { sortedAndFilteredProducts } = useProducts(categoriesId.flashSales);
    return (
       <div className="pt-[100px]">
          <RouteDisplay route="Flash Sales" />
@@ -22,7 +26,7 @@ function page() {
                <div className="w-full py-4">
                   <div className="grid w-full grid-cols-2 gap-4 p-4 md:grid-cols-3 lg:grid-cols-4">
                      <Each
-                        of={dummyItems}
+                        of={sortedAndFilteredProducts || dummyItems}
                         render={(item: any, index: number) => (
                            <ShopItem isFlashSale={true} key={index} itemDetails={item} />
                         )}
@@ -35,4 +39,4 @@ function page() {
    );
 }
 
-export default page;
+export default Page;

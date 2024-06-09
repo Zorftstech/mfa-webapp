@@ -1,3 +1,4 @@
+"use client";
 import { ArrowRight } from "lucide-react";
 import React from "react";
 
@@ -12,8 +13,11 @@ import { Text } from "@/components/ui/text";
 import { ShopItem as ItemType } from "@/types";
 
 import { dummyItems } from "../dummyItem";
-
+import useProducts from "../shop/hooks/products/useProducts";
+import { categoriesId } from "@/lib/utils";
 function FlashSales() {
+   const { sortedAndFilteredProducts } = useProducts(categoriesId.flashSales);
+
    return (
       <Container backgroundColor="bg-white">
          <main className="mx-auto flex w-full max-w-[1200px] flex-col items-center justify-center gap-1 py-4">
@@ -33,7 +37,7 @@ function FlashSales() {
                </div>
                <div className="grid w-full grid-cols-2 gap-4 p-4 md:grid-cols-3 lg:grid-cols-4">
                   <Each
-                     of={dummyItems}
+                     of={sortedAndFilteredProducts?.slice(0, 8) || dummyItems}
                      render={(item: ItemType, index: number) => (
                         <ShopItem isFlashSale={true} key={index} itemDetails={item} />
                      )}

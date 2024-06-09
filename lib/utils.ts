@@ -141,7 +141,7 @@ export function getCreatedDateFromDocument(documentData: DocumentData): string {
    return formatDate(createdDate.toDateString());
 }
 
-export const revalidateNumber = 60;
+export const revalidateNumber: number = 60;
 
 export const categoriesId = {
    flashSales: "kI6Q5AR1y86h7gwdRHqz",

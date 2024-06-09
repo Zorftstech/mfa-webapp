@@ -25,11 +25,11 @@ export const Routes: Route[] = [
             description:
                "Don't miss out on our limited-time flash sales offering exciting discounts on select products. Grab them before they're gone!",
          },
-         // {
-         //   title: 'Popular Products',
-         //   href: '/shop/popular-products',
-         //   description: 'Have a look at our frequently bought items for your purchase.',
-         // },
+         {
+            title: "Popular Products",
+            href: "/shop/popular-products",
+            description: "Have a look at our frequently bought items for your purchase.",
+         },
       ],
    },
    { id: 3, href: "/about-us", title: "About Us" },

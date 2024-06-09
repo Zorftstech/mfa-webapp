@@ -57,8 +57,11 @@ const useSortAndSearch = (
       let updatedProducts = [...products];
       // Category Filter
       console.log(category);
-      if (category) {
+      if (category && category !== "all") {
          updatedProducts = updatedProducts.filter((product) => product.category?.id === category);
+      }
+      if (category && category === "all") {
+         updatedProducts = updatedProducts;
       }
       // Search
       if (searchTerm) {
