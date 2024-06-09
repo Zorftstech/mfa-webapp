@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 import { toast } from "sonner";
 
-const ProcessError = (error: any, cb?: CallableFunction) => {
+export const ProcessError = (error: any, cb?: CallableFunction) => {
    const err = error as AxiosError<any>;
    if (error?.response?.data?.error?.message) {
       toast.error(error?.response?.data?.error?.message);
@@ -38,5 +38,3 @@ const ProcessError = (error: any, cb?: CallableFunction) => {
       return "An Error Occurred";
    }
 };
-
-export default ProcessError;

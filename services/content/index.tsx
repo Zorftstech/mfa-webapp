@@ -1,5 +1,5 @@
 import axiosInstance from "../index";
-import { processError } from "@/helper/error";
+import { ProcessError } from "@/helper/error";
 import { DynamicObject } from "@/lib/type";
 interface Iparams {
    search_value?: string;

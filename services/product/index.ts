@@ -1,7 +1,7 @@
 import { getCourseInterface } from "./product.types";
 import { shuffleArray } from "@/helper";
 import axiosInstance from "../index";
-import { processError } from "@/helper/error";
+import { ProcessError } from "@/helper/error";
 import { DynamicObject } from "@/lib/type";
 // const getCourse = async (params: getCourseInterface) => {
 //    const { data } = await API.get(`/products`, {
