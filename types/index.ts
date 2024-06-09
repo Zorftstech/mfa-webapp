@@ -8,9 +8,7 @@ export type routePathTypes =
    | ""
    | "contact"
    | "account/signin"
-   | "account/register"
-   
-   
+   | "account/register";
 
 export interface routesInterface<T> {
    path: T;
@@ -257,3 +255,10 @@ export type Asset = {
 
    creator: User;
 };
+export interface Category {
+   id: string;
+   image: string;
+   desc: string;
+   name: string;
+   createdDate: string;
+}

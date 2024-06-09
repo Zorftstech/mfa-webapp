@@ -24,7 +24,7 @@ const Shop = ({ itemDetails, isFlashSale }: { itemDetails: ShopItem; isFlashSale
    return (
       <div
          //  href={`/shop/${itemDetails.id}`}
-         className="relative w-full cursor-pointer border border-transparent bg-white px-4 py-6 shadow-none duration-300 hover:border-gray-300"
+         className="relative w-full cursor-pointer border border-transparent bg-white px-4 py-10 shadow-none duration-300 hover:border-gray-300"
       >
          {isFlashSale && (
             <div className="absolute left-1 top-1 z-10 rounded-3xl bg-red-800 px-5 py-2 text-xs text-white md:left-3 md:top-3">
@@ -37,7 +37,13 @@ const Shop = ({ itemDetails, isFlashSale }: { itemDetails: ShopItem; isFlashSale
                className={`${styles.img_container} relative flex w-full items-center justify-center`}
             >
                <Link href={`/shop/${itemDetails.id}`}>
-                  <Image src={itemDetails.image} alt={"image"} width={300} height={300} />
+                  <Image
+                     src={itemDetails.image}
+                     alt={"image"}
+                     width={300}
+                     height={300}
+                     className="h-[10rem] w-[13rem] rounded-md object-cover"
+                  />
                </Link>
                <div className="absolute bottom-0 hidden w-full items-center justify-between border border-gray-300 bg-gray-200 md:flex">
                   <button
@@ -74,7 +80,7 @@ const Shop = ({ itemDetails, isFlashSale }: { itemDetails: ShopItem; isFlashSale
                      className="flex items-center gap-1 text-gray-500"
                   >
                      <StarIcon className="w-3" />
-                     {itemDetails.rating} ({itemDetails.reviews} reviews)
+                     {itemDetails.rating || 5} ({itemDetails.reviews || 10} reviews)
                   </Text>
                   <div className="flex items-center justify-end gap-2">
                      {isFlashSale && (

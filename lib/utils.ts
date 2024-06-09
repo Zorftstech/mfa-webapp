@@ -10,7 +10,14 @@ import moment from "moment";
 import { isNotNil, startsWith } from "ramda";
 import Payment from "payment";
 import { capitalizeFirstLetter } from "./helpers";
-
+import { Timestamp } from "firebase/firestore";
+interface DocumentData {
+   _document: {
+      createTime: {
+         timestamp: Timestamp;
+      };
+   };
+}
 export function cn(...inputs: ClassValue[]) {
    return twMerge(clsx(inputs));
 }
@@ -127,3 +134,16 @@ export function splitStringBySpaceAndReplaceWithDash(str: string): string {
 export function reverseSplitStringByDashAndReplaceWithSpace(str: string): string {
    return capitalizeFirstLetter(str.trim().split("-").join(" ").toLowerCase(), true);
 }
+
+export function getCreatedDateFromDocument(documentData: DocumentData): string {
+   const createTime = documentData._document.createTime.timestamp;
+   const createdDate = new Date(createTime.seconds * 1000); // Convert seconds to milliseconds
+   return formatDate(createdDate.toDateString());
+}
+
+export const revalidateNumber = 60;
+
+export const categoriesId = {
+   flashSales: "kI6Q5AR1y86h7gwdRHqz",
+   farmOffTake: "kTrRflfQO8Xxdj6jiVyx",
+};

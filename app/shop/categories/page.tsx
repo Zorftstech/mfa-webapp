@@ -6,7 +6,8 @@ import RouteDisplay from "../../../components/shared/route-display";
 
 import Filter from "./molecules/filter";
 import Items from "./molecules/items";
-
+import { revalidateNumber } from "@/lib/utils";
+export const revalidate = revalidateNumber;
 function page() {
    return (
       <div className="bg-gray-100 pt-[100px]">

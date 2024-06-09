@@ -12,7 +12,8 @@ import { ShopItem as ItemType } from "@/types";
 import RouteDisplay from "../../../components/shared/route-display";
 
 import { dummyItems } from "@/app/dummyItem";
-
+import { revalidateNumber } from "@/lib/utils";
+export const revalidate = revalidateNumber;
 function page() {
    return (
       <div className="pt-[100px]">

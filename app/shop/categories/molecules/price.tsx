@@ -15,7 +15,7 @@ function Price() {
       <AccordionItem className="border-0" value="item-2">
          <AccordionTrigger>Price</AccordionTrigger>
          <AccordionContent className="flex flex-col items-center justify-start gap-1 pt-8">
-            <MultiRangeSlider
+            {/* <MultiRangeSlider
                min={0}
                max={100000}
                canMinMaxValueSame={true}
@@ -31,7 +31,7 @@ function Price() {
                barRightColor="white"
                thumbLeftColor="white"
                thumbRightColor="white"
-            />
+            /> */}
             <div className="flex items-center justify-center gap-5">
                <Text size={"sm"} weight={"medium"}>
                   From ₦{minValue.toLocaleString()}

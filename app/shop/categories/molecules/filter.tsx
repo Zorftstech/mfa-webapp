@@ -17,19 +17,24 @@ import Price from "./price";
 import ProductCategories from "./product-categories";
 import Recommended from "./recommended";
 import RecentlyViewed from "./recently-viewed";
-
+import useStore from "@/store";
 function Filter() {
+   const { setSelectedCategory } = useStore((state) => state);
+   const clearFilters = () => {
+      setSelectedCategory(null);
+   };
+
    return (
       <aside className={`${styles.filter_section} flex-[1.5] p-2`}>
-         <Button className="w-full rounded-2xl">
-            Filter
+         <Button onClick={clearFilters} className="w-full rounded-2xl">
+            Clear Filters
             <FilterIcon className="w-3" />
          </Button>
          <Accordion type="single" collapsible className="mt-3 w-full rounded-xl bg-white px-4 py-2">
             <ProductCategories />
             <Price />
             <Recommended />
-            <RecentlyViewed />
+            {/* <RecentlyViewed /> */}
          </Accordion>
       </aside>
    );
