@@ -37,7 +37,7 @@ function FlashSales() {
                </div>
                <div className="grid w-full grid-cols-2 gap-4 p-4 md:grid-cols-3 lg:grid-cols-4">
                   <Each
-                     of={sortedAndFilteredProducts?.slice(0, 8) || dummyItems}
+                     of={sortedAndFilteredProducts?.slice(0, 8) || []}
                      render={(item: ItemType, index: number) => (
                         <ShopItem isFlashSale={true} key={index} itemDetails={item} />
                      )}

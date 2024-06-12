@@ -11,13 +11,13 @@ import { Text } from "@/components/ui/text";
 import { ShopItem } from "@/types";
 
 import { CartContext } from "@/contexts/cart-context";
-
+import { SingleProduct } from "@/types";
 import ShareItem from "@/components/shared/share-item";
 import Each from "@/components/helpers/each";
 
 // import { CartContext } from "@/contexts/cart-context";
 
-function ProductDescription({ currentItem }: { currentItem: ShopItem }) {
+function ProductDescription({ currentItem }: { currentItem: Partial<SingleProduct> }) {
    const [productCount, setProductCount] = useState(1);
 
    // console.log(currentItem, "2");
@@ -49,22 +49,22 @@ function ProductDescription({ currentItem }: { currentItem: ShopItem }) {
       <div className="flex-1 p-2">
          <div className="flex w-full items-center justify-between">
             <Text size={"2xl"} weight={"semibold"}>
-               {currentItem.title}
+               {currentItem.name}
             </Text>
             <Button className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100">
                <HeartIcon className="w-4 text-gray-600" />
             </Button>
          </div>
          <div className="mt-4 flex items-end justify-start gap-2">
-            <Ratings value={currentItem.rating} />
+            <Ratings value={5} />
             <Text size={"xs"} weight={"medium"}>
                {" "}
-               {currentItem.reviews} reviews
+               {10} reviews
             </Text>
          </div>
          <div className="mt-2 flex w-full items-center justify-start gap-2">
             <Text size={"md"} weight={"semibold"}>
-               ₦{currentItem.price.toLocaleString()}
+               ₦{currentItem.price && currentItem.price.toLocaleString()}
             </Text>
             <Text
                className="rounded-2xl border border-green-100 bg-green-100 px-4 py-2"

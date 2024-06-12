@@ -128,12 +128,6 @@ export function formatExpirationDate(value: string): string {
 export function formatFormData(data: Record<string, string>): string[] {
    return Object.keys(data).map((d) => `${d}: ${data[d]}`);
 }
-export function splitStringBySpaceAndReplaceWithDash(str: string): string {
-   return str.split(" ").join("-").toLowerCase();
-}
-export function reverseSplitStringByDashAndReplaceWithSpace(str: string): string {
-   return capitalizeFirstLetter(str.trim().split("-").join(" ").toLowerCase(), true);
-}
 
 export function getCreatedDateFromDocument(documentData: DocumentData): string {
    const createTime = documentData._document.createTime.timestamp;
@@ -147,3 +141,10 @@ export const categoriesId = {
    flashSales: "kI6Q5AR1y86h7gwdRHqz",
    farmOffTake: "kTrRflfQO8Xxdj6jiVyx",
 };
+export const mailChimpApiKeys = "6e653a9c12f9e5d2ad88feeb178b6789-us17";
+export function splitStringBySpaceAndReplaceWithDash(str: string): string {
+   return str.trim().split(" ").join("-").toLowerCase();
+}
+export function reverseSplitStringByDashAndReplaceWithSpace(str: string): string {
+   return capitalizeFirstLetter(str.trim().split("-").join(" ").toLowerCase(), true);
+}

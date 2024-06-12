@@ -28,7 +28,7 @@ function Page() {
                <div className="w-full py-4">
                   <div className="grid w-full grid-cols-2 gap-4 p-4 md:grid-cols-3 lg:grid-cols-4">
                      <Each
-                        of={sortedAndFilteredProducts || dummyItems}
+                        of={sortedAndFilteredProducts || []}
                         render={(item: ItemType, index: number) => (
                            <ShopItem key={index} itemDetails={item} />
                         )}

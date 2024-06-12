@@ -42,7 +42,13 @@ function CartTable() {
                         <TableRow key={item.id}>
                            <TableCell className="font-medium">
                               <div className="flex items-center gap-2">
-                                 <Image className="w-20" src={item.image} alt={item.name} />
+                                 <Image
+                                    className="w-20"
+                                    src={item.image}
+                                    alt={item.name}
+                                    width={80}
+                                    height={80}
+                                 />
                                  <Text size={"sm"}>{item.name}</Text>
                               </div>
                            </TableCell>

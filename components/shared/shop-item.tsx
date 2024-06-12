@@ -17,6 +17,7 @@ import styles from "./shop-item.module.css";
 import { CartContext } from "@/contexts/cart-context";
 
 import { cn } from "@/lib/utils/css";
+import { splitStringBySpaceAndReplaceWithDash } from "@/lib/utils";
 
 const Shop = ({ itemDetails, isFlashSale }: { itemDetails: ShopItem; isFlashSale?: boolean }) => {
    const { handlePlus } = useContext(CartContext);
@@ -36,7 +37,7 @@ const Shop = ({ itemDetails, isFlashSale }: { itemDetails: ShopItem; isFlashSale
             <div
                className={`${styles.img_container} relative flex w-full items-center justify-center`}
             >
-               <Link href={`/shop/${itemDetails.id}`}>
+               <Link href={`/shop/${splitStringBySpaceAndReplaceWithDash(itemDetails.name)}`}>
                   <Image
                      src={itemDetails.image}
                      alt={"image"}
@@ -57,7 +58,7 @@ const Shop = ({ itemDetails, isFlashSale }: { itemDetails: ShopItem; isFlashSale
                   </button>
                   <Link
                      className="flex w-[50%] flex-col items-center justify-center py-[11.5px]"
-                     href={`/shop/${itemDetails.id}`}
+                     href={`/shop/${splitStringBySpaceAndReplaceWithDash(itemDetails.name)}`}
                   >
                      <Eye className="w-4" />
                      <Text size={"xs"} weight={"medium"}>
@@ -67,7 +68,7 @@ const Shop = ({ itemDetails, isFlashSale }: { itemDetails: ShopItem; isFlashSale
                </div>
             </div>
             <Link
-               href={`/shop/${itemDetails.id}`}
+               href={`/shop/${splitStringBySpaceAndReplaceWithDash(itemDetails.name)}`}
                className="flex w-full flex-col items-start justify-start"
             >
                <Text className="mt-2" size={"sm"} weight={"semibold"}>

@@ -10,7 +10,7 @@ const dummyItems: ItemType[] = [
    {
       id: 1,
       image: dummyItem,
-      name: "Orange (200g)",
+      name: "Orange-american",
       rating: 4.5,
       reviews: 12,
       price: 2000.0,
@@ -19,7 +19,7 @@ const dummyItems: ItemType[] = [
    {
       id: 2,
       image: dummyItem,
-      name: "Orange (200g)",
+      name: "Orange-american",
       rating: 4.5,
       reviews: 12,
       price: 200.0,

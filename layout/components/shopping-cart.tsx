@@ -49,7 +49,13 @@ function ShoppingCart() {
                               <>
                                  <div className="flex items-center justify-between gap-2 py-6">
                                     <div className="flex items-center justify-start gap-2">
-                                       <Image className="w-10" src={item.image} alt={item.name} />
+                                       <Image
+                                          className="h-10 w-10"
+                                          src={item.image}
+                                          alt={item.name}
+                                          width={40}
+                                          height={40}
+                                       />
                                        <div>
                                           <Text size={"sm"} weight={"medium"}>
                                              {item.name}

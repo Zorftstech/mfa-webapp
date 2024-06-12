@@ -262,3 +262,25 @@ export interface Category {
    name: string;
    createdDate: string;
 }
+
+export interface SingleProduct {
+   units?: { ratio: number; unit: string; price: number | string }[];
+   costprice: string | number;
+   nameYourPrice: boolean;
+   subcategory: { name: string; id: string };
+   category: { name: string; id: string };
+   desc: string;
+   minimumPrice: number;
+   price: number;
+   image: string;
+   name: string;
+   slug: string;
+   unit: string;
+   quantity: number;
+   ratings?: { caption: string; rating: number; ratedBy: string[]; description: string }[];
+   id?: any;
+
+   no_of_items?: number;
+
+   status?: string;
+}

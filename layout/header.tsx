@@ -36,7 +36,7 @@ const Header = () => {
       <div
          className="fixed top-0 z-40 w-full"
          style={{
-            zIndex: 1000,
+            zIndex: 10,
          }}
       >
          <Show>

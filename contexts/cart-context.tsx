@@ -1,11 +1,24 @@
 import { createContext, useContext, useState } from "react";
 
 interface CartItem {
-   id: any;
-   image?: any;
-   no_of_items: number;
-   name: string;
-   price: number;
+   units?: { ratio: number; unit: string; price: number | string }[];
+   costprice?: string | number;
+   nameYourPrice?: boolean;
+   subcategory?: { name: string; id: string };
+   category?: { name: string; id: string };
+   desc?: string;
+   minimumPrice?: number;
+   price?: number;
+   image?: string;
+   name?: string;
+   slug?: string;
+   unit?: string;
+   quantity?: number;
+   ratings?: { caption: string; rating: number; ratedBy: string[]; description: string }[];
+   id?: any;
+
+   no_of_items?: number;
+
    status?: string;
 }
 
@@ -34,7 +47,7 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
          const updatedCart = [...currentCart];
          updatedCart[currentItemIndex] = {
             ...item,
-            no_of_items: Math.max(item.no_of_items - 1, 1),
+            no_of_items: Math.max(item.no_of_items ?? 0 - 1, 1),
          };
          setCurrentCart(updatedCart);
       } else {
@@ -49,7 +62,7 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
          const updatedCart = [...currentCart];
          updatedCart[currentItemIndex] = {
             ...item,
-            no_of_items: item.no_of_items + 1,
+            no_of_items: item.no_of_items ?? 0 + 1,
          };
          // console.log(updatedCart);
          setCurrentCart(updatedCart);

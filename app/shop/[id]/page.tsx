@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 
 import Each from "@/components/helpers/each";
@@ -7,17 +5,19 @@ import Container from "@/components/shared/container";
 import ShopItem from "@/components/shared/shop-item";
 import SuggestedProducts from "@/components/shared/suggested-products";
 import { Text } from "@/components/ui/text";
-
+import { useParams } from "next/navigation";
 import dummyItem from "@/images/dummy-item.png";
 import tomato from "@/images/tomato.png";
-import { ShopItem as ItemType } from "@/types";
-
+import { ShopItem as ItemType, SingleProduct } from "@/types";
 import RouteDisplay from "../../../components/shared/route-display";
-
+import { notFound } from "next/navigation";
 import { FeedbackInformation } from "./molecules/feedback-information";
 import ProductDescription from "./molecules/product-description";
 import ProductImage from "./molecules/product-image";
-
+import { reverseSplitStringByDashAndReplaceWithSpace } from "@/lib/utils";
+import { db } from "@/firebase";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import RelatedProducts from "./molecules/related-products";
 const orange: ItemType = {
    id: 1,
    image: dummyItem,
@@ -29,74 +29,66 @@ const orange: ItemType = {
    price: 2000.0,
 };
 
-const dummyItems: ItemType[] = [
-   {
-      id: 1,
-      image: dummyItem,
-      name: "Orange (200g)",
-      rating: 4.5,
-      reviews: 12,
-      price: 2000.0,
-      no_of_items: 1,
-   },
-   {
-      id: 2,
-      image: dummyItem,
-      name: "Orange (200g)",
-      rating: 4.5,
-      reviews: 12,
-      price: 200.0,
-      no_of_items: 1,
-   },
-   {
-      id: 3,
-      image: dummyItem,
-      name: "Orange (200g)",
-      rating: 4.5,
-      reviews: 12,
-      price: 200.0,
-      no_of_items: 1,
-   },
-   {
-      id: 4,
-      image: dummyItem,
-      name: "Orange (200g)",
-      rating: 4.5,
-      reviews: 12,
-      price: 200.0,
-      no_of_items: 1,
-   },
-];
+interface params {
+   params: {
+      id: string;
+   };
+}
 
-function page() {
+async function Page({ params: { id } }: params) {
+   async function queryCollectionByField(collectionName: string, fieldName: string, value: string) {
+      const q = query(collection(db, collectionName), where(fieldName, "==", value));
+
+      try {
+         const querySnapshot = await getDocs(q);
+         if (!querySnapshot.empty) {
+            const firstDoc = querySnapshot.docs[0];
+            return { id: firstDoc.id, ...firstDoc.data() };
+         } else {
+            console.log("No matching documents found.");
+            return null;
+         }
+      } catch (error) {
+         console.error("Error querying documents: ", error);
+         return null;
+      }
+   }
+
+   const product: SingleProduct | null = (await queryCollectionByField(
+      "products",
+      "slug",
+      id,
+   )) as SingleProduct;
+
+   if (!id) return notFound();
+   if (!product) return notFound();
+   console.log(product);
+
    return (
       <div className="pt-[100px]">
-         <RouteDisplay route={orange.name || ""} />
+         <RouteDisplay route={product?.name || ""} />
+
          <Container>
             <main className="mx-auto mt-8 flex w-full max-w-[1200px] flex-col items-center justify-center gap-1 py-4">
                <div className="grid w-full grid-cols-1 gap-2 p-4 md:grid-cols-2 lg:grid-cols-3">
-                  <ProductImage images={orange.images} />
-                  <ProductDescription currentItem={orange} />
+                  <ProductImage image={product?.image} />
+                  <ProductDescription
+                     currentItem={{
+                        name: product?.name,
+                        price: product?.price,
+                        no_of_items: product?.no_of_items,
+                     }}
+                  />
                   <SuggestedProducts />
                </div>
                <div className="mb-8 mt-4 w-full">
-                  <FeedbackInformation />
+                  <FeedbackInformation currentItem={product} />
                </div>
-               <Text size={"lg"} weight={"semibold"}>
-                  Related Products
-               </Text>
-               <div className="grid w-full grid-cols-2 gap-4 p-4 md:grid-cols-2 lg:grid-cols-4">
-                  <Each
-                     of={dummyItems}
-                     render={(item: ItemType, index: number) => (
-                        <ShopItem key={index} itemDetails={item} />
-                     )}
-                  />
-               </div>
+               <RelatedProducts />
             </main>
          </Container>
       </div>
    );
 }
 
-export default page;
+export default Page;

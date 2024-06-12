@@ -52,7 +52,7 @@ function Page() {
                   </div>
                   <div className="grid w-full grid-cols-2 gap-4 p-4 md:grid-cols-3 lg:grid-cols-4">
                      <Each
-                        of={sortedAndFilteredProducts || dummyItems}
+                        of={sortedAndFilteredProducts || []}
                         render={(item: ItemType, index: number) => (
                            <ShopItem key={index} itemDetails={item} />
                         )}
@@ -65,12 +65,7 @@ function Page() {
                   </div>
                   <div className="grid w-full grid-cols-2 gap-4 p-4 md:grid-cols-3 lg:grid-cols-4">
                      <Each
-                        of={
-                           shuffleArray(sortedAndFilteredProducts || recommendedItems).slice(
-                              0,
-                              4,
-                           ) || recommendedItems
-                        }
+                        of={shuffleArray(sortedAndFilteredProducts || []).slice(0, 4) || []}
                         render={(item: ItemType, index: number) => (
                            <ShopItem key={index} itemDetails={item} />
                         )}
