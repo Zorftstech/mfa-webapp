@@ -7,6 +7,7 @@ import { Text } from "@/components/ui/text";
 import { TabsContent } from "@/components/ui/tabs";
 import ContactItems from "@/components/ui/contact-items";
 import { Button } from "@/components/ui/button";
+import ContactUsForm from "@/components/contact-us";
 
 function page() {
    return (
@@ -28,48 +29,7 @@ function page() {
                         <ContactItems icon="phone-call" text="08090865279" />
                      </div>
                   </div>
-                  <div className="col-span-1 mx-[5px] my-[5px] w-full bg-white md:col-span-2 lg:col-span-1">
-                     <form className="p-5">
-                        <h2 className="mb-4 text-xl font-semibold">Send Us a Message</h2>
-                        <div className="mb-4 flex gap-4">
-                           <input
-                              type="text"
-                              id="fullName"
-                              name="fullName"
-                              placeholder="Your full name"
-                              className="flex-1 rounded-md border p-2 text-sm"
-                           />
-                           <input
-                              type="email"
-                              id="email"
-                              name="email"
-                              placeholder="Email address"
-                              className="flex-1 rounded-md  border p-2 text-sm"
-                           />
-                        </div>
-                        <div className="mb-4">
-                           <input
-                              type="text"
-                              id="subject"
-                              name="subject"
-                              placeholder="Subject"
-                              className="w-full rounded-md border p-2 text-sm"
-                           />
-                        </div>
-                        <div className="mb-4">
-                           <textarea
-                              id="message"
-                              name="message"
-                              rows={4}
-                              placeholder="Message"
-                              className="w-full rounded-md border p-2 text-sm"
-                           ></textarea>
-                        </div>
-                        <Button className="mt-4 w-auto rounded-3xl px-5 text-sm">
-                           Send message
-                        </Button>
-                     </form>
-                  </div>
+                  <ContactUsForm />
                </div>
             </main>
          </Container>

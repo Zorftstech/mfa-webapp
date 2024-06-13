@@ -28,7 +28,7 @@ export async function POST(req: Request, res: NextApiResponse) {
       const response = await axios.post(url, subscriberData, config);
       console.log(response.data);
       return NextResponse.json({ success: true, data: "Success" });
-   } catch (error) {
+   } catch (error: any) {
       if (error.response) {
          // Request made and server responded
          console.error("Error 1:", error.response.status, error.response.data);
