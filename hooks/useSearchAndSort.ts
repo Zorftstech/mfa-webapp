@@ -28,7 +28,7 @@ const useSortAndSearch = (
       const month = monthNames.indexOf(monthPart) + 1;
       const day = parseInt(dayPart, 10);
       const year = parseInt(yearPart, 10);
-      console.log(day, month, year);
+
       return { day, month, year };
    }
    const sortProducts = (products: any[], criterion: any) => {
@@ -56,7 +56,7 @@ const useSortAndSearch = (
    useEffect(() => {
       let updatedProducts = [...products];
       // Category Filter
-      console.log(category);
+
       if (category && category !== "all") {
          updatedProducts = updatedProducts.filter((product) => product.category?.id === category);
       }
