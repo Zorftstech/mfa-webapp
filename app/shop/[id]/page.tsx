@@ -34,6 +34,7 @@ interface params {
       id: string;
    };
 }
+export const revalidate = 60;
 
 async function Page({ params: { id } }: params) {
    async function queryCollectionByField(collectionName: string, fieldName: string, value: string) {

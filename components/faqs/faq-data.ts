@@ -1,6 +1,8 @@
 export interface IFAQObj {
    question: string;
    answer: string | any;
+   id?: string;
+   createdDate?: string;
 }
 
 export const FAQList: IFAQObj[] = [
