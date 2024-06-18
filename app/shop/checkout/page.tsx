@@ -36,7 +36,13 @@ const CartTotal = () => {
             render={(item) => (
                <div className="my-2 flex items-center justify-between">
                   <div className="p-3">
-                     <Image src={item.image} alt={item.name} className="h-10 w-10" />
+                     <Image
+                        src={item.image}
+                        alt={item.name}
+                        className="h-10 w-10"
+                        width={12}
+                        height={12}
+                     />
                      <Text size={"sm"} weight={"medium"}>
                         {item.name}
                      </Text>
