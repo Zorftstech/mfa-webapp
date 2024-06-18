@@ -37,8 +37,13 @@ interface params {
 export const revalidate = 60;
 
 async function Page({ params: { id } }: params) {
-   async function queryCollectionByField(collectionName: string, fieldName: string, value: string) {
-      const q = query(collection(db, collectionName), where(fieldName, "==", value));
+   const slug = id;
+   async function queryCollectionByField(
+      collectionName: string,
+      fieldName: string,
+      productSlug: string,
+   ) {
+      const q = query(collection(db, collectionName), where(fieldName, "==", productSlug));
 
       try {
          const querySnapshot = await getDocs(q);
@@ -58,10 +63,10 @@ async function Page({ params: { id } }: params) {
    const product: SingleProduct | null = (await queryCollectionByField(
       "products",
       "slug",
-      id,
+      slug,
    )) as SingleProduct;
 
-   if (!id) return notFound();
+   if (!slug) return notFound();
    if (!product) return notFound();
    console.log(product);
 
@@ -80,12 +85,12 @@ async function Page({ params: { id } }: params) {
                         no_of_items: product?.no_of_items,
                      }}
                   />
-                  <SuggestedProducts />
+                  <SuggestedProducts productSlug={slug} />
                </div>
                <div className="mb-8 mt-4 w-full">
                   <FeedbackInformation currentItem={product} />
                </div>
-               <RelatedProducts />
+               <RelatedProducts productSlug={slug} />
             </main>
          </Container>
       </div>

@@ -14,7 +14,7 @@ import { CartContext } from "@/contexts/cart-context";
 import { ShopItem as ItemType } from "@/types";
 import { shuffleArray } from "@/helper";
 
-function SuggestedProducts() {
+function SuggestedProducts({ productSlug }: { productSlug: string }) {
    const { sortedAndFilteredProducts } = useProducts("all");
    const { handlePlus } = useContext(CartContext);
    return (
@@ -24,6 +24,7 @@ function SuggestedProducts() {
                <AccordionTrigger>Suggested Products</AccordionTrigger>
                <AccordionContent className="">
                   {shuffleArray(sortedAndFilteredProducts || [])
+                     .filter((item) => item?.slug !== productSlug)
                      .slice(0, 2)
                      .map((item: ItemType, index: number) => (
                         <div key={index} className="mb-3 flex w-full items-center gap-2">
