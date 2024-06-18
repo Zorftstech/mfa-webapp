@@ -74,35 +74,40 @@ export function FeedbackInformation({ currentItem }: FeedbackInformationProps) {
          {/* information tab */}
          <TabsContent value="information">
             <div className="mx-auto flex w-full max-w-[500px] flex-col items-start justify-start gap-4">
-               <div className="mt-4 flex flex-wrap items-center justify-start gap-2">
+               {/* <div className="mt-4 flex flex-wrap items-center justify-start gap-2">
                   <Text size={"sm"} weight={"medium"}>
                      Weight: <span className="text-gray-400">03</span>
                   </Text>
-               </div>
-               <div className="mt-4 flex flex-wrap items-center justify-start gap-2">
+               </div> */}
+               {/* <div className="mt-4 flex flex-wrap items-center justify-start gap-2">
                   <Text size={"sm"} weight={"medium"}>
                      Color: <span className="text-gray-400">Green</span>
                   </Text>
-               </div>
-               <div className="mt-4 flex flex-wrap items-center justify-start gap-2">
+               </div> */}
+               {/* <div className="mt-4 flex flex-wrap items-center justify-start gap-2">
                   <Text size={"sm"} weight={"medium"}>
                      Type: <span className="text-gray-400">Organic</span>
                   </Text>
-               </div>
+               </div> */}
                <div className="mt-4 flex flex-wrap items-center justify-start gap-2">
                   <Text size={"sm"} weight={"medium"}>
-                     Category: <span className="text-gray-400">Fruits</span>
+                     Category:{" "}
+                     <span className="text-gray-400">
+                        {currentItem.category && currentItem.category.name}
+                     </span>
                   </Text>
                </div>
-               <div className="mt-4 flex flex-wrap items-center justify-start gap-2">
+               {/* <div className="mt-4 flex flex-wrap items-center justify-start gap-2">
                   <Text size={"sm"} weight={"medium"}>
                      Stock Status: <span className="text-gray-400">Available (5,413)</span>
                   </Text>
-               </div>
+               </div> */}
                <div className="mt-4 flex flex-wrap items-center justify-start gap-2">
                   <Text size={"sm"} weight={"medium"}>
                      Tag:{" "}
-                     <span className="text-gray-400">Vegetables Citrus Cabbage Green Cabbage</span>
+                     <span className="text-gray-400">
+                        {currentItem.subcategory && currentItem.subcategory.name}
+                     </span>
                   </Text>
                </div>
             </div>
@@ -110,60 +115,38 @@ export function FeedbackInformation({ currentItem }: FeedbackInformationProps) {
          {/*feedback tab */}
          <TabsContent value="feedback">
             <div className="mx-auto w-full max-w-[500px] py-3">
-               <div className="border-b border-gray-300 p-3">
-                  <div className="mb-3 flex items-center justify-between ">
-                     <div className="flex items-center gap-2">
-                        <Avatar>
+               {currentItem.ratings &&
+                  currentItem.ratings.map((rating, index) => {
+                     return (
+                        <div className="border-b border-gray-300 p-3" key={index}>
+                           <div className="mb-3 flex items-center justify-between ">
+                              <div className="flex items-center gap-2">
+                                 {/* <Avatar>
                            <AvatarImage
                               className="h-full w-full rounded-[inherit] object-cover"
                               src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
                               alt="Colm Tuite"
                            />
                            <AvatarFallback>{"Customer"}</AvatarFallback>
-                        </Avatar>
-                        <div>
-                           <Text className="mb-1" weight={"medium"} size={"sm"}>
-                              Daniel Olatunji
-                           </Text>
+                        </Avatar> */}
+                                 <div>
+                                    <Text className="mb-1 capitalize" weight={"medium"} size={"sm"}>
+                                       {rating.caption || "No caption available for this rating"}
+                                    </Text>
 
-                           <Ratings value={5} />
-                        </div>
-                     </div>
-                     <Text weight={"medium"} size={"xs"}>
-                        Customer
-                     </Text>
-                  </div>
-                  <Text size={"xs"}>
-                     A delightful choice for those seeking sweetness and tanginess in every bite
-                  </Text>
-               </div>
-               <div className="border-b border-gray-300 p-3">
-                  <div className="mb-3 flex items-center justify-between ">
-                     <div className="flex items-center gap-2">
-                        <Avatar>
-                           <AvatarImage
-                              className="h-full w-full rounded-[inherit] object-cover"
-                              src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-                              alt="Colm Tuite"
-                           />
-                           <AvatarFallback>{"Customer"}</AvatarFallback>
-                        </Avatar>
-                        <div>
-                           <Text className="mb-1" weight={"medium"} size={"sm"}>
-                              Daniel Olatunji
+                                    <Ratings value={5} />
+                                 </div>
+                              </div>
+                              <Text weight={"medium"} size={"xs"}>
+                                 Customer
+                              </Text>
+                           </div>
+                           <Text size={"xs"}>
+                              {rating.description || "No description available for this rating"}
                            </Text>
-
-                           <Ratings value={5} />
                         </div>
-                     </div>
-                     <Text weight={"medium"} size={"xs"}>
-                        Customer
-                     </Text>
-                  </div>
-                  <Text size={"xs"}>
-                     A delightful choice for those seeking sweetness and tanginess in every bite
-                  </Text>
-               </div>
+                     );
+                  })}
             </div>
          </TabsContent>
       </Tabs>

@@ -83,6 +83,26 @@ async function Page({ params: { id } }: params) {
                         name: product?.name,
                         price: product?.price,
                         no_of_items: product?.no_of_items,
+                        units: product?.units,
+                        category: product?.category,
+                        subcategory: product?.subcategory,
+                        slug: product?.slug,
+                        status: product?.status,
+
+                        ratings: product?.ratings?.map((rating) => {
+                           return {
+                              rating: rating.rating,
+                              description: rating.description,
+                              caption: rating.caption,
+                              ratedBy: [
+                                 "Anonymous",
+                                 "Anonymous",
+                                 "Anonymous",
+                                 "Anonymous",
+                                 "Anonymous",
+                              ],
+                           };
+                        }),
                      }}
                   />
                   <SuggestedProducts productSlug={slug} />

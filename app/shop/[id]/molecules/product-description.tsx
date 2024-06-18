@@ -20,21 +20,18 @@ import Each from "@/components/helpers/each";
 function ProductDescription({ currentItem }: { currentItem: Partial<SingleProduct> }) {
    const [productCount, setProductCount] = useState(1);
 
-   // console.log(currentItem, "2");
-
    const { handlePlus } = useContext(CartContext);
 
-   const [selectedWeightId, setSelectedWeightId] = useState(1);
+   const [selectedWeightId, setSelectedWeightId] = useState(
+      currentItem.units && currentItem.units[0].unit,
+   );
+   const [currentSelectedPrice, setCurrentSelectedPrice] = useState(
+      currentItem.units && currentItem.units[0].price,
+   );
 
    const handleWeight = (id: any) => {
       setSelectedWeightId(id);
    };
-
-   const dummyWeights = [
-      { id: 1, title: "Half Paint Bucket" },
-      { id: 2, title: "Paint Bucket 3KG" },
-      { id: 3, title: "50KG Basket" },
-   ];
 
    const handleAdd = () => {
       setProductCount(productCount + 1);
@@ -59,12 +56,13 @@ function ProductDescription({ currentItem }: { currentItem: Partial<SingleProduc
             <Ratings value={5} />
             <Text size={"xs"} weight={"medium"}>
                {" "}
-               {10} reviews
+               {currentItem.ratings && currentItem.ratings.length}{" "}
+               {currentItem.ratings && "reviews"}
             </Text>
          </div>
          <div className="mt-2 flex w-full items-center justify-start gap-2">
             <Text size={"md"} weight={"semibold"}>
-               ₦{currentItem.price && currentItem.price.toLocaleString()}
+               ₦{currentSelectedPrice?.toLocaleString()}
             </Text>
             <Text
                className="rounded-2xl border border-green-100 bg-green-100 px-4 py-2"
@@ -76,21 +74,24 @@ function ProductDescription({ currentItem }: { currentItem: Partial<SingleProduc
          </div>
          <div className="mt-4 flex flex-wrap items-center justify-start gap-2">
             <Text size={"sm"} weight={"medium"}>
-               Weight:
+               Unit of Measurement:
             </Text>
             <Each
-               of={dummyWeights}
+               of={currentItem.units || []}
                render={(item) => (
                   <Button
-                     key={item.id}
-                     onClick={() => setSelectedWeightId(item.id)}
+                     key={item?.ratio}
+                     onClick={() => {
+                        setSelectedWeightId(item?.unit);
+                        setCurrentSelectedPrice(item?.price);
+                     }}
                      className={
-                        item.id === selectedWeightId
-                           ? `rounded-2xl border border-[#7ab42c] bg-[#7ab42c] px-4 py-1 text-white`
-                           : `rounded-2xl border border-gray-300 bg-white px-4 py-1 text-gray-600`
+                        item?.unit === selectedWeightId
+                           ? `rounded-2xl border border-[#7ab42c] bg-[#7ab42c] px-4 py-1 capitalize text-white`
+                           : `rounded-2xl border border-gray-300 bg-white px-4 py-1 capitalize text-gray-600`
                      }
                   >
-                     {item.title}
+                     {item?.unit}
                   </Button>
                )}
             />
@@ -125,12 +126,12 @@ function ProductDescription({ currentItem }: { currentItem: Partial<SingleProduc
          <Separator className="my-4" />
          <div className="mt-4 flex flex-wrap items-center justify-start gap-2">
             <Text size={"sm"} weight={"medium"}>
-               Category: <span className="text-gray-400">Fruits</span>
+               Category: <span className="text-gray-400">{currentItem.category?.name}</span>
             </Text>
          </div>
          <div className="mt-4 flex flex-wrap items-center justify-start gap-2">
             <Text size={"sm"} weight={"medium"}>
-               Tag: <span className="text-gray-400">Vegetables Citrus Cabbage Green Cabbage</span>
+               Tag: <span className="text-gray-400"> {currentItem.subcategory?.name}</span>
             </Text>
          </div>
          <ShareItem />
