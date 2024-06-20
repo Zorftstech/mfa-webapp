@@ -148,3 +148,11 @@ export function splitStringBySpaceAndReplaceWithDash(str: string): string {
 export function reverseSplitStringByDashAndReplaceWithSpace(str: string): string {
    return capitalizeFirstLetter(str.trim().split("-").join(" ").toLowerCase(), true);
 }
+export const formatToNaira = (amount: number | bigint) => {
+   return new Intl.NumberFormat("en-NG", {
+      style: "currency",
+      currency: "NGN",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+   }).format(amount);
+};

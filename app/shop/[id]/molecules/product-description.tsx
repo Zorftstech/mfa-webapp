@@ -118,7 +118,12 @@ function ProductDescription({ currentItem }: { currentItem: Partial<SingleProduc
          </div>
 
          <Button
-            onClick={(e) => handlePlus(currentItem)}
+            onClick={(e) =>
+               handlePlus(currentItem, {
+                  unit: selectedWeightId,
+                  price: currentSelectedPrice,
+               })
+            }
             className="mt-4 w-full rounded-3xl text-sm"
          >
             Add to Cart <ShoppingCartIcon className="w-4 text-white" />

@@ -16,7 +16,7 @@ interface CartItem {
    quantity?: number;
    ratings?: { caption: string; rating: number; ratedBy: string[]; description: string }[];
    id?: any;
-
+   chosenUnit?: string;
    no_of_items?: number;
 
    status?: string;
@@ -25,9 +25,21 @@ interface CartItem {
 interface CartContextType {
    currentCart: CartItem[];
    setCurrentCart: React.Dispatch<React.SetStateAction<CartItem[]>>;
-   handleMinus: (item: CartItem) => void;
-   handlePlus: (item: CartItem) => void;
-   handleRemove: (itemId: any) => void;
+   handleMinus: (
+      item: CartItem,
+      selectedUnit?: {
+         unit?: string;
+         price?: number | string;
+      },
+   ) => void;
+   handlePlus: (
+      item: CartItem,
+      selectedUnit?: {
+         unit?: string;
+         price?: number | string;
+      },
+   ) => void;
+   handleRemove: (itemId: any, chosenUnit?: string) => void;
 }
 
 const CartContext = createContext<CartContextType>({
@@ -41,39 +53,83 @@ const CartContext = createContext<CartContextType>({
 const CartProvider = ({ children }: { children: React.ReactNode }) => {
    const [currentCart, setCurrentCart] = useState<CartItem[]>([]);
 
-   const handleMinus = (item: CartItem) => {
-      const currentItemIndex = currentCart.findIndex((cartItem) => cartItem.id === item.id);
+   const handleMinus = (
+      item: CartItem,
+      selectedUnit?: {
+         unit?: string;
+         price?: number | string;
+      },
+   ) => {
+      const chosenUnit = `${selectedUnit?.unit}${selectedUnit?.price}`;
+      let currentItemIndex;
+      if (selectedUnit) {
+         currentItemIndex = currentCart.findIndex(
+            (cartItem) => cartItem.chosenUnit === chosenUnit && cartItem.id === item.id,
+         );
+      } else {
+         currentItemIndex = currentCart.findIndex((cartItem) => cartItem.id === item.id);
+      }
+      // If item is found in the cart
       if (currentItemIndex !== -1) {
          const updatedCart = [...currentCart];
+         const currentItem = updatedCart[currentItemIndex];
+         const updatedNoOfItems = Math.max((currentItem.no_of_items ?? 0) - 1, 1);
+
          updatedCart[currentItemIndex] = {
-            ...item,
-            no_of_items: Math.max(item.no_of_items ?? 0 - 1, 1),
+            ...currentItem,
+            no_of_items: updatedNoOfItems,
          };
+
          setCurrentCart(updatedCart);
       } else {
+         // If item is not found in the cart, add it with no_of_items set to 1
          setCurrentCart([...currentCart, { ...item, no_of_items: 1 }]);
       }
    };
 
-   const handlePlus = (item: CartItem) => {
-      const currentItemIndex = currentCart.findIndex((cartItem) => cartItem.id === item.id);
+   const handlePlus = (
+      item: CartItem,
+      selectedUnit?: {
+         unit?: string;
+         price?: number | string;
+      },
+   ) => {
+      const chosenUnit = `${selectedUnit?.unit}${selectedUnit?.price}`;
+      let currentItemIndex;
+      if (selectedUnit) {
+         currentItemIndex = currentCart.findIndex(
+            (cartItem) => cartItem.chosenUnit === chosenUnit && cartItem.id === item.id,
+         );
+      } else {
+         currentItemIndex = currentCart.findIndex((cartItem) => cartItem.id === item.id);
+      }
+      console.log(chosenUnit);
       if (currentItemIndex !== -1) {
-         // console.log(currentItemIndex, "1");
          const updatedCart = [...currentCart];
+         const currentItem = updatedCart[currentItemIndex];
+
+         const updatedNoOfItems = (currentItem.no_of_items ?? 0) + 1;
+
          updatedCart[currentItemIndex] = {
-            ...item,
-            no_of_items: item.no_of_items ?? 0 + 1,
+            ...currentItem,
+            no_of_items: updatedNoOfItems,
          };
-         // console.log(updatedCart);
          setCurrentCart(updatedCart);
       } else {
-         // console.log(currentItemIndex, "2");
-         setCurrentCart([...currentCart, { ...item, no_of_items: 1 }]);
+         setCurrentCart([
+            ...currentCart,
+            {
+               ...item,
+               no_of_items: 1,
+
+               chosenUnit: chosenUnit,
+               price: Number(selectedUnit?.price || (item.units && item.units[0].price)),
+            },
+         ]);
       }
-      // console.log(currentItemIndex,'3');
    };
 
-   const handleRemove = (itemId: number) => {
+   const handleRemove = (itemId: number, chosenUnit?: string) => {
       const updatedCart = currentCart.filter((item) => item.id !== itemId);
       setCurrentCart(updatedCart);
    };

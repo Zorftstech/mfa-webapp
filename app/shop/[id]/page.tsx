@@ -18,16 +18,6 @@ import { reverseSplitStringByDashAndReplaceWithSpace } from "@/lib/utils";
 import { db } from "@/firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import RelatedProducts from "./molecules/related-products";
-const orange: ItemType = {
-   id: 1,
-   image: dummyItem,
-   images: [dummyItem, tomato, dummyItem, dummyItem],
-   name: "Nigerian Orange",
-   no_of_items: 1,
-   rating: 4,
-   reviews: 12,
-   price: 2000.0,
-};
 
 interface params {
    params: {

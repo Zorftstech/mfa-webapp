@@ -17,7 +17,8 @@ import styles from "./shop-item.module.css";
 import { CartContext } from "@/contexts/cart-context";
 
 import { cn } from "@/lib/utils/css";
-import { splitStringBySpaceAndReplaceWithDash } from "@/lib/utils";
+import { formatToNaira, splitStringBySpaceAndReplaceWithDash } from "@/lib/utils";
+import { formatMoney } from "@/lib/helpers";
 
 const Shop = ({ itemDetails, isFlashSale }: { itemDetails: ShopItem; isFlashSale?: boolean }) => {
    const { handlePlus } = useContext(CartContext);
@@ -94,13 +95,21 @@ const Shop = ({ itemDetails, isFlashSale }: { itemDetails: ShopItem; isFlashSale
                         weight={"semibold"}
                         size={"xs"}
                      >
-                        ₦{itemDetails.price.toLocaleString()}
+                        {/* ₦{itemDetails.units && itemDetails.units[0].price} */}
+                        {formatToNaira(
+                           Number(itemDetails.units && itemDetails.units[0].price) ?? 0,
+                        )}
                      </Text>
                   </div>
                </div>
             </Link>
             <Button
-               onClick={(e) => handlePlus(itemDetails)}
+               onClick={(e) =>
+                  handlePlus(itemDetails, {
+                     price: itemDetails.units && itemDetails.units[0].price,
+                     unit: itemDetails.units && itemDetails.units[0].unit,
+                  })
+               }
                className="mt-4 w-full rounded-3xl text-xs"
             >
                Add to Cart <ShoppingCartIcon className="w-3 text-white" />

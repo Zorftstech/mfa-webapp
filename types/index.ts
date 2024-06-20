@@ -196,6 +196,7 @@ export type ShopItem = {
    status?: string;
    amountSaved?: number;
    newPrice?: number;
+   units?: { ratio: number; unit: string; price: number | string }[];
 };
 export type User = {
    id: number;
