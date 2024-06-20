@@ -47,17 +47,17 @@ function CartTotal() {
                Proceed to checkout
             </Link>
          </div>
-         <Text size={"sm"} weight={"medium"}>
+         {/* <Text size={"sm"} weight={"medium"}>
             Have a coupon code?
-         </Text>
-         <div className="mt-5 flex w-full items-center justify-between overflow-hidden rounded-full border border-gray-300 p-1">
+         </Text> */}
+         {/* <div className="mt-5 flex w-full items-center justify-between overflow-hidden rounded-full border border-gray-300 p-1">
             <input
                type="text"
                placeholder="Coupon code"
                className="border-none pl-2 text-xs outline-none focus:ring-0"
             />
             <Button className="rounded-3xl bg-black px-5 text-xs text-white">Apply</Button>
-         </div>
+         </div> */}
       </div>
    );
 }

@@ -21,7 +21,7 @@ function CartMobile() {
                   key={item.id}
                >
                   <div className="flex w-full items-center gap-4">
-                     <Image src={item.image} alt={item.name} />
+                     <Image src={item.image} alt={item.name} width={50} height={50} />
                      <div>
                         {" "}
                         <Text size={"sm"} weight={"medium"}>

@@ -2,7 +2,7 @@
 
 import { X } from "lucide-react";
 import { Minus, Plus } from "lucide-react";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import Image from "next/image";
 
@@ -17,6 +17,8 @@ import tomato from "@/images/tomato.png";
 import { PaystackButton } from "react-paystack";
 
 import RouteDisplay from "../../../components/shared/route-display";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 import { CheckoutForm } from "./molecules/form";
 import { PaymentOption } from "./molecules/payment-option";
@@ -27,53 +29,66 @@ import Each from "@/components/helpers/each";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { db } from "@/firebase";
 import { z } from "zod";
+import { addDoc, collection } from "firebase/firestore";
+import { toast } from "sonner";
 const formSchema = z.object({
-   fname: z.string(),
-   lname: z.string(),
-   country: z.string(),
-   state: z.string(),
-   email: z.string(),
+   fname: z.string().min(2, {
+      message: "Please enter a First name.",
+   }),
+   lname: z.string().min(2, {
+      message: "Please enter a Last name.",
+   }),
+   country: z.string().min(2, {
+      message: "Please enter a valid country.",
+   }),
+
+   state: z.string().min(2, {
+      message: "Please enter a valid state.",
+   }),
+   email: z
+      .string()
+      .min(2, {
+         message: "Please enter a valid email.",
+      })
+      .email(),
    phone: z.string(),
-   streetAddress: z.string(),
+   streetAddress: z.string().min(2, {
+      message: "Please enter a valid street address.",
+   }),
+
    message: z.string(),
 });
+type formInterface = z.infer<typeof formSchema>;
 
 function Page() {
    const { currentCart } = useContext(CartContext);
+   const form = useForm<formInterface>({
+      resolver: zodResolver(formSchema),
+      defaultValues: {
+         fname: "",
+         country: "Nigeria",
+         lname: "",
+         state: "",
+         email: "",
+         phone: "",
+         message: "",
+      },
+   });
+
    const publicKey = "pk_test_2f5fe11f645e8ffa062f379d652aef8daf391f82"; // Replace with your Paystack public key
-   const amount = 10000; // Amount in kobo
+   const amount = Number(calculateTotalPrice(currentCart) * 100);
    const [email, setEmail] = React.useState("customer@example.com");
    const [name, setName] = React.useState("Customer Name");
-   const componentProps = {
-      email,
-      amount,
-      metadata: {
-         name,
-         phone: "08012345678", // Optional
-         custom_fields: [
-            {
-               display_name: "Mobile Numbe",
-               variable_name: "mobile_number",
-               value: "+2348012345678",
-            },
-         ],
-      },
-      publicKey,
-      text: "Pay Now",
-      onSuccess: (response: any) => {
-         console.log(response);
-         alert("Payment successful");
-      },
-      onClose: () => alert("Payment closed"),
-   };
+   const [formValues, setFormValues] = React.useState(form.getValues());
 
-   const handlePayment = () => {
+   const handlePayment = (values: formInterface, cartItems: typeof currentCart) => {
       if (window.PaystackPop === undefined) return;
 
       const handler = window.PaystackPop.setup({
          key: publicKey,
-         email,
+         email: values.email,
          amount,
          currency: "NGN",
          ref: "" + Math.floor(Math.random() * 1000000000 + 1), // Generate a unique reference number
@@ -87,8 +102,35 @@ function Page() {
             ],
          },
          callback: (response) => {
-            alert("Payment Successful! Reference: " + response.reference);
+            toast.success("Payment Successful! Reference: " + response.reference);
+            console.log(response);
+            console.log("Call my own api, verify the transaction", values);
             // You can handle further processing here
+            // Create order in Firebase
+            const singleOrder = {
+               name: `${values.fname} ${values.lname}`,
+               firstName: values.fname,
+               lastName: values.lname,
+               email: values.email,
+               totalAmount: amount,
+               address: `${values.streetAddress}, ${values.state}, ${values.country}`,
+               message: values.message,
+               phone: values.phone,
+               paymentReference: response.reference,
+               cartItems,
+            };
+            console.log(singleOrder);
+            const createOrder = async () => {
+               try {
+                  const collectionRef = collection(db, "orders");
+                  await addDoc(collectionRef, singleOrder);
+                  toast.success("Order created successfully!");
+               } catch (error) {
+                  console.error("Error creating order: ", error);
+                  toast("Error creating order. Please try again.");
+               }
+            };
+            createOrder();
          },
          onClose: () => {
             alert("Payment closed");
@@ -98,27 +140,15 @@ function Page() {
       handler.openIframe();
    };
    /* eslint-disable react-hooks/rules-of-hooks */
-   const form = useForm<z.infer<typeof formSchema>>({
-      resolver: zodResolver(formSchema),
-      defaultValues: {
-         fname: "",
-         country: "Nigeria",
-         lname: "",
-         state: "",
-         email: "",
-         phone: "",
-         message: "",
-      },
-   });
 
    // 2. Define a submit handler.
-   function onSubmit(values: z.infer<typeof formSchema>) {
+   function onSubmit(values: formInterface) {
       // Do something with the form values.
       // ✅ This will be type-safe and validated.
 
-      console.log(values);
+      setFormValues(values);
+      handlePayment(values, currentCart);
    }
-   const { width } = useWindowDimensions();
 
    return (
       <div className="pt-[69px]">
@@ -186,13 +216,34 @@ function Page() {
                         <Text size={"md"} weight={"semibold"}>
                            Payment Method
                         </Text>
-                        <PaymentOption />
+                        <RadioGroup className="my-3" defaultValue="card">
+                           <div className="flex items-center space-x-2">
+                              <RadioGroupItem value="transfer" id="r1" disabled />
+                              <Label htmlFor="r1">Bank Transfer</Label>
+                           </div>
+                           <div className="flex items-center space-x-2">
+                              <RadioGroupItem value="card" id="r2" />
+                              <Label htmlFor="r2">Debit Card</Label>
+                           </div>
+                           {/* <div className="flex items-center space-x-2">
+                              <RadioGroupItem value="compact" id="r3" />
+                              <Label htmlFor="r3">Wallet</Label>
+                           </div> */}
+                        </RadioGroup>
+
                         <Button
-                           onClick={() => form.trigger()}
+                           onClick={() => form.handleSubmit(onSubmit)()}
                            className="mb-3 mt-5 w-full rounded-3xl px-4 text-xs"
                         >
                            Place Order
                         </Button>
+                        <div className="hidde">
+                           <PaystackButton
+                              email={formValues.email}
+                              amount={amount}
+                              publicKey={publicKey}
+                           />
+                        </div>
                      </div>
                   </div>
                </div>
