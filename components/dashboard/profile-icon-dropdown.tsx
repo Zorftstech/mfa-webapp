@@ -42,15 +42,15 @@ const ProfileIconDropdown = ({ children }: { children?: React.ReactNode }) => {
                   router.push("/dashboard");
                }}
                // key={crypto.randomUUID()}
-               className=" flex cursor-pointer items-center gap-[0.75rem] px-[1.25rem] py-[0.45rem] text-[0.9rem] leading-[1.3rem] tracking-[0.01rem] hover:!bg-primary-1"
+               className=" flex cursor-pointer items-center gap-[0.75rem] px-[1.25rem] pt-[0.45rem] text-[0.9rem] leading-[1.3rem] tracking-[0.01rem] hover:!bg-primary-1"
             >
-               <Text className="my-3 whitespace-nowrap " size={"sm"}>
+               <Text className="my-3 whitespace-nowrap font-semibold " size={"sm"}>
                   Dashboard
                </Text>
             </Dropdown.Item>
             <Dropdown.Item
                // key={crypto.randomUUID()}
-               className=" flex cursor-pointer items-center gap-[0.75rem] px-[1.25rem] py-[0.75rem] pt-6 text-[0.9rem] leading-[1.3rem] tracking-[0.01rem] hover:!bg-primary-1"
+               className=" flex cursor-pointer items-center gap-[0.75rem] px-[1.25rem] pb-[0.75rem]  text-[0.9rem] leading-[1.3rem] tracking-[0.01rem] hover:!bg-primary-1"
             >
                <Text className="mb-3 whitespace-nowrap  font-semibold capitalize" size={"sm"}>
                   {authDetails?.firstName} {authDetails.lastName}

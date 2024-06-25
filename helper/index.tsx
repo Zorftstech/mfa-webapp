@@ -1,5 +1,4 @@
-import toast from "react-hot-toast";
-export default toast;
+import { toast } from "sonner";
 export function firstCharsOfWords(str: string) {
    const words = str.split(" ");
 

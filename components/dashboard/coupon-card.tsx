@@ -1,38 +1,53 @@
 import { Copy } from "lucide-react";
-import { Text } from "../ui/text";
+import { copyToClipboard } from "helper";
+import useStore from "store";
+import { StoreType } from "store";
+interface ICouponCard {
+   purpose: string;
+   date: string | number;
+   name: string;
+   link?: string;
+   discount: string | number;
+   item?: any;
+}
 
-const CouponCard = ({
-   voucher_name,
-   discount,
-   event_name,
-   date_text,
-}: {
-   voucher_name: string;
-   discount: string;
-   event_name: string;
-   date_text: string;
-}) => {
+const CouponCard = ({ purpose, discount, date, name, item }: ICouponCard) => {
    return (
       <div
          style={{ backgroundColor: "rgba(249, 244, 204, 0.55)" }}
-         className="mb-5  ml-5 mt-5 flex h-64 w-64 justify-center rounded-3xl p-4"
+         className="group  flex h-max w-full cursor-pointer flex-col items-center justify-between gap-4 rounded-2xl px-4 py-4  shadow-md transition-all duration-300 ease-in-out"
       >
-         <div className="text-center">
-            <Text className="mb-1" size={"sm"}>
-               {voucher_name}
-            </Text>
-            <Text className="mb-4" size={"lg"}>
-               {discount}
-            </Text>
-            <h2 className="mb-4 text-xl font-extrabold text-[#7AB42C]">{event_name}</h2>
-            <Text className="mb-4" size={"lg"}>
-               {date_text}
-            </Text>
-            <button className="flex items-center justify-center gap-2 rounded-lg border border-gray-500 px-16 py-2">
-               <Text size={"sm"}>Copy</Text>
-               <Copy className="w-3" />
-            </button>
+         <div>
+            <p className="text-center text-[0.9rem] capitalize leading-[27px]">{purpose}</p>
+            <p className="text-center text-[0.85rem] font-[300] leading-[27px] ">
+               {`${discount}%`} discount
+            </p>
          </div>
+         <div>
+            <h5
+               onClick={() => {
+                  copyToClipboard(name, "Coupon code copied to clipboard");
+               }}
+               className="flex gap-2 text-center text-[1.1rem] font-[600] capitalize leading-[27px] text-primary-2 "
+            >
+               {name}
+               <span>
+                  <Copy size={17} className="text-black" />
+               </span>
+            </h5>
+            <p className="text-center text-[0.6rem]  leading-[21px] tracking-[0.1px]  ">
+               Valid till {date}
+            </p>
+         </div>
+
+         <button
+            onClick={() => {
+               copyToClipboard(name, "Coupon code copied to clipboard");
+            }}
+            className="group flex w-full items-center justify-center gap-2 rounded-[8px] border border-primary-2   px-8   py-2 text-base font-semibold transition-all duration-300 ease-in-out hover:opacity-90"
+         >
+            <span className="text-sm font-[500] leading-[24px] tracking-[0.4px]   ">Copy</span>
+         </button>
       </div>
    );
 };
