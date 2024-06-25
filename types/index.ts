@@ -97,6 +97,7 @@ export interface authDetailsInterface {
       state: string;
       zipcode: string;
    };
+   referralCode?: string;
 }
 
 export interface productInterface {

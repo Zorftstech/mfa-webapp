@@ -86,6 +86,10 @@ function Page() {
                email,
                photoURL: "",
                role: "user",
+               referralCode:
+                  Math.floor(Math.random() * 1000000000 + 1) +
+                  Math.floor(Math.random() * 1000000000 + 1) +
+                  "R",
             });
          } catch (err) {
             console.log(err);
