@@ -1,6 +1,6 @@
 "use client";
 import { HeartIcon, AlignJustify } from "lucide-react";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -21,8 +21,13 @@ import ShoppingCart from "./components/shopping-cart";
 import { TopNav } from "./components/top-nav";
 import Marquee from "react-marquee-slider";
 import useStore from "@/store";
+import { CartContext } from "@/contexts/cart-context";
+import { calculateTotalPrice } from "@/app/helper";
 const Header = () => {
    const { loggedIn } = useStore((store) => store);
+
+   const { currentCart } = useContext(CartContext);
+   const amount = Number(calculateTotalPrice(currentCart));
 
    const { width } = useWindowDimensions();
 
@@ -99,7 +104,7 @@ const Header = () => {
                            <span className="flex flex-col">
                               <Text size={"xs"}>Shopping cart</Text>
                               <Text weight={"bold"} size={"xs"}>
-                                 NGN 57.00
+                                 ₦{calculateTotalPrice(currentCart).toLocaleString() || 0}
                               </Text>
                            </span>
                         </div>
