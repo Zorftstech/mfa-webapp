@@ -83,3 +83,143 @@ body {
 .buttonStyle:active {
    top: 1px;
 }
+.post-content h1 {
+   @apply text-3xl;
+   @apply font-medium;
+}
+.post-content h2 {
+   @apply text-2xl;
+   @apply font-medium;
+}
+.post-content h3 {
+   @apply text-lg;
+   @apply font-medium;
+}
+.post-content h4 {
+   @apply text-base;
+   @apply font-medium;
+}
+.post-content h5 {
+   @apply text-base;
+   @apply font-medium;
+}
+.post-content h6 {
+   @apply text-sm;
+   @apply font-medium;
+}
+.post-content p {
+   @apply text-base;
+}
+.post-content a {
+   @apply text-primary-4;
+   @apply transition-colors hover:text-primary-4/50;
+   @apply duration-200;
+   @apply ease-in-out;
+   @apply underline;
+}
+.post-content img {
+   @apply w-full;
+}
+.post-content span {
+   @apply text-base;
+}
+.post-content blockquote {
+   @apply bg-gray-100;
+   @apply py-6;
+   @apply px-8;
+   @apply border-l-4;
+   @apply border-gray-800;
+   @apply rounded-md;
+   @apply shadow-md;
+}
+.post-content blockquote p {
+   @apply text-gray-700;
+}
+.post-content pre {
+   @apply bg-gray-800;
+}
+.post-content pre code {
+   @apply text-white;
+}
+.post-content code {
+   @apply bg-gray-200;
+}
+.post-content ul {
+   @apply list-disc;
+}
+.post-content ol {
+   @apply list-decimal;
+}
+.post-content li {
+   @apply text-base;
+   @apply ml-4;
+   @apply mb-8;
+}
+
+.post-content table {
+   @apply w-full;
+}
+.post-content table th {
+   @apply bg-gray-200;
+}
+.post-content table td {
+   @apply bg-gray-100;
+}
+.post-content table th,
+.post-content table td {
+   @apply text-base;
+}
+.post-content hr {
+   @apply border-t-2;
+}
+.post-content .gatsby-highlight {
+   @apply bg-gray-800;
+}
+.post-content .gatsby-highlight pre {
+   @apply bg-gray-800;
+}
+.post-content .gatsby-highlight pre code {
+   @apply text-white;
+}
+.post-content .gatsby-highlight code {
+   @apply bg-gray-800;
+}
+.post-content .gatsby-highlight pre code {
+   @apply text-white;
+}
+.post-content .gatsby-highlight pre code span {
+   @apply text-white;
+}
+.post-content .gatsby-highlight pre code span.kwd {
+   @apply text-blue-500;
+}
+.post-content .gatsby-highlight pre code span.pun {
+   @apply text-gray-400;
+}
+.post-content .gatsby-highlight pre code span.tag {
+   @apply text-yellow-500;
+}
+.post-content .gatsby-highlight pre code span.typ {
+   @apply text-green-500;
+}
+#ez-toc-container {
+   display: none !important;
+   visibility: hidden !important;
+   height: 0 !important;
+   overflow: hidden !important;
+   width: 0 !important;
+}
+.ez-toc-v2_0_63
+   .counter-hierarchy
+   .ez-toc-counter
+   .ez-toc-grey
+   .ez-toc-container-direction
+   .ez-toc-title-container
+   .ez-toc-list
+   .ez-toc-list-level-1 {
+   display: none !important;
+   visibility: hidden !important;
+   height: 0 !important;
+   overflow: hidden !important;
+   width: 0 !important;
+}

@@ -58,7 +58,6 @@ async function Page({ params: { id } }: params) {
 
    if (!slug) return notFound();
    if (!product) return notFound();
-   console.log(product);
 
    return (
       <div className="pt-[100px]">

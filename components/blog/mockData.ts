@@ -15,7 +15,7 @@ export type Blog = {
    title: string;
    description?: string;
    image: string | StaticImageData;
-   contents?: string;
+   contents: string;
    id?: string;
    slug: string;
 };
