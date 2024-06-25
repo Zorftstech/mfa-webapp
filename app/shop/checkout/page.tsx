@@ -33,6 +33,7 @@ import { db } from "@/firebase";
 import { z } from "zod";
 import { addDoc, collection } from "firebase/firestore";
 import { toast } from "sonner";
+import useStore from "@/store";
 const formSchema = z.object({
    fname: z.string().min(2, {
       message: "Please enter a First name.",
@@ -64,6 +65,7 @@ type formInterface = z.infer<typeof formSchema>;
 
 function Page() {
    const { currentCart } = useContext(CartContext);
+   const { authDetails } = useStore((state) => state);
    const form = useForm<formInterface>({
       resolver: zodResolver(formSchema),
       defaultValues: {
@@ -91,7 +93,7 @@ function Page() {
          email: values.email,
          amount,
          currency: "NGN",
-         ref: "" + Math.floor(Math.random() * 1000000000 + 1), // Generate a unique reference number
+         ref: "MFA" + Math.floor(Math.random() * 1000000000 + 1), // Generate a unique reference number
          metadata: {
             custom_fields: [
                {
@@ -116,8 +118,11 @@ function Page() {
                address: `${values.streetAddress}, ${values.state}, ${values.country}`,
                message: values.message,
                phone: values.phone,
-               paymentReference: response.reference,
+               paymentReference: `${response.reference}`,
                cartItems,
+               orderId: `${response.reference}`,
+               status: "pending",
+               userId: authDetails.id || values.email,
             };
             console.log(singleOrder);
             const createOrder = async () => {

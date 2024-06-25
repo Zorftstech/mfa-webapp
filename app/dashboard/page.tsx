@@ -20,6 +20,8 @@ import Link from "next/link";
 import profile from "@/images/account.png";
 import Image from "next/image";
 import useStore from "@/store";
+import useQueryCollectionByField from "@/hooks/useFirebaseFieldQuery";
+import { formatToNaira } from "@/lib/utils";
 
 const orderHistory = [
    {
@@ -54,7 +56,7 @@ const orderHistory = [
 
 function Page() {
    const { authDetails, setLoggedIn, setCurrentUser, setAuthDetails } = useStore((store) => store);
-   console.log(authDetails);
+   const { data } = useQueryCollectionByField("orders", "userId", authDetails.id ?? "");
 
    return (
       <DashboardLayout backgroundColor="bg-transparent">
@@ -62,11 +64,14 @@ function Page() {
             <div className="flex w-full flex-col gap-4 bg-gray-100 pb-4 md:flex-row">
                <div className="flex w-full flex-1 items-center justify-center bg-white">
                   <div className="flex flex-col items-center">
-                     <div className="mt-6 h-20 w-20 rounded-full">
+                     <div className="mt-6 h-[10rem] w-[10rem] rounded-full">
                         <Image
-                           src={authDetails?.photoURL || ""}
+                           src={
+                              authDetails?.photoURL ||
+                              "https://images.unsplash.com/photo-1610513320995-1ad4bbf25e55?fm=jpg&w=3000&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3Dk"
+                           }
                            alt="Profile Image"
-                           className="h-auto w-auto rounded-full"
+                           className="h-full w-full rounded-full object-cover"
                            width={300}
                            height={300}
                         />
@@ -128,40 +133,36 @@ function Page() {
                         </TableRow>
                      </TableHeader>
                      <TableBody>
-                        <TableRow>
-                           <TableCell className="font-medium">#738</TableCell>
-                           <TableCell>8 Sep 2020</TableCell>
-                           <TableCell>$135.00 (5 Products)</TableCell>
-                           <TableCell>processing</TableCell>
-                           <TableCell style={{ color: "#7AB42C" }}>view details</TableCell>
-                        </TableRow>
-
-                        <TableRow>
-                           <TableCell className="font-medium">#703</TableCell>
-                           <TableCell>24 May, 2020</TableCell>
-                           <TableCell>$25.00 (1 Product)</TableCell>
-                           <TableCell>On the way</TableCell>
-                           <TableCell style={{ color: "#7AB42C" }}>view details</TableCell>
-                        </TableRow>
-                        <TableRow>
-                           <TableCell className="font-medium">#130</TableCell>
-                           <TableCell>22 Oct, 2020</TableCell>
-                           <TableCell>$250.00 (4 Products)</TableCell>
-                           <TableCell>Completed</TableCell>
-                           <TableCell style={{ color: "#7AB42C" }}>view details</TableCell>
-                        </TableRow>
-                        <TableRow>
-                           <TableCell className="font-medium">#561</TableCell>
-                           <TableCell>1 Feb, 2020</TableCell>
-                           <TableCell>$35.00 (1 Products)</TableCell>
-                           <TableCell>Completed</TableCell>
-                           <TableCell style={{ color: "#7AB42C" }}>view details</TableCell>
-                        </TableRow>
+                        {data?.slice(0, 5)?.map((order, idx) => (
+                           <TableRow key={idx}>
+                              <TableCell className="font-medium">{order.orderId}</TableCell>
+                              <TableCell>{order.createdDate}</TableCell>
+                              <TableCell>{formatToNaira(order.totalAmount / 100)}</TableCell>
+                              <TableCell>
+                                 <span
+                                    className={`${
+                                       order.status === "completed"
+                                          ? "text-green-500"
+                                          : order.status === "cancelled"
+                                            ? "text-red-500"
+                                            : "text-yellow-500"
+                                    }`}
+                                 >
+                                    {order.status}
+                                 </span>
+                              </TableCell>
+                              <TableCell style={{ color: "#7AB42C" }}>
+                                 <Link href={`/dashboard/order-history/${order.id}`}>
+                                    View Details
+                                 </Link>
+                              </TableCell>
+                           </TableRow>
+                        ))}
                      </TableBody>
                   </Table>
                </div>
                <div className="flex flex-col gap-2 md:hidden">
-                  {orderHistory.map((order, idx) => (
+                  {data?.map((order, idx) => (
                      <div
                         key={idx}
                         className="grid grid-cols-[2fr,2fr,1.5fr] items-end gap-2 rounded-[16px] bg-slate-50 px-4 py-6"
@@ -171,23 +172,23 @@ function Page() {
                               {order.orderId}
                            </p>
                            <p className="text-[10px] font-[400] text-[#828282]">
-                              {format(new Date(order.datePurchased), "d LLL, y")}
+                              {order.createdDate}
                            </p>
                         </div>
                         <div>
                            <p className="mb-2 text-[14px] font-semibold text-[#1a1a1a]">
-                              ₦{order.total}{" "}
-                              <span className="text-[12px] font-[400]">
+                              {formatToNaira(order.totalAmount / 100)}
+                              {/* <span className="text-[12px] font-[400]">
                                  ({order.quantityPurchased}
                                  {order.quantityPurchased > 1 ? " Products" : " Product"})
-                              </span>
+                              </span> */}
                            </p>
                            <p className="text-[10px] font-[400] capitalize text-[#333333]">
-                              {order.transactionStatus}
+                              {order.status}
                            </p>
                         </div>
                         <Link
-                           href="/dashboard/order-history/something"
+                           href={`/dashboard/order-history/${order.id}`}
                            className="text-right text-[12px] font-medium text-[#7AB42C] hover:cursor-pointer hover:underline"
                         >
                            View Details

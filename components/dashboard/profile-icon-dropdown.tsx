@@ -20,16 +20,18 @@ const ProfileIconDropdown = ({ children }: { children?: React.ReactNode }) => {
             {children ?? (
                //   <WorkspaceSelectorDropdownButton currentWorkspace={currentWorkspace} buttonClassName={buttonClassName} />4
                <div className="flex items-center gap-1">
-                  <MenuIcon className="h-6 w-6 text-gray-500" />
-                  {/* <Avatar>
+                  <Avatar>
                      <AvatarImage
                         className="h-full w-full rounded-[inherit] object-cover"
-                        src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-                        alt="Colm Tuite"
+                        src={
+                           authDetails?.photoURL ||
+                           "https://images.unsplash.com/photo-1610513320995-1ad4bbf25e55?fm=jpg&w=3000&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3Dk"
+                        }
+                        alt={authDetails?.firstName}
                      />
 
-                     <AvatarFallback>{authDetails?.full_name}</AvatarFallback>
-                  </Avatar> */}
+                     <AvatarFallback>{authDetails?.firstName}</AvatarFallback>
+                  </Avatar>
                   <ChevronDown className="h-4 w-4 text-gray-500" />
                </div>
             )}
@@ -50,8 +52,8 @@ const ProfileIconDropdown = ({ children }: { children?: React.ReactNode }) => {
                // key={crypto.randomUUID()}
                className=" flex cursor-pointer items-center gap-[0.75rem] px-[1.25rem] py-[0.75rem] pt-6 text-[0.9rem] leading-[1.3rem] tracking-[0.01rem] hover:!bg-primary-1"
             >
-               <Text className="mb-3 whitespace-nowrap  font-semibold" size={"sm"}>
-                  {authDetails?.email}
+               <Text className="mb-3 whitespace-nowrap  font-semibold capitalize" size={"sm"}>
+                  {authDetails?.firstName} {authDetails.lastName}
                </Text>
             </Dropdown.Item>
 

@@ -8,8 +8,14 @@ import { Icon } from "@iconify/react";
 import OrderTableDesktop from "@/components/dashboard/orders-history/OrderTableDesktop";
 import { format } from "date-fns";
 import Link from "next/link";
+import useStore from "@/store";
+import useQueryCollectionByField from "@/hooks/useFirebaseFieldQuery";
+import { formatToNaira } from "@/lib/utils";
 
 const Page = () => {
+   const { authDetails } = useStore((store) => store);
+   const { data } = useQueryCollectionByField("orders", "userId", authDetails.id ?? "");
+
    const {
       handleNext,
       handlePrevious,
@@ -19,7 +25,7 @@ const Page = () => {
       setCurrentPage,
       pageNumbers,
       currentPage,
-   } = useClientPaginator({ data: ORDERHISTORY, perPage: 5 });
+   } = useClientPaginator({ data: data ?? [], perPage: 5 });
 
    const btnClassName =
       "bg-slate-100 buttonStyle rounded-full button disabled:bg-[#F2F2F2] disabled:text-[#B3B3B3] w-[48px] h-[48px] text-2xl border border-[#E6E6E6] text-[#1A1A1A]";
@@ -40,24 +46,22 @@ const Page = () => {
                      <p className="mb-2 text-[14px] font-semibold text-[#1a1a1a]">
                         {order.orderId}
                      </p>
-                     <p className="text-[10px] font-[400] text-[#828282]">
-                        {format(new Date(order.datePurchased), "d LLL, y")}
-                     </p>
+                     <p className="text-[10px] font-[400] text-[#828282]">{order.createdDate}</p>
                   </div>
                   <div>
                      <p className="mb-2 text-[14px] font-semibold text-[#1a1a1a]">
-                        ₦{order.total}{" "}
+                        {formatToNaira(order.totalAmount / 100)}
                         <span className="text-[12px] font-[400]">
-                           ({order.quantityPurchased}
-                           {order.quantityPurchased > 1 ? " Products" : " Product"})
+                           {/* ({order.quantityPurchased}
+                           {order.quantityPurchased > 1 ? " Products" : " Product"}) */}
                         </span>
                      </p>
                      <p className="text-[10px] font-[400] capitalize text-[#333333]">
-                        {order.transactionStatus}
+                        {order.status}
                      </p>
                   </div>
                   <Link
-                     href="/dashboard/order-history/something"
+                     href={`/dashboard/order-history/${order.id}`}
                      className="text-right text-[12px] font-medium text-[#7AB42C] hover:cursor-pointer hover:underline"
                   >
                      View Details

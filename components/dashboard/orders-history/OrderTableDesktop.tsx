@@ -12,6 +12,7 @@ import React from "react";
 import { TableHeadings } from "./mock-orders";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
+import { formatToNaira } from "@/lib/utils";
 
 const OrderTableDesktop = ({ pagedData }: { pagedData: any[] }) => {
    const { push } = useRouter();
@@ -31,16 +32,28 @@ const OrderTableDesktop = ({ pagedData }: { pagedData: any[] }) => {
             {pagedData.map((order, idx) => (
                <TableRow className="border-none text-[#333333]" key={idx}>
                   <TableCell className="">{order.orderId}</TableCell>
-                  <TableCell className="whitespace-nowrap">
-                     {format(new Date(order.datePurchased), "d LLL, y")}
-                  </TableCell>
+                  <TableCell className="whitespace-nowrap">{order.createdDate}</TableCell>
                   <TableCell className="">
-                     <span className="font-medium">₦{order.total}</span> ({order.quantityPurchased}
-                     {order.quantityPurchased > 1 ? " Products" : " Product"})
+                     <span className="font-medium"> {formatToNaira(order.totalAmount / 100)}</span>
+                     {/* ({order.quantityPurchased}
+                     {order.quantityPurchased > 1 ? " Products" : " Product"}) */}
                   </TableCell>
-                  <TableCell className="capitalize">{order.transactionStatus}</TableCell>
+                  <TableCell className="capitalize">
+                     {" "}
+                     <span
+                        className={`${
+                           order.status === "completed"
+                              ? "text-green-500"
+                              : order.status === "cancelled"
+                                ? "text-red-500"
+                                : "text-yellow-500"
+                        }`}
+                     >
+                        {order.status}
+                     </span>
+                  </TableCell>
                   <TableCell
-                     onClick={() => push("/dashboard/order-history/something")}
+                     onClick={() => push(`/dashboard/order-history/${order.id}`)}
                      className="text-right font-medium text-[#7AB42C] hover:cursor-pointer hover:underline"
                   >
                      View Details
