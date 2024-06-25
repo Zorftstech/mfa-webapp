@@ -125,12 +125,18 @@ function Page() {
                   const collectionRef = collection(db, "orders");
                   await addDoc(collectionRef, singleOrder);
                   toast.success("Order created successfully!");
+                  form.reset();
+                  // router.push("/shop/success");
                } catch (error) {
                   console.error("Error creating order: ", error);
                   toast("Error creating order. Please try again.");
                }
             };
             createOrder();
+
+            // clear cart
+            //route back
+            //reset forms
          },
          onClose: () => {
             alert("Payment closed");

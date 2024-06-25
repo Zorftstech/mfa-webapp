@@ -9,13 +9,15 @@ type Category = {
 };
 
 export type Blog = {
-   dateAdded: Date;
-   category: string;
-   postedBy: string;
+   dateAdded: string;
+   category?: string;
+   postedBy?: string;
    title: string;
-   description: string;
-   image: StaticImageData;
-   comments: number;
+   description?: string;
+   image: string | StaticImageData;
+   contents?: string;
+   id?: string;
+   slug: string;
 };
 
 export const categories: Category[] = [

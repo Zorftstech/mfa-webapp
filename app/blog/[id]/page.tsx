@@ -31,20 +31,24 @@ const Page = () => {
                )}
             >
                <div className={cn("hideScroll overflow-hidden", styles.blogSection)}>
-                  <Image className="rounded-xl" alt="blog-banner" src={RecentBlogImg} />
-                  <div className="pb-2 pt-8">
-                     <BlogStat {...blogs[0]} />
-                  </div>
+                  <Image
+                     className="h-auto w-auto rounded-xl"
+                     alt="blog-banner"
+                     src={RecentBlogImg}
+                     width={200}
+                     height={400}
+                  />
+                  <div className="pb-2 pt-8">{/* <BlogStat {...blogs[0]} /> */}</div>
                   <h1 className="mb-8 text-[32px] font-[500]">
                      The Juicy Tale of Fresh Oranges: From Tree to Table
                   </h1>
                   <div className="flex justify-between">
                      <div className="flex items-center gap-4">
-                        <span className="h-[48px] w-[48px] overflow-hidden rounded-full">
+                        {/* <span className="h-[48px] w-[48px] overflow-hidden rounded-full">
                            <Image src={BlogAvatar} alt="blog-avatar" />
-                        </span>
+                        </span> */}
                         <div>
-                           <p className="text-[16px] font-[500] text-[#1A1A1A]">Deborah Oladeji</p>
+                           {/* <p className="text-[16px] font-[500] text-[#1A1A1A]">Deborah Oladeji</p> */}
                            <div className="flex items-center gap-2 text-[14px] text-[#808080]">
                               <p>4 March, 2024</p>
                               <p>•</p>
@@ -75,10 +79,10 @@ const Page = () => {
                      className={cn("pb-8 pt-8", styles.blogPageContent)}
                      dangerouslySetInnerHTML={{ __html: blogContent }}
                   ></div>
-                  <LeaveAComment />
-                  <BlogComments />
+                  {/* <LeaveAComment /> */}
+                  {/* <BlogComments /> */}
                </div>
-               <aside
+               {/* <aside
                   className={cn(
                      styles.blogSidebar,
                      " hideScroll  md:w-[20%] md:min-w-[280px] lg:w-[20%] lg:min-w-[320px] ",
@@ -86,7 +90,7 @@ const Page = () => {
                >
                   <TopCategories />
                   <RecentlyAddedBlogs isHidden />
-               </aside>
+               </aside> */}
             </div>
          </WithRouteDisplay>
       </div>
