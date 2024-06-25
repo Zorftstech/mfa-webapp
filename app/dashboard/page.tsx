@@ -152,7 +152,7 @@ function Page() {
                                  </span>
                               </TableCell>
                               <TableCell style={{ color: "#7AB42C" }}>
-                                 <Link href={`/dashboard/order-history/${order.id}`}>
+                                 <Link href={`/dashboard/order-history/${order.orderId}`}>
                                     View Details
                                  </Link>
                               </TableCell>
@@ -188,7 +188,7 @@ function Page() {
                            </p>
                         </div>
                         <Link
-                           href={`/dashboard/order-history/${order.id}`}
+                           href={`/dashboard/order-history/${order.orderId}`}
                            className="text-right text-[12px] font-medium text-[#7AB42C] hover:cursor-pointer hover:underline"
                         >
                            View Details

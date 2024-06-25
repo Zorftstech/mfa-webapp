@@ -53,7 +53,7 @@ const OrderTableDesktop = ({ pagedData }: { pagedData: any[] }) => {
                      </span>
                   </TableCell>
                   <TableCell
-                     onClick={() => push(`/dashboard/order-history/${order.id}`)}
+                     onClick={() => push(`/dashboard/order-history/${order.orderId}`)}
                      className="text-right font-medium text-[#7AB42C] hover:cursor-pointer hover:underline"
                   >
                      View Details

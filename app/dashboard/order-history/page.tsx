@@ -26,6 +26,7 @@ const Page = () => {
       pageNumbers,
       currentPage,
    } = useClientPaginator({ data: data ?? [], perPage: 5 });
+   console.log(data);
 
    const btnClassName =
       "bg-slate-100 buttonStyle rounded-full button disabled:bg-[#F2F2F2] disabled:text-[#B3B3B3] w-[48px] h-[48px] text-2xl border border-[#E6E6E6] text-[#1A1A1A]";
@@ -61,7 +62,7 @@ const Page = () => {
                      </p>
                   </div>
                   <Link
-                     href={`/dashboard/order-history/${order.id}`}
+                     href={`/dashboard/order-history/${order.orderId}`}
                      className="text-right text-[12px] font-medium text-[#7AB42C] hover:cursor-pointer hover:underline"
                   >
                      View Details
