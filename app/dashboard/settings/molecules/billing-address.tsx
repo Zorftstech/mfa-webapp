@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Separator } from "@/components/ui/separator";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,19 +22,23 @@ import {
    SelectTrigger,
    SelectValue,
 } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
+import { Input, inputVariants } from "@/components/ui/input";
 import Image from "next/image";
+import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
+import { Label } from "@/components/ui/label";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { doc, setDoc, collection, updateDoc, addDoc } from "firebase/firestore";
+import ProcessError from "@/lib/error";
+import { useDropzone } from "react-dropzone";
+import useStore from "store";
+import { toast } from "sonner";
+import { db } from "@/firebase";
+import { splitStringBySpaceAndReplaceWithDash } from "@/lib/utils";
+import { Camera } from "lucide-react";
+import Spinner from "@/components/ui/spinner";
 
 const formSchema = z.object({
-   firstname: z.string().min(2, {
-      message: "First name must be at least 3 characters.",
-   }),
-   lastname: z.string().min(2, {
-      message: "Last name must be at least 3 characters.",
-   }),
-   company: z.string().min(0, {
-      message: "",
-   }),
+   company: z.string(),
    address: z.string().min(2, {
       message: "Address must be at least 5 characters.",
    }),
@@ -47,36 +51,50 @@ const formSchema = z.object({
    state: z.string().min(2, {
       message: "Country must be at least 3 characters.",
    }),
-   email: z.string().min(2, {
-      message: "Email must be at least 5 characters.",
-   }),
-   phone: z.string().min(2, {
-      message: "Phone must be at least 10 characters.",
-   }),
 });
 
 const BillingAddress = () => {
+   const { authDetails } = useStore((store) => store);
+
+   const [formIsLoading, setFormIsLoading] = useState(false);
+   const [uploading, setUploading] = React.useState(false);
+   const [file, setFile] = React.useState<any>(null);
    // 1. Define your form.
    const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
       defaultValues: {
-         firstname: "",
-         lastname: "",
-         address: "",
-         email: "",
-         phone: "",
-         company: "",
-         country: "",
-         state: "",
-         zipcode: "",
+         address: authDetails.addressDetails?.address ?? "",
+
+         company: authDetails.addressDetails?.company ?? "",
+         country: authDetails.addressDetails?.country ?? "",
+         state: authDetails.addressDetails?.state ?? "",
+         zipcode: authDetails.addressDetails?.zipcode ?? "",
       },
    });
 
    // 2. Define a submit handler.
-   function onSubmit(values: z.infer<typeof formSchema>) {
-      // Do something with the form values.
-      // ✅ This will be type-safe and validated.
-      console.log(values);
+   async function onSubmit(data: z.infer<typeof formSchema>) {
+      setFormIsLoading(true);
+      try {
+         const postData = {
+            addressDetails: {
+               address: data.address,
+               company: data.company,
+               country: data.country,
+               state: data.state,
+               zipcode: data.zipcode,
+            },
+         };
+
+         const docRef = doc(db, "users", authDetails.id ?? "");
+         await updateDoc(docRef, postData);
+         toast.success("Profile updated successfully");
+      } catch (error) {
+         ProcessError(error);
+         toast.error("An error occurred, please try again.");
+      } finally {
+         setFormIsLoading(false);
+      }
    }
    return (
       <div className="mt-4 w-full rounded-md bg-white p-4">
@@ -87,32 +105,6 @@ const BillingAddress = () => {
                <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 bg-white p-3">
                      <div className="flex w-full flex-col items-center justify-between gap-2 md:flex-row">
-                        <FormField
-                           control={form.control}
-                           name="firstname"
-                           render={({ field }) => (
-                              <FormItem className="w-full flex-1">
-                                 <FormLabel>First name</FormLabel>
-                                 <FormControl>
-                                    <Input placeholder="Your first name" {...field} />
-                                 </FormControl>
-                                 <FormMessage />
-                              </FormItem>
-                           )}
-                        />
-                        <FormField
-                           control={form.control}
-                           name="lastname"
-                           render={({ field }) => (
-                              <FormItem className="w-full flex-1">
-                                 <FormLabel>Last name</FormLabel>
-                                 <FormControl>
-                                    <Input placeholder="Your last name" {...field} />
-                                 </FormControl>
-                                 <FormMessage />
-                              </FormItem>
-                           )}
-                        />
                         <FormField
                            control={form.control}
                            name="company"
@@ -142,51 +134,40 @@ const BillingAddress = () => {
                            </FormItem>
                         )}
                      />
-                     <div className="flex w-full flex-col items-center justify-between gap-2 md:flex-row">
-                        <FormField
-                           control={form.control}
-                           name="country"
-                           render={({ field }) => (
-                              <FormItem className="w-full flex-1">
-                                 <FormLabel>Country / Region</FormLabel>
-                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                    <FormControl>
-                                       <SelectTrigger>
-                                          <SelectValue placeholder="Select country" />
-                                       </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                       <SelectItem value="m@example.com">m@example.com</SelectItem>
-                                       <SelectItem value="m@google.com">m@google.com</SelectItem>
-                                       <SelectItem value="m@support.com">m@support.com</SelectItem>
-                                    </SelectContent>
-                                 </Select>
-                                 <FormMessage />
-                              </FormItem>
-                           )}
-                        />
-                        <FormField
-                           control={form.control}
-                           name="state"
-                           render={({ field }) => (
-                              <FormItem className="w-full flex-1">
-                                 <FormLabel>States</FormLabel>
-                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                    <FormControl>
-                                       <SelectTrigger>
-                                          <SelectValue placeholder="Select state" />
-                                       </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                       <SelectItem value="m@example.com">m@example.com</SelectItem>
-                                       <SelectItem value="m@google.com">m@google.com</SelectItem>
-                                       <SelectItem value="m@support.com">m@support.com</SelectItem>
-                                    </SelectContent>
-                                 </Select>
-                                 <FormMessage />
-                              </FormItem>
-                           )}
-                        />
+
+                     <section className="grid grid-cols-2 gap-2 pb-2">
+                        <div>
+                           <Label htmlFor="country" className=" mb-2 ">
+                              Country
+                           </Label>
+                           <CountryDropdown
+                              classes={inputVariants({ variant: "default" })}
+                              name={"country"}
+                              defaultOptionLabel="Choose country"
+                              value={form.watch("country")}
+                              onChange={(country) => {
+                                 form.setValue("country", country);
+                              }}
+                           />
+                        </div>
+
+                        <div>
+                           <Label htmlFor="state" className=" mb-2 ">
+                              State
+                           </Label>
+
+                           <RegionDropdown
+                              classes={inputVariants({ variant: "default" })}
+                              name={"state"}
+                              defaultOptionLabel="Select state or region"
+                              blankOptionLabel="Select state or region"
+                              country={form.watch("country")}
+                              value={form.watch("state")}
+                              onChange={(state) => {
+                                 form.setValue("state", state);
+                              }}
+                           />
+                        </div>
                         <FormField
                            control={form.control}
                            name="zipcode"
@@ -200,38 +181,9 @@ const BillingAddress = () => {
                               </FormItem>
                            )}
                         />
-                     </div>
-                     <div className="flex w-full flex-col items-center justify-between gap-2 md:flex-row">
-                        {" "}
-                        <FormField
-                           control={form.control}
-                           name="email"
-                           render={({ field }) => (
-                              <FormItem className="w-full flex-1">
-                                 <FormLabel>Email</FormLabel>
-                                 <FormControl>
-                                    <Input placeholder="xyz@gmail.com" {...field} />
-                                 </FormControl>
-                                 <FormMessage />
-                              </FormItem>
-                           )}
-                        />
-                        <FormField
-                           control={form.control}
-                           name="phone"
-                           render={({ field }) => (
-                              <FormItem className="w-full flex-1">
-                                 <FormLabel>Phone Number</FormLabel>
-                                 <FormControl>
-                                    <Input placeholder="(+234) 801-123 3344" {...field} />
-                                 </FormControl>
-                                 <FormMessage />
-                              </FormItem>
-                           )}
-                        />
-                     </div>
-                     <Button className="rounded-3xl" type="submit">
-                        Save Changes
+                     </section>
+                     <Button className=" rounded-3xl" type="submit" disabled={formIsLoading}>
+                        {formIsLoading ? <Spinner /> : " Save Changes"}
                      </Button>
                   </form>
                </Form>

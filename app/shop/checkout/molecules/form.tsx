@@ -93,10 +93,7 @@ export function CheckoutForm({ form, onSubmit }: checkoutFormInterface) {
                      defaultOptionLabel="Choose country"
                      value={form.watch("country")}
                      onChange={(country) => {
-                        //   console.log({ country });
                         form.setValue("country", country);
-                        //   setCountry(country);
-                        console.log("country", form.getValues());
                      }}
                   />
                </div>
@@ -115,7 +112,6 @@ export function CheckoutForm({ form, onSubmit }: checkoutFormInterface) {
                      value={form.watch("state")}
                      onChange={(state) => {
                         form.setValue("state", state);
-                        console.log("state", form.getValues());
                      }}
                   />
                </div>

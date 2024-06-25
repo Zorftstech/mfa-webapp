@@ -90,6 +90,13 @@ export interface authDetailsInterface {
    refresh?: string;
    photoURL?: string | undefined;
    isSubscribed?: boolean | undefined;
+   addressDetails?: {
+      address: string;
+      company: string;
+      country: string;
+      state: string;
+      zipcode: string;
+   };
 }
 
 export interface productInterface {

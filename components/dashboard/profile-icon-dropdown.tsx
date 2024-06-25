@@ -22,6 +22,11 @@ const ProfileIconDropdown = ({ children }: { children?: React.ReactNode }) => {
                <div className="flex items-center gap-1">
                   <MenuIcon className="h-6 w-6 text-gray-500" />
                   {/* <Avatar>
+                     <AvatarImage
+                        className="h-full w-full rounded-[inherit] object-cover"
+                        src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
+                        alt="Colm Tuite"
+                     />
 
                      <AvatarFallback>{authDetails?.full_name}</AvatarFallback>
                   </Avatar> */}
