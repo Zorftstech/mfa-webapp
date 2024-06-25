@@ -80,7 +80,7 @@ function Page() {
                displayName: "",
             });
             //create user on firestore
-            await setDoc(doc(db, "webUsers", res.user.uid), {
+            await setDoc(doc(db, "users", res.user.uid), {
                uid: res.user.uid,
                displayName: "",
                email,
@@ -111,7 +111,7 @@ function Page() {
          setCurrentUser(data);
          setLoggedIn(true);
          // Create a reference to the document
-         const docRef = doc(db, "webUsers", data.user.uid);
+         const docRef = doc(db, "users", data.user.uid);
 
          // Retrieve the document
          const docSnap = await getDoc(docRef);

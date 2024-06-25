@@ -77,6 +77,9 @@ export interface authDetailsInterface {
       age?: number;
       hobbies?: string[];
    };
+   firstName?: string;
+   lastName?: string;
+   phone?: string;
    short_name?: string;
    full_name?: string;
    image_url?: string | null;
@@ -85,7 +88,7 @@ export interface authDetailsInterface {
    id?: string;
    token_type?: string;
    refresh?: string;
-   profile_pic?: string | undefined;
+   photoURL?: string | undefined;
    isSubscribed?: boolean | undefined;
 }
 

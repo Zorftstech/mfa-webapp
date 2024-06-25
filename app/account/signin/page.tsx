@@ -69,7 +69,7 @@ function Page() {
          router.push("/dashboard");
 
          // Create a reference to the document
-         const docRef = doc(db, "webUsers", data.user.uid);
+         const docRef = doc(db, "users", data.user.uid);
 
          // Retrieve the document
          const docSnap = await getDoc(docRef);

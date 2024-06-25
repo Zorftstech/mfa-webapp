@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import RouteDisplay from "@/components/shared/route-display";
 import Container from "@/components/shared/container";
@@ -18,6 +19,7 @@ import { format } from "date-fns";
 import Link from "next/link";
 import profile from "@/images/account.png";
 import Image from "next/image";
+import useStore from "@/store";
 
 const orderHistory = [
    {
@@ -50,7 +52,10 @@ const orderHistory = [
    },
 ];
 
-function page() {
+function Page() {
+   const { authDetails, setLoggedIn, setCurrentUser, setAuthDetails } = useStore((store) => store);
+   console.log(authDetails);
+
    return (
       <DashboardLayout backgroundColor="bg-transparent">
          <div className="flex h-full flex-col px-4 md:px-0">
@@ -58,7 +63,7 @@ function page() {
                <div className="flex w-full flex-1 items-center justify-center bg-white">
                   <div className="flex flex-col items-center">
                      <div className="mt-6 h-20 w-20 rounded-full">
-                        <Image src={profile} alt="Profile Image" />
+                        <Image src={authDetails?.photoURL || ""} alt="Profile Image" />
                      </div>
                      <Text size={"md"} weight={"semibold"}>
                         Chioma Azuka
@@ -86,7 +91,7 @@ function page() {
                      </Text>
                   </div>
                   <div className="mb-2 mt-6">
-                     <Text size={"sm"}>ChiomaAzuka@gmail.com</Text>
+                     <Text size={"sm"}>{authDetails.email}</Text>
                      <Text size={"sm"}>(+234) 805-347 6829</Text>
                   </div>
                   <Link
@@ -187,4 +192,4 @@ function page() {
    );
 }
 
-export default page;
+export default Page;

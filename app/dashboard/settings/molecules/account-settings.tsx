@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Separator } from "@/components/ui/separator";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,7 +17,16 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
-
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { doc, setDoc, collection, updateDoc } from "firebase/firestore";
+import ProcessError from "@/lib/error";
+import { useDropzone } from "react-dropzone";
+import useStore from "store";
+import { toast } from "sonner";
+import { db } from "@/firebase";
+import { splitStringBySpaceAndReplaceWithDash } from "@/lib/utils";
+import { Camera } from "lucide-react";
+import Spinner from "@/components/ui/spinner";
 const formSchema = z.object({
    firstname: z.string().min(2, {
       message: "First name must be at least 3 characters.",
@@ -25,31 +34,89 @@ const formSchema = z.object({
    lastname: z.string().min(2, {
       message: "Last name must be at least 3 characters.",
    }),
-   email: z.string().min(2, {
-      message: "Email must be at least 5 characters.",
-   }),
+   // email: z.string().min(2, {
+   //    message: "Email must be at least 5 characters.",
+   // }),
    phone: z.string().min(2, {
       message: "Phone number must be at least 10 characters.",
    }),
 });
 
 const AccountSettings = () => {
-   // 1. Define your form.
+   const { authDetails } = useStore((store) => store);
+   console.log("authDetails", authDetails);
    const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
       defaultValues: {
-         firstname: "",
-         lastname: "",
-         email: "",
-         phone: "",
+         firstname: authDetails.firstName ?? "",
+         lastname: authDetails.lastName ?? "",
+
+         phone: authDetails.phone ?? "",
+      },
+   });
+
+   const [formIsLoading, setFormIsLoading] = useState(false);
+   const [uploading, setUploading] = React.useState(false);
+   const [file, setFile] = React.useState<any>(null);
+   const [imageUrl, setImageUrl] = React.useState<string | null>(authDetails.photoURL || null); // New state for image URL
+
+   const handleFileDrop = async (files: any) => {
+      setFile(files);
+      const fileUrl = URL.createObjectURL(files);
+      setImageUrl(fileUrl); // Store the URL in state
+   };
+   const onDrop = (acceptedFiles: any) => {
+      handleFileDrop(acceptedFiles[0]);
+   };
+   const { getRootProps, getInputProps, isDragActive } = useDropzone({
+      onDrop,
+      multiple: false,
+      accept: {
+         "image/jpeg": [],
+         "image/png": [],
+         "image/gif": [],
       },
    });
 
    // 2. Define a submit handler.
-   function onSubmit(values: z.infer<typeof formSchema>) {
-      // Do something with the form values.
-      // ✅ This will be type-safe and validated.
-      console.log(values);
+   async function onSubmit(data: z.infer<typeof formSchema>) {
+      setFormIsLoading(true);
+      let downloadURL = imageUrl;
+
+      if (file) {
+         const storageRef = ref(getStorage(), `users/${file.name}`);
+         const snapshot = await uploadBytes(storageRef, file);
+         downloadURL = await getDownloadURL(snapshot.ref);
+      }
+
+      if (!downloadURL) {
+         toast.error("Image is required.");
+         setFormIsLoading(false);
+         return;
+      }
+
+      try {
+         const postData = {
+            firstName: data.firstname,
+            lastName: data.lastname,
+            photoURL: downloadURL,
+            phone: data.phone,
+            slug: splitStringBySpaceAndReplaceWithDash(data.firstname + " " + data.lastname),
+         };
+
+         const docRef = doc(db, "users", authDetails.id ?? "");
+         await updateDoc(docRef, postData);
+         toast.success("Profile updated successfully");
+
+         // form.reset();
+         setImageUrl(null);
+         setFile(null);
+      } catch (error) {
+         ProcessError(error);
+         toast.error("An error occurred, please try again.");
+      } finally {
+         setFormIsLoading(false);
+      }
    }
    return (
       <div className="w-full rounded-md bg-white p-4">
@@ -85,7 +152,7 @@ const AccountSettings = () => {
                            </FormItem>
                         )}
                      />
-                     <FormField
+                     {/* <FormField
                         control={form.control}
                         name="email"
                         render={({ field }) => (
@@ -97,7 +164,7 @@ const AccountSettings = () => {
                               <FormMessage />
                            </FormItem>
                         )}
-                     />
+                     /> */}
                      <FormField
                         control={form.control}
                         name="phone"
@@ -112,18 +179,46 @@ const AccountSettings = () => {
                         )}
                      />
 
-                     <Button className="rounded-3xl" type="submit">
-                        Save Changes
+                     <Button className=" rounded-3xl" type="submit" disabled={formIsLoading}>
+                        {formIsLoading ? <Spinner /> : " Save Changes"}
                      </Button>
                   </form>
                </Form>
             </div>
-            <div className="flex flex-col items-center justify-center gap-4">
+            <div className="flex items-center justify-center ">
+               <section className=" rounded-xl    ">
+                  <section {...getRootProps()}>
+                     <input {...getInputProps()} />
+                     {imageUrl ? (
+                        <div className="relative h-[10rem] w-[10rem] rounded-full  hover:cursor-pointer">
+                           <Image
+                              src={imageUrl}
+                              width={100}
+                              height={100}
+                              alt="Selected"
+                              className=" h-full w-full  object-cover object-center "
+                           />{" "}
+                           {/* Display the selected image */}
+                           <div className="absolute bottom-[5%] right-0 h-fit rounded-full   bg-slate-100 p-2">
+                              <Camera className="h-6 w-6" />
+                           </div>
+                        </div>
+                     ) : isDragActive ? (
+                        <p>Drop the files here ...</p>
+                     ) : (
+                        <div className="flex items-center justify-center gap-3  rounded-full  bg-gray-100 px-14 py-12  outline-2  outline-gray-500 hover:cursor-pointer">
+                           <Camera className="h-6 w-6" />
+                        </div>
+                     )}
+                  </section>
+               </section>
+            </div>
+            {/* <div className="flex flex-col items-center justify-center gap-4">
                <Image src={account} alt="account" />
                <Button className="rounded-3xl border border-[#7ab42c] bg-transparent text-[#7ab42c]">
                   Choose Image
                </Button>
-            </div>
+            </div> */}
          </div>
       </div>
    );
