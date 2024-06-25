@@ -14,36 +14,67 @@ import {
    FormLabel,
    FormMessage,
 } from "@/components/ui/form";
+import {
+   createUserWithEmailAndPassword,
+   signInWithEmailAndPassword,
+   updateProfile,
+   updatePassword,
+} from "firebase/auth";
+import { authFirebase, db } from "@/firebase";
 import { PasswordInput } from "@/components/ui/password-input";
+import { Auth } from "firebase/auth";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { doc, setDoc, collection, updateDoc, addDoc } from "firebase/firestore";
+import ProcessError from "@/lib/error";
+import { useDropzone } from "react-dropzone";
+import useStore from "store";
+import { toast } from "sonner";
+import { splitStringBySpaceAndReplaceWithDash } from "@/lib/utils";
+import { Camera } from "lucide-react";
+import Spinner from "@/components/ui/spinner";
 
-const formSchema = z.object({
-   currentPassword: z.string().min(6, {
-      message: "Current password must be at least 6 characters.",
-   }),
-   newPassword: z.string().min(6, {
-      message: "New password must be at least 6 characters.",
-   }),
-   confirmPassword: z.string().min(6, {
-      message: "New password must be at least 6 characters.",
-   }),
-});
+const formSchema = z
+   .object({
+      newPassword: z.string().min(6, {
+         message: "New password must be at least 6 characters.",
+      }),
+      confirmPassword: z.string().min(6, {
+         message: "New password must be at least 6 characters.",
+      }),
+   })
+   .refine((data) => data.newPassword === data.confirmPassword, {
+      message: "Passwords do not match",
+   });
 
-const BillingAddress = () => {
+const ChangePassword = () => {
    // 1. Define your form.
    const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
       defaultValues: {
-         currentPassword: "",
          newPassword: "",
          confirmPassword: "",
       },
    });
+   const [formIsLoading, setFormIsLoading] = React.useState(false);
 
    // 2. Define a submit handler.
-   function onSubmit(values: z.infer<typeof formSchema>) {
-      // Do something with the form values.
-      // ✅ This will be type-safe and validated.
-      console.log(values);
+   async function onSubmit(values: z.infer<typeof formSchema>) {
+      setFormIsLoading(true);
+      try {
+         const user = authFirebase.currentUser;
+
+         if (user) {
+            await updatePassword(user, values.newPassword);
+            toast.success("Password updated successfully.");
+         } else {
+            toast.error("User not found.");
+            throw new Error("User not found.");
+         }
+      } catch (error) {
+         toast.error("An error occurred while updating your password.");
+         console.error(error);
+      }
+      setFormIsLoading(false);
    }
    return (
       <div className="mt-4 w-full rounded-md bg-white p-4">
@@ -53,21 +84,7 @@ const BillingAddress = () => {
             <div>
                <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 bg-white p-3">
-                     <FormField
-                        control={form.control}
-                        name="currentPassword"
-                        render={({ field }) => (
-                           <FormItem className="w-full flex-1">
-                              <FormLabel>Current Password</FormLabel>
-                              <FormControl>
-                                 <PasswordInput {...field} />
-                              </FormControl>
-                              <FormMessage />
-                           </FormItem>
-                        )}
-                     />
                      <div className="flex w-full flex-col items-center justify-between gap-2 md:flex-row">
-                        {" "}
                         <FormField
                            control={form.control}
                            name="newPassword"
@@ -95,8 +112,8 @@ const BillingAddress = () => {
                            )}
                         />
                      </div>
-                     <Button className="rounded-3xl" type="submit">
-                        Change Password
+                     <Button className=" rounded-3xl" type="submit" disabled={formIsLoading}>
+                        {formIsLoading ? <Spinner /> : " Save Changes"}
                      </Button>
                   </form>
                </Form>
@@ -106,4 +123,4 @@ const BillingAddress = () => {
    );
 };
 
-export default BillingAddress;
+export default ChangePassword;

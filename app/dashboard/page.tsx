@@ -63,10 +63,16 @@ function Page() {
                <div className="flex w-full flex-1 items-center justify-center bg-white">
                   <div className="flex flex-col items-center">
                      <div className="mt-6 h-20 w-20 rounded-full">
-                        <Image src={authDetails?.photoURL || ""} alt="Profile Image" />
+                        <Image
+                           src={authDetails?.photoURL || ""}
+                           alt="Profile Image"
+                           className="h-auto w-auto rounded-full"
+                           width={300}
+                           height={300}
+                        />
                      </div>
                      <Text size={"md"} weight={"semibold"}>
-                        Chioma Azuka
+                        {authDetails?.firstName || ""} {authDetails?.lastName || ""}
                      </Text>
                      <Text size={"sm"}>Customer</Text>
                      <Link
@@ -84,15 +90,18 @@ function Page() {
                   </Text>
                   <div>
                      <Text size={"md"} weight={"bold"}>
-                        Chioma Azuka
+                        {authDetails?.firstName || ""} {authDetails?.lastName || ""}
                      </Text>
                      <Text size={"sm"} className="text-gray-600">
-                        10, Allen Avenue, Ikeja Lagos State
+                        {authDetails.addressDetails?.address || ""}{" "}
+                        {authDetails.addressDetails?.state || ""}{" "}
+                        {authDetails.addressDetails?.country || ""}{" "}
+                        {authDetails.addressDetails?.zipcode || ""}
                      </Text>
                   </div>
                   <div className="mb-2 mt-6">
                      <Text size={"sm"}>{authDetails.email}</Text>
-                     <Text size={"sm"}>(+234) 805-347 6829</Text>
+                     <Text size={"sm"}>{authDetails.phone || "Add Phone Number"}</Text>
                   </div>
                   <Link
                      href={"/dashboard/settings"}
