@@ -5,6 +5,7 @@ import { Text } from "@/components/ui/text";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { CartContext } from "@/contexts/cart-context";
+import { formatToNaira } from "@/lib/utils";
 
 function WishListMobile({ data }: { data: any }) {
    const { handlePlus } = useContext(CartContext);
@@ -17,7 +18,7 @@ function WishListMobile({ data }: { data: any }) {
                key={item.id}
             >
                <div className="flex w-full items-center gap-4">
-                  <Image src={item.image} alt={item.name} />
+                  <Image src={item.image} alt={item.name} width={100} height={100} />
                   <div>
                      {" "}
                      <Text size={"sm"} weight={"medium"}>
@@ -30,7 +31,10 @@ function WishListMobile({ data }: { data: any }) {
                      >
                         {item.status}
                      </Text>
-                     <Text size={"sm"}>₦{item.price.toLocaleString()}</Text>
+                     <Text size={"sm"}>
+                        {" "}
+                        {formatToNaira(Number(item.units && item.units[0].price) ?? 0)}
+                     </Text>
                      <Button
                         onClick={() => handlePlus(item)}
                         className="mt-4 rounded-3xl px-4 text-xs"

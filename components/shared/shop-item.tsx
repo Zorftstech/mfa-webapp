@@ -19,10 +19,59 @@ import { CartContext } from "@/contexts/cart-context";
 import { cn } from "@/lib/utils/css";
 import { formatToNaira, splitStringBySpaceAndReplaceWithDash } from "@/lib/utils";
 import { formatMoney } from "@/lib/helpers";
-
+import { toast } from "sonner";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import {
+   collection,
+   query,
+   where,
+   getDocs,
+   addDoc,
+   updateDoc,
+   arrayUnion,
+   doc,
+} from "firebase/firestore";
+import { db } from "@/firebase";
+import useStore from "@/store";
 const Shop = ({ itemDetails, isFlashSale }: { itemDetails: ShopItem; isFlashSale?: boolean }) => {
    const { handlePlus } = useContext(CartContext);
+   const { authDetails, loggedIn } = useStore((state) => state);
 
+   const addToWishList = (item: any) => {
+      const singleOrder = {
+         items: [item],
+         userId: authDetails.id,
+      };
+
+      const createOrUpdateOrder = async () => {
+         try {
+            const collectionRef = collection(db, "wishlist");
+            const q = query(collectionRef, where("userId", "==", authDetails.id ?? ""));
+            const querySnapshot = await getDocs(q);
+
+            if (querySnapshot.empty) {
+               // No existing wishlist for the user, create a new one
+               await addDoc(collectionRef, singleOrder);
+               toast.success("Item added to wishlist successfully.");
+            } else {
+               // Wishlist exists, update the items array
+               const wishlistDoc = querySnapshot.docs[0];
+               const wishlistDocRef = doc(db, "wishlist", wishlistDoc.id);
+
+               await updateDoc(wishlistDocRef, {
+                  items: arrayUnion(item),
+               });
+               toast.success("Item added to wishlist successfully.");
+            }
+         } catch (error) {
+            console.error("Error creating or updating order: ", error);
+            toast.error("Error adding item to wishlist. Please try again.");
+         }
+      };
+
+      createOrUpdateOrder();
+   };
    return (
       <div
          //  href={`/shop/${itemDetails.id}`}
@@ -33,7 +82,12 @@ const Shop = ({ itemDetails, isFlashSale }: { itemDetails: ShopItem; isFlashSale
                Save ₦{itemDetails.amountSaved?.toLocaleString()}
             </div>
          )}
-         <HeartIcon className="absolute right-3 top-3 z-20 w-6 text-gray-600" />
+         {loggedIn && (
+            <HeartIcon
+               onClick={() => addToWishList(itemDetails)}
+               className="absolute right-3 top-3 z-20 w-6 text-gray-600"
+            />
+         )}
          <div className="w-full p-0">
             <div
                className={`${styles.img_container} relative flex w-full items-center justify-center`}

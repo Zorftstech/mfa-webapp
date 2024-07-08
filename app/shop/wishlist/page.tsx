@@ -13,8 +13,13 @@ import RouteDisplay from "../../../components/shared/route-display";
 import ShareItem from "@/components/shared/share-item";
 
 import { wishlistItems } from "@/app/dummyItem";
+import useQueryCollectionByField from "@/hooks/useFirebaseFieldQuery";
+import useStore from "@/store";
 
-function page() {
+function Page() {
+   const { authDetails, loggedIn } = useStore((store) => store);
+   const { data } = useQueryCollectionByField("wishlist", "userId", authDetails.id ?? "");
+   console.log(data);
    return (
       <div className="pt-[100px]">
          <RouteDisplay route={"Wishlist"} />
@@ -23,8 +28,8 @@ function page() {
                <Text size={"lg"} weight={"semibold"}>
                   My Wishlist
                </Text>
-               <WishListMobile data={wishlistItems} />
-               <WishListTable data={wishlistItems} />
+               <WishListMobile data={data ? data[0]?.items : []} />
+               <WishListTable data={data ? data[0]?.items : []} />
                <div className="flex w-full items-center justify-start px-4">
                   <ShareItem />
                </div>
@@ -34,4 +39,4 @@ function page() {
    );
 }
 
-export default page;
+export default Page;

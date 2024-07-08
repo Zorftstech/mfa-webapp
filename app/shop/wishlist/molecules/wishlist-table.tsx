@@ -15,6 +15,7 @@ import { Text } from "@/components/ui/text";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { CartContext } from "@/contexts/cart-context";
+import { formatToNaira } from "@/lib/utils";
 
 function WishListTable({ data }: { data: any }) {
    const { handlePlus } = useContext(CartContext);
@@ -26,7 +27,6 @@ function WishListTable({ data }: { data: any }) {
                <TableRow>
                   <TableHead className="text-xs">PRODUCT</TableHead>
                   <TableHead className="text-xs">PRICE</TableHead>
-                  <TableHead className="text-xs">STOCK STATUS</TableHead>
                   <TableHead className="text-right">{}</TableHead>
                </TableRow>
             </TableHeader>
@@ -35,21 +35,23 @@ function WishListTable({ data }: { data: any }) {
                   <TableRow key={item.id}>
                      <TableCell className="font-medium">
                         <div className="flex items-center gap-2">
-                           <Image className="w-7" src={item.image} alt={item.name} />
+                           <Image
+                              src={item.image}
+                              alt={item.name}
+                              width={100}
+                              height={100}
+                              className="w-7"
+                           />
                            <Text size={"xs"}>{item.name}</Text>
                         </div>
                      </TableCell>
                      <TableCell>
-                        <Text size={"xs"}>₦{item.price.toLocaleString()}</Text>
-                     </TableCell>
-                     <TableCell className="">
-                        <Text
-                           className="w-fit rounded-2xl border border-green-100 bg-green-100 px-4 py-2"
-                           size={"xs"}
-                        >
-                           {item.status}
+                        <Text size={"xs"}>
+                           {" "}
+                           {formatToNaira(Number(item.units && item.units[0].price) ?? 0)}
                         </Text>
                      </TableCell>
+
                      <TableCell className="">
                         <Button
                            onClick={() => handlePlus(item)}
