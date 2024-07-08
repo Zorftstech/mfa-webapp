@@ -11,7 +11,7 @@ const useQueryCollectionByField = (
    fieldName: string,
    fieldValue: string,
 ) => {
-   const { setLoading } = useStore((state) => state);
+   const { setLoading, isLoading } = useStore((state) => state);
 
    const fetchItems = async () => {
       setLoading(true);
@@ -45,7 +45,7 @@ const useQueryCollectionByField = (
       }
    }, [isError, error]);
 
-   return { data, isSuccess, isError, error };
+   return { data, isSuccess, isError, error, isLoading };
 };
 
 export default useQueryCollectionByField;

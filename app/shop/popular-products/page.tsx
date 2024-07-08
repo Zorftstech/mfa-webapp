@@ -21,30 +21,26 @@ import { dummyItems, recommendedItems, recentItems } from "@/app/dummyItem";
 import { categoriesId } from "@/lib/utils";
 import useProducts from "../hooks/products/useProducts";
 import { shuffleArray } from "@/helper";
+import { Button } from "@/components/ui/button";
 function Page() {
-   const { sortedAndFilteredProducts } = useProducts("all");
+   const { sortedAndFilteredProducts, handleSearch } = useProducts("all");
+
    return (
       <div className="pt-[100px]">
          <RouteDisplay route="Popular Products" />
          <Container backgroundColor="bg-gray-100">
             <main className="mx-auto mt-8 flex w-full max-w-[1200px] flex-col items-center justify-center gap-1 py-4">
                <div className="w-full py-4">
-                  <div className="mb-6 flex items-center gap-2 px-2">
+                  <form className="mb-6 flex items-center gap-2 px-2">
                      <div className="relative w-full">
                         <Search className="absolute left-4 top-[25%] w-4" />
                         <Input
+                           onChange={handleSearch}
                            className={`w-full rounded-full bg-white py-6 pl-[40px]`}
                            placeholder={"What do you need?"}
                         />
                      </div>
-                     <StickyFilter />
-                     {/* <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#7ab42c] ">
-                        <Filter className="w-3 text-white" />
-                     </div> */}
-                     {/* <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#7ab42c]">
-                        <ArrowUpDown className="w-3 text-white" />
-                     </div> */}
-                  </div>
+                  </form>
                   <div className="flex w-full items-center justify-start px-4">
                      <Text size={"lg"} weight={"semibold"}>
                         Popular Products
@@ -65,7 +61,7 @@ function Page() {
                   </div>
                   <div className="grid w-full grid-cols-2 gap-4 p-4 md:grid-cols-3 lg:grid-cols-4">
                      <Each
-                        of={shuffleArray(sortedAndFilteredProducts || []).slice(0, 4) || []}
+                        of={shuffleArray(sortedAndFilteredProducts?.slice(0, 4) || [])}
                         render={(item: ItemType, index: number) => (
                            <ShopItem key={index} itemDetails={item} />
                         )}

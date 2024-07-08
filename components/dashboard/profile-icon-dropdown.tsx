@@ -71,7 +71,7 @@ const ProfileIconDropdown = ({ children }: { children?: React.ReactNode }) => {
                      setCurrentUser(null);
                      setAuthDetails({});
 
-                     router.push("/auth/signin");
+                     router.push("/account/signin");
                   }}
                   className=" whitespace-nowrap text-red-500 "
                   size={"sm"}
