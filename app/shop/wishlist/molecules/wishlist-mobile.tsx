@@ -6,9 +6,52 @@ import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { CartContext } from "@/contexts/cart-context";
 import { formatToNaira } from "@/lib/utils";
+import { collection, query, where, getDocs, updateDoc, arrayRemove, doc } from "firebase/firestore";
+import { db } from "@/firebase";
+import { toast } from "sonner";
+import useStore from "@/store";
+import { useRouter } from "next/navigation";
 
 function WishListMobile({ data }: { data: any }) {
    const { handlePlus } = useContext(CartContext);
+   const { authDetails, loggedIn } = useStore((store) => store);
+   const router = useRouter();
+
+   const removeFromWishList = (item: any) => {
+      const removeOrder = async () => {
+         if (!authDetails || !authDetails.id) {
+            console.error("User ID is undefined or authDetails is not properly initialized.");
+            toast.error("Error removing item from wishlist. User ID is missing.");
+            return;
+         }
+
+         try {
+            const collectionRef = collection(db, "wishlist");
+            const q = query(collectionRef, where("userId", "==", authDetails.id));
+            const querySnapshot = await getDocs(q);
+
+            if (querySnapshot.empty) {
+               toast.error("No wishlist found for the user.");
+               return;
+            }
+
+            const wishlistDoc = querySnapshot.docs[0];
+            const wishlistDocRef = doc(db, "wishlist", wishlistDoc.id);
+
+            await updateDoc(wishlistDocRef, {
+               items: arrayRemove(item),
+            });
+
+            toast.success("Item removed from wishlist successfully.");
+            router.refresh();
+         } catch (error) {
+            console.error("Error removing item from wishlist: ", error);
+            toast.error("Error removing item from wishlist. Please try again.");
+         }
+      };
+
+      removeOrder();
+   };
 
    return (
       <div className="mb-5 block w-full p-4 md:hidden">
@@ -43,7 +86,10 @@ function WishListMobile({ data }: { data: any }) {
                      </Button>
                   </div>
                </div>
-               <Button className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-gray-200 text-black">
+               <Button
+                  onClick={() => removeFromWishList(item)}
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-gray-200 text-black"
+               >
                   <X className="w-3" />
                </Button>
             </div>
