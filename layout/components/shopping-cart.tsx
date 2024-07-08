@@ -35,8 +35,8 @@ function ShoppingCart() {
                </span>
             </Button>
          </PopoverTrigger>
-         <PopoverContent className="bg-white">
-            <div className="grid gap-4">
+         <PopoverContent className="  overflow-y-auto overflow-x-hidden bg-white pb-8">
+            <div className="grid h-[10rem] gap-4">
                <div className="space-y-2">
                   <h4 className="font-medium leading-none">Shopping Card ({currentCart.length})</h4>
                </div>
