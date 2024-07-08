@@ -6,19 +6,22 @@ import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/
 import { Input } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
 import MultiRangeSlider, { ChangeResult } from "multi-range-slider-react";
-import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
 import "../page.module.css";
 import { formatToNaira } from "@/lib/utils";
 import useProducts from "../../hooks/products/useProducts";
-function Price() {
+import RangeSlider from "react-range-slider-input";
+
+function Price({ handlePriceChange }: { handlePriceChange: (newValue: number | null) => void }) {
    const [minValue, setMinValue] = useState(0);
    const [maxValue, setMaxValue] = useState(500000);
-   const [value, setValue] = useState([1000, 5000]);
-   const { handlePriceChange } = useProducts("all");
-   console.log(value[1]);
+   const [value, setValue] = useState([0, 0]);
    useEffect(() => {
-      handlePriceChange(value[1]);
+      if (value[1] > 0) {
+         handlePriceChange(value[1]);
+      } else {
+         handlePriceChange(null);
+      }
    }, [value]);
    return (
       <AccordionItem className="border-0" value="item-2">

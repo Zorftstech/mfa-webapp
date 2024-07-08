@@ -53,7 +53,7 @@ const useProducts = (LandingPageCategory?: string) => {
    const handleSortChange = (newValue: string) => {
       setSortCriterion(newValue);
    };
-   const handlePriceChange = (newValue: number) => {
+   const handlePriceChange = (newValue: number | null) => {
       setPrice(newValue);
    };
 
