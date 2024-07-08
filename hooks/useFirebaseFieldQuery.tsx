@@ -34,7 +34,7 @@ const useQueryCollectionByField = (
       return items;
    };
 
-   const { data, isSuccess, isError, error } = useQuery({
+   const { data, isSuccess, isError, error, refetch } = useQuery({
       queryKey: [collectionName, fieldName, fieldValue],
       queryFn: fetchItems,
    });
@@ -45,7 +45,7 @@ const useQueryCollectionByField = (
       }
    }, [isError, error]);
 
-   return { data, isSuccess, isError, error, isLoading };
+   return { data, isSuccess, isError, error, isLoading, refetch };
 };
 
 export default useQueryCollectionByField;
