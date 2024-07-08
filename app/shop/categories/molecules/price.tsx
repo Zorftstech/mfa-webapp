@@ -1,43 +1,46 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Input } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
 import MultiRangeSlider, { ChangeResult } from "multi-range-slider-react";
-
+import RangeSlider from "react-range-slider-input";
+import "react-range-slider-input/dist/style.css";
+import "../page.module.css";
+import { formatToNaira } from "@/lib/utils";
+import useProducts from "../../hooks/products/useProducts";
 function Price() {
    const [minValue, setMinValue] = useState(0);
-   const [maxValue, setMaxValue] = useState(0);
-
+   const [maxValue, setMaxValue] = useState(500000);
+   const [value, setValue] = useState([1000, 5000]);
+   const { handlePriceChange } = useProducts("all");
+   console.log(value[1]);
+   useEffect(() => {
+      handlePriceChange(value[1]);
+   }, [value]);
    return (
       <AccordionItem className="border-0" value="item-2">
          <AccordionTrigger>Price</AccordionTrigger>
          <AccordionContent className="flex flex-col items-center justify-start gap-1 pt-8">
-            {/* <MultiRangeSlider
-               min={0}
-               max={100000}
-               canMinMaxValueSame={true}
-               onInput={(e: ChangeResult) => {
-                  setMinValue(e.minValue);
-                  setMaxValue(e.maxValue);
-               }}
-               label={false}
-               ruler={false}
-               style={{ border: "none", width: "100%", boxShadow: "none", padding: "15px 10px" }}
-               barLeftColor="white"
-               barInnerColor="#7ab42c"
-               barRightColor="white"
-               thumbLeftColor="white"
-               thumbRightColor="white"
-            /> */}
+            <RangeSlider
+               className="single-thumb"
+               value={value}
+               onInput={setValue}
+               thumbsDisabled={[true, false]}
+               rangeSlideDisabled={true}
+               min={minValue}
+               max={maxValue}
+            />
             <div className="flex items-center justify-center gap-5">
                <Text size={"sm"} weight={"medium"}>
-                  From ₦{minValue.toLocaleString()}
+                  From {"  "}
+                  {formatToNaira(Number(value[0]))}
                </Text>
                <Text size={"sm"} weight={"medium"}>
-                  To ₦{maxValue.toLocaleString()}
+                  To {"  "}
+                  {formatToNaira(Number(value[1]))}
                </Text>
             </div>
          </AccordionContent>

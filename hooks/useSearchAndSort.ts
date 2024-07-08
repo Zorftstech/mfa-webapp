@@ -5,6 +5,7 @@ const useSortAndSearch = (
    searchTerm: any,
    sortCriterion: any,
    category?: string,
+   price?: number | null,
 ) => {
    const [sortedAndFilteredProducts, setSortedAndFilteredProducts] = useState<any[]>();
 
@@ -31,6 +32,7 @@ const useSortAndSearch = (
 
       return { day, month, year };
    }
+
    const sortProducts = (products: any[], criterion: any) => {
       return products.sort((a: { createdDate: any }, b: { createdDate: any }) => {
          const parsedA = parseCustomDate(a.createdDate);
@@ -55,15 +57,13 @@ const useSortAndSearch = (
 
    useEffect(() => {
       let updatedProducts = [...products];
-      // Category Filter
 
+      // Category Filter
       if (category && category !== "all") {
          updatedProducts = updatedProducts.filter((product) => product.category?.id === category);
       }
-      if (category && category === "all") {
-         updatedProducts = updatedProducts;
-      }
-      // Search
+
+      // Search Filter
       if (searchTerm) {
          updatedProducts = updatedProducts.filter(
             (product) =>
@@ -74,13 +74,21 @@ const useSortAndSearch = (
          );
       }
 
+      // Price Filter
+      if (price !== undefined && price !== null) {
+         console.log(price, "jeff");
+         updatedProducts = updatedProducts.filter(
+            (product) => (product?.units?.[0]?.price ?? 0) <= price,
+         );
+      }
+
       // Sort
       if (sortCriterion) {
          updatedProducts = sortProducts(updatedProducts, sortCriterion);
       }
 
       setSortedAndFilteredProducts(updatedProducts);
-   }, [products, searchTerm, sortCriterion, category]);
+   }, [products, searchTerm, sortCriterion, category, price]);
 
    return sortedAndFilteredProducts;
 };

@@ -10,6 +10,7 @@ const useProducts = (LandingPageCategory?: string) => {
    const [allProducts, setAllProducts] = useState([]);
    const [searchTerm, setSearchTerm] = useState("");
    const [sortCriterion, setSortCriterion] = useState("");
+   const [price, setPrice] = useState<number | null>(null);
    const { selectedCategory } = useStore((state) => state);
    const selectedCategoryOnCategoryPage = selectedCategory;
    const fetchProducts = async () => {
@@ -52,12 +53,16 @@ const useProducts = (LandingPageCategory?: string) => {
    const handleSortChange = (newValue: string) => {
       setSortCriterion(newValue);
    };
+   const handlePriceChange = (newValue: number) => {
+      setPrice(newValue);
+   };
 
    const sortedAndFilteredProducts = useSortAndSearch(
       allProducts,
       searchTerm,
       sortCriterion,
       LandingPageCategory || selectedCategoryOnCategoryPage,
+      price,
    );
 
    return {
@@ -67,6 +72,8 @@ const useProducts = (LandingPageCategory?: string) => {
       handleSortChange,
       searchTerm,
       sortCriterion,
+      price,
+      handlePriceChange,
    };
 };
 

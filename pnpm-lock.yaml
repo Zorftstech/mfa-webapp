@@ -227,6 +227,9 @@ dependencies:
   react-phone-input-2:
     specifier: ^2.15.1
     version: 2.15.1(react-dom@18.2.0)(react@18.2.0)
+  react-range-slider-input:
+    specifier: ^3.0.7
+    version: 3.0.7
   react-slideshow-image:
     specifier: ^4.3.0
     version: 4.3.0(react@18.2.0)
@@ -4795,6 +4798,11 @@ packages:
       browserslist: 4.22.2
     dev: true
 
+  /core-js@3.37.1:
+    resolution: {integrity: sha512-Xn6qmxrQZyB0FFY8E3bgRXei3lWDJHhvI+u0q9TKIYM49G8pAr0FgnnrFRAmsbptZL1yxRADVXn+x5AGsbBfyw==}
+    requiresBuild: true
+    dev: false
+
   /core-util-is@1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
     dev: false
@@ -7546,6 +7554,13 @@ packages:
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /react-range-slider-input@3.0.7:
+    resolution: {integrity: sha512-yAJDDMUNkILOcZSCLCVbwgnoAM3v0AfdDysTCMXDwY/+ZRNRlv98TyHbVCwPFEd7qiI8Ca/stKb0GAy//NybYw==}
+    dependencies:
+      clsx: 1.2.1
+      core-js: 3.37.1
     dev: false
 
   /react-remove-scroll-bar@2.3.4(@types/react@18.2.0)(react@18.2.0):
