@@ -85,7 +85,7 @@ const Shop = ({ itemDetails, isFlashSale }: { itemDetails: ShopItem; isFlashSale
          {loggedIn && (
             <HeartIcon
                onClick={() => addToWishList(itemDetails)}
-               className="absolute right-3 top-3 z-20 w-6 text-gray-600"
+               className="absolute right-3 top-3  w-6 text-gray-600"
             />
          )}
          <div className="w-full p-0">
