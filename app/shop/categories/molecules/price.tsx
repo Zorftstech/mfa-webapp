@@ -5,45 +5,43 @@ import React, { useEffect, useState } from "react";
 import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Input } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
-import MultiRangeSlider, { ChangeResult } from "multi-range-slider-react";
-import "react-range-slider-input/dist/style.css";
-import "../page.module.css";
+
 import { formatToNaira } from "@/lib/utils";
 import useProducts from "../../hooks/products/useProducts";
-import RangeSlider from "react-range-slider-input";
 
 function Price({ handlePriceChange }: { handlePriceChange: (newValue: number | null) => void }) {
-   const [minValue, setMinValue] = useState(0);
-   const [maxValue, setMaxValue] = useState(500000);
-   const [value, setValue] = useState([0, 0]);
+   const price = 100000;
+   const step = 1000;
+   const maxPrice = 500000;
+   const [selectedPrice, setSelectedPrice] = useState(0);
    useEffect(() => {
-      if (value[1] > 0) {
-         handlePriceChange(value[1]);
+      if (selectedPrice > 0) {
+         handlePriceChange(selectedPrice);
       } else {
          handlePriceChange(null);
       }
-   }, [value]);
+   }, [selectedPrice]);
    return (
       <AccordionItem className="border-0" value="item-2">
          <AccordionTrigger>Price</AccordionTrigger>
          <AccordionContent className="flex flex-col items-center justify-start gap-1 pt-8">
-            <RangeSlider
-               className="single-thumb"
-               value={value}
-               onInput={setValue}
-               thumbsDisabled={[true, false]}
-               rangeSlideDisabled={true}
-               min={minValue}
-               max={maxValue}
+            <Text size={"sm"} weight={"medium"}>
+               Max {"  "}
+               {formatToNaira(Number(maxPrice))}
+            </Text>
+            <input
+               type="range"
+               name={"price"}
+               min={0}
+               max={maxPrice}
+               value={selectedPrice}
+               onChange={(e) => setSelectedPrice(Number(e.target.value) || 0)}
+               className={`range range-primary w-full fill-primary-1`}
+               step={step}
             />
             <div className="flex items-center justify-center gap-5">
                <Text size={"sm"} weight={"medium"}>
-                  From {"  "}
-                  {formatToNaira(Number(value[0]))}
-               </Text>
-               <Text size={"sm"} weight={"medium"}>
-                  To {"  "}
-                  {formatToNaira(Number(value[1]))}
+                  {formatToNaira(Number(selectedPrice))}
                </Text>
             </div>
          </AccordionContent>
