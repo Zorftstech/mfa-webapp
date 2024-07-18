@@ -23,8 +23,11 @@ import Marquee from "react-marquee-slider";
 import useStore from "@/store";
 import { CartContext } from "@/contexts/cart-context";
 import { calculateTotalPrice } from "@/app/helper";
+import useAnnouncement from "@/app/shop/hooks/announcement/announcement";
 const Header = () => {
    const { loggedIn } = useStore((store) => store);
+   const { data: info } = useAnnouncement();
+   const data = info ? info[0] : {};
 
    const { currentCart } = useContext(CartContext);
    const amount = Number(calculateTotalPrice(currentCart));
@@ -50,34 +53,36 @@ const Header = () => {
             </Show.When>
          </Show>
          <section className="w-full bg-white shadow">
-            <div className="w-full bg-gray-200 py-2">
-               {width ? (
-                  <Marquee
-                     direction="ltr"
-                     scatterRandomly={false}
-                     onInit={() => {}}
-                     onFinish={() => {}}
-                     resetAfterTries={1}
-                     velocity={25}
-                  >
-                     <Text size={"xs"} weight={"medium"}>
-                        Enjoy 25% off Farm Direct products!
-                     </Text>
-                     <Text size={"xs"} weight={"medium"} className="ml-1">
-                        Shop Now
-                     </Text>
-                  </Marquee>
-               ) : (
-                  <div className="my-1 flex items-center px-5">
-                     <Text size={"xs"} weight={"medium"}>
-                        Enjoy 25% off Farm Direct products!
-                     </Text>
-                     <Text size={"xs"} weight={"medium"} className="ml-1">
-                        Shop Now
-                     </Text>
+            <Show>
+               <Show.When isTrue={!data?.isDurationPast && data?.showAnnouncement}>
+                  <div className="w-full bg-gray-200 py-2">
+                     {width ? (
+                        <Marquee
+                           direction="ltr"
+                           scatterRandomly={false}
+                           onInit={() => {}}
+                           onFinish={() => {}}
+                           resetAfterTries={1}
+                           velocity={25}
+                        >
+                           <Text size={"xs"} weight={"medium"}>
+                              {data?.announcementText}
+                           </Text>
+                           <Text size={"xs"} weight={"medium"}>
+                              .
+                           </Text>
+                        </Marquee>
+                     ) : (
+                        <div className="my-1 flex items-center px-5">
+                           <Text size={"xs"} weight={"medium"}>
+                              {data?.announcementText}
+                           </Text>
+                        </div>
+                     )}
                   </div>
-               )}
-            </div>
+               </Show.When>
+            </Show>
+
             <main className="mx-auto flex w-full max-w-[1200px] items-center justify-between px-4 py-4 md:px-8">
                <Button
                   className="block md:hidden"

@@ -86,6 +86,10 @@ export default function Hero() {
                   <Link
                      href={`/shop/categories`}
                      onClick={() => setSelectedCategory(category.id)}
+                     style={{
+                        display: "flex",
+                        flexDirection: "column",
+                     }}
                      className="flex flex-col items-center justify-center"
                      key={index}
                   >
