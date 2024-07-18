@@ -13,6 +13,10 @@ import Footer from "@/layout/footer";
 import Header from "@/layout/header";
 import Topbar from "@/layout/topbar";
 import { CartProvider } from "@/contexts/cart-context";
+import algoliasearch from "algoliasearch/lite";
+
+import { InstantSearch, SearchBox, Hits, Highlight, Configure } from "react-instantsearch";
+const searchClient = algoliasearch("7IGIHUZ06I", "60c379c16c8524fa0a2c6ceb105b824a");
 
 import "./globals.css";
 
@@ -23,13 +27,15 @@ export default function RootClientLayout({
 }>) {
    const { width } = useWindowDimensions();
    return (
-      <CartProvider>
-         <main className="min-h-screen">
-            <Header />
-            {children}
-            {width && width > 768 && <Newsletter />}
-            <Footer />
-         </main>
-      </CartProvider>
+      <InstantSearch searchClient={searchClient} indexName="products">
+         <CartProvider>
+            <main className="min-h-screen">
+               <Header />
+               {children}
+               {width && width > 768 && <Newsletter />}
+               <Footer />
+            </main>
+         </CartProvider>
+      </InstantSearch>
    );
 }

@@ -20,6 +20,7 @@ import Image from "next/image";
 import { Text } from "@/components/ui/text";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import SearchBar from "@/components/shared/search";
 
 interface category {
    id: number;
@@ -74,6 +75,7 @@ export default function Hero() {
                />
                <Search className="absolute right-4 top-[25%] hidden w-4 md:block" />
             </div>
+            <SearchBar />
             <div className="flex h-full w-12 items-center justify-center rounded-full bg-white md:hidden">
                <ArrowUpDown className="w-3 text-gray-800" />
             </div>
