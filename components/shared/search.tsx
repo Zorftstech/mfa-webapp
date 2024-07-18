@@ -12,17 +12,16 @@ import {
    DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
-import { Filter } from "lucide-react";
+import { Filter, Search } from "lucide-react";
+import { Input } from "../ui/input";
 const searchClient = algoliasearch("7IGIHUZ06I", "60c379c16c8524fa0a2c6ceb105b824a");
 
 const Hit = ({ hit }: { hit: any }) => {
    return (
-      <div>
-         <div className="hit-name underline ">
-            {hit.name}
-            <Highlight attribute="name" hit={hit} />
-         </div>
-      </div>
+      <p className="hit-name w-full border-none  text-sm underline">
+         {hit.name}
+         {/* <Highlight attribute="name" hit={hit} /> */}
+      </p>
    );
 };
 
@@ -36,13 +35,17 @@ const SearchBar: React.FC = () => {
    return (
       <Dialog>
          <DialogTrigger asChild>
-            <Button variant="outline">
-               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#7ab42c] ">
-                  <Filter className="w-3 text-white" />
-               </div>
+            <Button variant="default" className="w-full">
+               <Search className="absolute left-4 top-[25%] block w-4 md:hidden" />
+               <Input
+                  className="w-full rounded-full bg-white py-6 pl-[40px] md:pl-2"
+                  placeholder={"I am looking for..."}
+                  name={"search"}
+               />
+               <Search className="absolute right-4 top-[25%] hidden w-4 md:block" />
             </Button>
          </DialogTrigger>
-         <DialogContent className="h-[500px] w-[95%] bg-white">
+         <DialogContent className=" w-[95%] bg-white">
             <Configure hitsPerPage={100} />
             <SearchBox />
             <div className="border border-red-700">

@@ -64,7 +64,7 @@ export default function Hero() {
             className="flex w-full max-w-lg items-center justify-between gap-2"
             onSubmit={handleSubmit}
          >
-            <div className="relative w-full">
+            {/* <div className="relative w-full">
                <Search className="absolute left-4 top-[25%] block w-4 md:hidden" />
                <Input
                   className="w-full rounded-full bg-white py-6 pl-[40px] md:pl-2"
@@ -74,7 +74,7 @@ export default function Hero() {
                   name={"search"}
                />
                <Search className="absolute right-4 top-[25%] hidden w-4 md:block" />
-            </div>
+            </div> */}
             <SearchBar />
             <div className="flex h-full w-12 items-center justify-center rounded-full bg-white md:hidden">
                <ArrowUpDown className="w-3 text-gray-800" />
