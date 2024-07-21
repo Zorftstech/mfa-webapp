@@ -17,7 +17,13 @@ import Each from "@/components/helpers/each";
 
 // import { CartContext } from "@/contexts/cart-context";
 
-function ProductDescription({ currentItem }: { currentItem: Partial<SingleProduct> }) {
+function ProductDescription({
+   currentItem,
+   product,
+}: {
+   currentItem: Partial<SingleProduct>;
+   product: any;
+}) {
    const [productCount, setProductCount] = useState(1);
 
    const { handlePlus } = useContext(CartContext);
@@ -119,7 +125,7 @@ function ProductDescription({ currentItem }: { currentItem: Partial<SingleProduc
 
          <Button
             onClick={(e) =>
-               handlePlus(currentItem, {
+               handlePlus(product, {
                   unit: selectedWeightId,
                   price: currentSelectedPrice,
                })

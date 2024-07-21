@@ -60,6 +60,7 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
    // Update local storage whenever the cart changes
    useEffect(() => {
       localStorage.setItem("cart", JSON.stringify(currentCart));
+      console.log(currentCart);
    }, [currentCart]);
 
    const handleMinus = (
