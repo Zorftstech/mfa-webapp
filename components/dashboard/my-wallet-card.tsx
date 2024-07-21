@@ -25,36 +25,46 @@ import { PaystackButton } from "react-paystack";
 import Spinner from "@/components/ui/spinner";
 import { db } from "@/firebase";
 import { addDoc, collection } from "firebase/firestore";
+import useQueryCollectionByField from "@/hooks/useFirebaseFieldQuery";
+import { formatToNaira } from "@/lib/utils";
+
 const formSchema = z.object({
    amount: z.number().min(3, {
       message: "Amount must be at least 3 characters.",
    }),
 });
 type formInterface = z.infer<typeof formSchema>;
-const WalletCard = ({ amount }: { amount: string }) => {
+const WalletCard = ({ refetchTransactions }: { refetchTransactions: () => void }) => {
    const [showFundForm, setShowFundForm] = useState(false);
+   const [isPending, setIsPending] = useState(false);
+   const [isVerifying, setIsVerifying] = useState(false);
    const form = useForm<formInterface>({
       resolver: zodResolver(formSchema),
    });
    const publicKey = "pk_test_2f5fe11f645e8ffa062f379d652aef8daf391f82"; // Replace with your Paystack public key
 
    const { authDetails } = useStore((store) => store);
-   const { mutate, isPending } = useMutation<any, any, formInterface>({
-      mutationFn: async ({ amount }) => {
-         //  toast.success("Subscribed successfully");
-         const user = await axios.post("/api/newsletter", { name: amount });
-         console.log({ user });
+   const { data: walletBalance, refetch: refetchWalletBalance } = useQueryCollectionByField(
+      "wallets",
+      "userId",
+      authDetails.id ?? "",
+   );
+   // const { mutate, isPending } = useMutation<any, any, formInterface>({
+   //    mutationFn: async ({ amount }) => {
+   //       //  toast.success("Subscribed successfully");
+   //       const user = await axios.post("/api/newsletter", { name: amount });
+   //       console.log({ user });
 
-         return user;
-      },
-      onSuccess: async (data) => {
-         toast.success("Subscribed successfully");
-         form.reset();
-      },
-      onError: (err) => {
-         ProcessError(err);
-      },
-   });
+   //       return user;
+   //    },
+   //    onSuccess: async (data) => {
+   //       toast.success("Subscribed successfully");
+   //       form.reset();
+   //    },
+   //    onError: (err) => {
+   //       ProcessError(err);
+   //    },
+   // });
 
    const handlePayment = (amount: number) => {
       if (window.PaystackPop === undefined) return;
@@ -75,46 +85,34 @@ const WalletCard = ({ amount }: { amount: string }) => {
             ],
          },
          callback: (response) => {
-            toast.success("Payment Successful! Reference: " + response.reference);
-            console.log(response);
-            console.log("Call my own api, verify the transaction", amount);
+            const updateWallet = async () => {
+               setIsVerifying(true);
+               const payload = {
+                  email: authDetails.email,
+                  amount: amount / 100,
+                  reference: response.reference,
+                  name: `${authDetails.firstName} ${authDetails.lastName}`,
+                  firstName: authDetails.firstName,
+                  lastName: authDetails.lastName,
+                  userId: authDetails.id,
+                  status: response.status,
+                  transId: response.trans,
+               };
+
+               try {
+                  await axios.post("/api/payment/wallet", payload);
+                  refetchWalletBalance();
+                  refetchTransactions();
+                  toast.success("Wallet updated successfully");
+               } catch (error) {
+                  console.error("Error updating wallet:", error);
+                  toast.error("Error updating wallet. Please try again.");
+               }
+               setIsVerifying(false);
+            };
+            updateWallet();
+
             setShowFundForm(false);
-
-            // You can handle further processing here
-            // Create order in Firebase
-            // const singleOrder = {
-            //    name: `${values.fname} ${values.lname}`,
-            //    firstName: values.fname,
-            //    lastName: values.lname,
-            //    email: values.email,
-            //    totalAmount: amount,
-            //    address: `${values.streetAddress}, ${values.state}, ${values.country}`,
-            //    message: values.message,
-            //    phone: values.phone,
-            //    paymentReference: `${response.reference}`,
-            //    cartItems,
-            //    orderId: `${response.reference}`,
-            //    status: "pending",
-            //    userId: authDetails.id || values.email,
-            // };
-            // console.log(singleOrder);
-            // const createOrder = async () => {
-            //    try {
-            //       const collectionRef = collection(db, "orders");
-            //       await addDoc(collectionRef, singleOrder);
-            //       toast.success("Order created successfully!");
-            //       form.reset();
-            //       // router.push("/shop/success");
-            //    } catch (error) {
-            //       console.error("Error creating order: ", error);
-            //       toast("Error creating order. Please try again.");
-            //    }
-            // };
-            // createOrder();
-
-            // clear cart
-            //route back
-            //reset forms
          },
          onClose: () => {
             alert("Payment closed");
@@ -124,7 +122,9 @@ const WalletCard = ({ amount }: { amount: string }) => {
       handler.openIframe();
    };
    function onSubmit(values: formInterface) {
+      setIsPending(true);
       handlePayment(values.amount * 100);
+      setIsPending(false);
    }
 
    if (!showFundForm)
@@ -132,10 +132,14 @@ const WalletCard = ({ amount }: { amount: string }) => {
          <div className="h-55 w-85 mb-5 ml-5 mt-5 flex flex-col justify-between rounded-3xl bg-gradient-to-r from-[#72a929] to-[#83bf33] p-4">
             <div>
                <p className="mb-6 text-sm font-normal text-white">Account balance</p>
-               <h2 className="mb-6 mr-4 text-4xl font-bold text-white">
-                  {amount}{" "}
-                  <Eye className="ml-4 inline-block cursor-pointer align-middle" size={24} />
-               </h2>
+               {isVerifying ? (
+                  <Spinner className="m-4" />
+               ) : (
+                  <h2 className="mb-6 mr-4 text-4xl font-bold text-white">
+                     {formatToNaira(walletBalance?.[0]?.balance ?? 0)}
+                     <Eye className="ml-4 inline-block cursor-pointer align-middle" size={24} />
+                  </h2>
+               )}
             </div>
             <div>
                <button

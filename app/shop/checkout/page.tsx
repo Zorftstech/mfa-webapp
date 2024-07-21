@@ -229,17 +229,13 @@ function Page() {
                         </Text>
                         <RadioGroup className="my-3" defaultValue="card">
                            <div className="flex items-center space-x-2">
-                              <RadioGroupItem value="transfer" id="r1" disabled />
-                              <Label htmlFor="r1">Bank Transfer</Label>
+                              <RadioGroupItem value="wallet" id="r1" />
+                              <Label htmlFor="r1">From Wallet Balance</Label>
                            </div>
                            <div className="flex items-center space-x-2">
                               <RadioGroupItem value="card" id="r2" />
-                              <Label htmlFor="r2">Debit Card</Label>
+                              <Label htmlFor="r2">Debit Card or Bank Transfer</Label>
                            </div>
-                           {/* <div className="flex items-center space-x-2">
-                              <RadioGroupItem value="compact" id="r3" />
-                              <Label htmlFor="r3">Wallet</Label>
-                           </div> */}
                         </RadioGroup>
 
                         <Button

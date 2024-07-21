@@ -9,6 +9,6 @@ export const dashboardRoutes: { id: number; title: string; href: string; icon?: 
    { id: 6, title: "My Wallet", href: "/dashboard/wallet" },
    { id: 7, title: "Referral Code", href: "/dashboard/referral-code" },
    { id: 8, title: "Coupons", href: "/dashboard/coupons" },
-   { id: 9, title: "Payment Methods", href: "/dashboard/payment-methods" },
+   // { id: 9, title: "Payment Methods", href: "/dashboard/payment-methods" },
    { id: 10, title: "Settings", href: "/dashboard/settings" },
 ];
