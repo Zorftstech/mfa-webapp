@@ -27,6 +27,7 @@ import { db } from "@/firebase";
 import { addDoc, collection } from "firebase/firestore";
 import useQueryCollectionByField from "@/hooks/useFirebaseFieldQuery";
 import { formatToNaira } from "@/lib/utils";
+import { usePaystackPayment } from "react-paystack";
 
 const formSchema = z.object({
    amount: z.number().min(3, {
@@ -42,6 +43,10 @@ const WalletCard = ({ refetchTransactions }: { refetchTransactions: () => void }
       resolver: zodResolver(formSchema),
    });
    const publicKey = "pk_test_2f5fe11f645e8ffa062f379d652aef8daf391f82"; // Replace with your Paystack public key
+   const config = {
+      publicKey,
+   };
+   const initializePayment = usePaystackPayment(config);
 
    const { authDetails } = useStore((store) => store);
    const { data: walletBalance, refetch: refetchWalletBalance } = useQueryCollectionByField(
@@ -49,81 +54,62 @@ const WalletCard = ({ refetchTransactions }: { refetchTransactions: () => void }
       "userId",
       authDetails.id ?? "",
    );
-   // const { mutate, isPending } = useMutation<any, any, formInterface>({
-   //    mutationFn: async ({ amount }) => {
-   //       //  toast.success("Subscribed successfully");
-   //       const user = await axios.post("/api/newsletter", { name: amount });
-   //       console.log({ user });
 
-   //       return user;
-   //    },
-   //    onSuccess: async (data) => {
-   //       toast.success("Subscribed successfully");
-   //       form.reset();
-   //    },
-   //    onError: (err) => {
-   //       ProcessError(err);
-   //    },
-   // });
-
-   const handlePayment = (amount: number) => {
-      if (window.PaystackPop === undefined) return;
-
-      const handler = window.PaystackPop.setup({
-         key: publicKey,
-         email: authDetails.email!,
-         amount,
-         currency: "NGN",
-         ref: "MFA" + Math.floor(Math.random() * 100000000000000000 + 1638), // Generate a unique reference number
-         metadata: {
-            custom_fields: [
-               {
-                  display_name: `${authDetails.firstName} ${authDetails.lastName}`,
-                  variable_name: "name",
-                  value: `${authDetails.firstName} ${authDetails.lastName}`,
-               },
-            ],
-         },
-         callback: (response) => {
-            const updateWallet = async () => {
-               setIsVerifying(true);
-               const payload = {
-                  email: authDetails.email,
-                  amount: amount / 100,
-                  reference: response.reference,
-                  name: `${authDetails.firstName} ${authDetails.lastName}`,
-                  firstName: authDetails.firstName,
-                  lastName: authDetails.lastName,
-                  userId: authDetails.id,
-                  status: response.status,
-                  transId: response.trans,
-               };
-
-               try {
-                  await axios.post("/api/payment/wallet", payload);
-                  refetchWalletBalance();
-                  refetchTransactions();
-                  toast.success("Wallet updated successfully");
-               } catch (error) {
-                  console.error("Error updating wallet:", error);
-                  toast.error("Error updating wallet. Please try again.");
-               }
-               setIsVerifying(false);
-            };
-            updateWallet();
-
-            setShowFundForm(false);
-         },
-         onClose: () => {
-            alert("Payment closed");
-         },
-      });
-
-      handler.openIframe();
-   };
    function onSubmit(values: formInterface) {
       setIsPending(true);
-      handlePayment(values.amount * 100);
+
+      const onSuccess = (response: any) => {
+         const updateWallet = async () => {
+            setIsVerifying(true);
+            const payload = {
+               email: authDetails.email,
+               amount: values.amount,
+               reference: response.reference,
+               name: `${authDetails.firstName} ${authDetails.lastName}`,
+               firstName: authDetails.firstName,
+               lastName: authDetails.lastName,
+               userId: authDetails.id,
+               status: response.status,
+               transId: response.trans,
+            };
+
+            try {
+               await axios.post("/api/payment/wallet", payload);
+               refetchWalletBalance();
+               refetchTransactions();
+               toast.success("Wallet updated successfully");
+            } catch (error) {
+               console.error("Error updating wallet:", error);
+               toast.error("Error updating wallet. Please try again.");
+            }
+            setIsVerifying(false);
+         };
+         updateWallet();
+
+         setShowFundForm(false);
+      };
+      const onClose = () => {
+         toast.info("Payment Closed");
+      };
+      initializePayment({
+         onClose,
+         onSuccess,
+         config: {
+            email: authDetails.email!,
+            reference: "MFA" + Math.floor(Math.random() * 100000000000000000 + 165538),
+            amount: values.amount * 100,
+            currency: "NGN",
+            metadata: {
+               custom_fields: [
+                  {
+                     display_name: `${authDetails.firstName} ${authDetails.lastName}`,
+                     variable_name: "name",
+                     value: `${authDetails.firstName} ${authDetails.lastName}`,
+                  },
+               ],
+            },
+         },
+      });
       setIsPending(false);
    }
 
@@ -187,13 +173,6 @@ const WalletCard = ({ refetchTransactions }: { refetchTransactions: () => void }
                </Button>
             </form>
          </Form>
-         <div className="hidde">
-            <PaystackButton
-               email={authDetails.email ?? ""}
-               amount={form.getValues().amount * 100}
-               publicKey={publicKey}
-            />
-         </div>
       </>
    );
 };

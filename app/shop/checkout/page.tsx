@@ -85,83 +85,52 @@ function Page() {
 
    const publicKey = "pk_test_2f5fe11f645e8ffa062f379d652aef8daf391f82"; // Replace with your Paystack public key
    const amount = Number(calculateTotalPrice(currentCart) * 100);
-   const [email, setEmail] = React.useState("customer@example.com");
-   const [name, setName] = React.useState("Customer Name");
    const [formValues, setFormValues] = React.useState(form.getValues());
    const config = {
       publicKey,
    };
-   const onSuccess = (reference: any) => {
-      console.log(reference);
-   };
-   const onClose = () => {
-      // implementation for  whatever you want to do when the Paystack dialog closed.
-      console.log("closed");
-   };
+
    const initializePayment = usePaystackPayment(config);
 
-   const handlePayment = (values: formInterface, cartItems: typeof currentCart) => {
-      if (window.PaystackPop === undefined) return;
-
-      const handler = window.PaystackPop.setup({
-         key: publicKey,
-         email: values.email,
-         amount,
-         currency: "NGN",
-         ref: "MFA" + Math.floor(Math.random() * 100000000000000 + 1375), // Generate a unique reference number
-         metadata: {
-            custom_fields: [
-               {
-                  display_name: name,
-                  variable_name: "name",
-                  value: name,
-               },
-            ],
-         },
-         callback: (response) => {
-            toast.success("Payment Successful! Reference: " + response.reference);
-
-            const singleOrder = {
-               name: `${values.fname} ${values.lname}`,
-               firstName: values.fname,
-               lastName: values.lname,
-               email: values.email,
-               totalAmount: amount,
-               address: `${values.streetAddress}, ${values.state}, ${values.country}`,
-               message: values.message,
-               phone: values.phone,
-               paymentReference: `${response.reference}`,
-               cartItems,
-               orderId: `${response.reference}`,
-               status: "pending",
-               userId: authDetails.id || values.email,
-            };
-            const createOrder = async () => {
-               try {
-                  const collectionRef = collection(db, "orders");
-                  await addDoc(collectionRef, singleOrder);
-                  toast.success("Order created successfully!");
-                  form.reset();
-                  clearCart();
-                  router.push("/shop/categories");
-               } catch (error) {
-                  console.error("Error creating order: ", error);
-                  toast("Error creating order. Please try again.");
-               }
-            };
-            if (response.status === "success") {
-               createOrder();
-            }
-         },
-         onClose: () => {
-            toast.info("Payment Closed");
-         },
-      });
-
-      handler.openIframe();
-   };
-
    function onSubmit(values: formInterface) {
+      const onSuccess = (response: any) => {
+         toast.success("Payment Successful! Reference: " + response.reference);
+
+         const singleOrder = {
+            name: `${values.fname} ${values.lname}`,
+            firstName: values.fname,
+            lastName: values.lname,
+            email: values.email,
+            totalAmount: amount,
+            address: `${values.streetAddress}, ${values.state}, ${values.country}`,
+            message: values.message,
+            phone: values.phone,
+            paymentReference: `${response.reference}`,
+            cartItems: currentCart,
+            orderId: `${response.reference}`,
+            status: "pending",
+            userId: authDetails.id || values.email,
+         };
+         const createOrder = async () => {
+            try {
+               const collectionRef = collection(db, "orders");
+               await addDoc(collectionRef, singleOrder);
+               toast.success("Order created successfully!");
+               form.reset();
+               clearCart();
+               router.push("/shop/categories");
+            } catch (error) {
+               console.error("Error creating order: ", error);
+               toast("Error creating order. Please try again.");
+            }
+         };
+         if (response.status === "success") {
+            createOrder();
+         }
+      };
+      const onClose = () => {
+         toast.info("Payment Closed");
+      };
       setFormValues(values);
       initializePayment({
          onClose,
@@ -170,9 +139,18 @@ function Page() {
             email: values.email,
             reference: "MFA" + Math.floor(Math.random() * 100000000000000 + 1375),
             amount,
+            currency: "NGN",
+            metadata: {
+               custom_fields: [
+                  {
+                     display_name: values.fname,
+                     variable_name: "name",
+                     value: values.fname,
+                  },
+               ],
+            },
          },
       });
-      // handlePayment(values, currentCart);
    }
 
    return (
@@ -248,7 +226,7 @@ function Page() {
                            </div>
                            <div className="flex items-center space-x-2">
                               <RadioGroupItem value="card" id="r2" />
-                              <Label htmlFor="r2">Debit Card or Bank Transfer t</Label>
+                              <Label htmlFor="r2">Debit Card or Bank Transfer</Label>
                            </div>
                         </RadioGroup>
 
@@ -258,13 +236,6 @@ function Page() {
                         >
                            Place Order
                         </Button>
-                        {/* <div className="hidde">
-                           <PaystackButton
-                              email={formValues.email}
-                              amount={amount}
-                              publicKey={publicKey}
-                           />
-                        </div> */}
                      </div>
                   </div>
                </div>

@@ -42,7 +42,7 @@ function Page() {
                <p className="mb-2 ml-5 text-sm font-bold text-[#151515]">Payment Transactions</p>
                <div>
                   {transactions &&
-                     reverseArray(transactions[0]?.transactions)?.map(
+                     reverseArray(transactions[0]?.transactions ?? [])?.map(
                         (item: any, index: number) => {
                            console.log(item);
                            return (
