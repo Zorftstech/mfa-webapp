@@ -33,8 +33,6 @@ interface checkoutFormInterface {
    onSubmit: any;
 }
 export function CheckoutForm({ form, onSubmit }: checkoutFormInterface) {
-   // 1. Define your form.
-
    return (
       <Form {...form}>
          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 bg-white p-3">

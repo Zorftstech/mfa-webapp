@@ -78,13 +78,14 @@ function Page() {
    const form = useForm<formInterface>({
       resolver: zodResolver(formSchema),
       defaultValues: {
-         fname: "",
+         fname: authDetails.firstName || "",
          country: "Nigeria",
-         lname: "",
-         state: "",
-         email: "",
-         phone: "",
+         lname: authDetails.lastName || "",
+         state: authDetails.addressDetails?.state || "",
+         email: authDetails.email || "",
+         phone: authDetails.phone || "",
          message: "",
+         streetAddress: authDetails.addressDetails?.address || "",
       },
    });
 
@@ -256,7 +257,17 @@ function Page() {
                      </div>
                   </div>
                </div>
-               <PayWithWalletModal open={openWalletModal} setOpen={setOpenWalletModal} />
+               <PayWithWalletModal
+                  open={openWalletModal}
+                  setOpen={setOpenWalletModal}
+                  amount={Number(calculateTotalPrice(currentCart))}
+                  orderDetails={{
+                     address: `${form.getValues().streetAddress}, ${form.getValues().state}, ${form.getValues().country}`,
+                     message: form.getValues().message,
+                     phone: form.getValues().phone,
+                     cartItems: currentCart,
+                  }}
+               />
             </main>
          </Container>
       </div>

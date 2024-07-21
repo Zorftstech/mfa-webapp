@@ -74,7 +74,7 @@ const WalletCard = ({ refetchTransactions }: { refetchTransactions: () => void }
             };
 
             try {
-               await axios.post("/api/payment/wallet", payload);
+               await axios.post("/api/payment/credit-wallet", payload);
                refetchWalletBalance();
                refetchTransactions();
                toast.success("Wallet updated successfully");

@@ -34,7 +34,7 @@ const OrderTableDesktop = ({ pagedData }: { pagedData: any[] }) => {
                   <TableCell className="">{order.orderId}</TableCell>
                   <TableCell className="whitespace-nowrap">{order.createdDate}</TableCell>
                   <TableCell className="">
-                     <span className="font-medium"> {formatToNaira(order.totalAmount / 100)}</span>
+                     <span className="font-medium"> {formatToNaira(order.totalAmount)}</span>
                      {/* ({order.quantityPurchased}
                      {order.quantityPurchased > 1 ? " Products" : " Product"}) */}
                   </TableCell>

@@ -51,7 +51,7 @@ const Page = () => {
                   </div>
                   <div>
                      <p className="mb-2 text-[14px] font-semibold text-[#1a1a1a]">
-                        {formatToNaira(order.totalAmount / 100)}
+                        {formatToNaira(order.totalAmount)}
                         <span className="text-[12px] font-[400]">
                            {/* ({order.quantityPurchased}
                            {order.quantityPurchased > 1 ? " Products" : " Product"}) */}
