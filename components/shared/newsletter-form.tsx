@@ -24,9 +24,7 @@ const formSchema = z.object({
    full_name: z.string().min(2, {
       message: "Full Name must be at least 2 characters.",
    }),
-   //  phone_number: z.string().min(2, {
-   //     message: "Phone must be at least 2 characters.",
-   //  }),
+   
    email: z.string().email({
       message: "Please provide a valid email address...",
    }),

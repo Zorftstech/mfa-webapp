@@ -14,14 +14,16 @@ import {
    SelectItem,
    SelectGroup,
 } from "@/components/ui/select";
+import { Copy, Eye, Plus } from "lucide-react";
 
-function page() {
+function Page() {
    return (
       <DashboardLayout>
          <div className="h-auto">
             <TextBoxWithLine text="My Wallet" />
+            {/* wallet card */}
             <div className="w-[40%]">
-               <WalletCard amount="₦200,894.00" />
+               <WalletCard amount="300,000" />
             </div>
             <div className="ml-5 mt-10">
                <p className="mb-2 text-sm font-bold text-[#151515]">Payment Transactions</p>
@@ -58,4 +60,4 @@ function page() {
    );
 }
 
-export default page;
+export default Page;

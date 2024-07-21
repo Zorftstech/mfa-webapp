@@ -93,7 +93,7 @@ function Page() {
          email: values.email,
          amount,
          currency: "NGN",
-         ref: "MFA" + Math.floor(Math.random() * 1000000000 + 1), // Generate a unique reference number
+         ref: "MFA" + Math.floor(Math.random() * 100000000000000 + 1375), // Generate a unique reference number
          metadata: {
             custom_fields: [
                {

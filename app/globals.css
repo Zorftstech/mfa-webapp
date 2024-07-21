@@ -42,26 +42,26 @@ body {
    display: none;
 }
 /* .ais-SearchBox-input {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
+   width: 100%;
+   padding: 10px;
+   font-size: 16px;
+   border: 1px solid #ccc;
+   border-radius: 4px;
+} */
 
 .ais-Hits-item {
-  border-bottom: 1px solid #eee;
-  padding: 10px;
-  font-size: 16px;
+   border-bottom: 1px solid #eee;
+   padding: 10px;
+   font-size: 16px;
 }
 
 .ais-Hits-item:nth-child(even) {
-  background-color: #f9f9f9;
+   background-color: #f9f9f9;
 }
 
 .ais-Hits-item:hover {
-  background-color: #f1f1f1;
-} */
+   background-color: #f1f1f1;
+}
 .ais-SearchBox {
    height: 40px !important;
 }
