@@ -179,7 +179,7 @@ export function CheckoutForm({ form, onSubmit }: checkoutFormInterface) {
                   </FormItem>
                )}
             />
-            <Button type="submit">Submit</Button>
+            {/* <Button type="submit">Submit</Button> */}
          </form>
       </Form>
    );

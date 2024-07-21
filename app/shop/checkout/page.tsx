@@ -34,6 +34,7 @@ import { z } from "zod";
 import { addDoc, collection } from "firebase/firestore";
 import { toast } from "sonner";
 import useStore from "@/store";
+import { useRouter } from "next/navigation";
 const formSchema = z.object({
    fname: z.string().min(2, {
       message: "Please enter a First name.",
@@ -64,8 +65,9 @@ const formSchema = z.object({
 type formInterface = z.infer<typeof formSchema>;
 
 function Page() {
-   const { currentCart } = useContext(CartContext);
+   const { currentCart, clearCart } = useContext(CartContext);
    const { authDetails } = useStore((state) => state);
+   const router = useRouter();
    const form = useForm<formInterface>({
       resolver: zodResolver(formSchema),
       defaultValues: {
@@ -105,10 +107,7 @@ function Page() {
          },
          callback: (response) => {
             toast.success("Payment Successful! Reference: " + response.reference);
-            console.log(response);
-            console.log("Call my own api, verify the transaction", values);
-            // You can handle further processing here
-            // Create order in Firebase
+
             const singleOrder = {
                name: `${values.fname} ${values.lname}`,
                firstName: values.fname,
@@ -124,39 +123,32 @@ function Page() {
                status: "pending",
                userId: authDetails.id || values.email,
             };
-            console.log(singleOrder);
             const createOrder = async () => {
                try {
                   const collectionRef = collection(db, "orders");
                   await addDoc(collectionRef, singleOrder);
                   toast.success("Order created successfully!");
                   form.reset();
-                  // router.push("/shop/success");
+                  clearCart();
+                  router.push("/shop/categories");
                } catch (error) {
                   console.error("Error creating order: ", error);
                   toast("Error creating order. Please try again.");
                }
             };
-            createOrder();
-
-            // clear cart
-            //route back
-            //reset forms
+            if (response.status === "success") {
+               createOrder();
+            }
          },
          onClose: () => {
-            alert("Payment closed");
+            toast.info("Payment Closed");
          },
       });
 
       handler.openIframe();
    };
-   /* eslint-disable react-hooks/rules-of-hooks */
 
-   // 2. Define a submit handler.
    function onSubmit(values: formInterface) {
-      // Do something with the form values.
-      // ✅ This will be type-safe and validated.
-
       setFormValues(values);
       handlePayment(values, currentCart);
    }
