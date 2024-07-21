@@ -149,7 +149,6 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
       toast.success("Item removed from cart");
    };
-   console.log({ currentCart });
 
    const clearCart = () => {
       setCurrentCart([]);
