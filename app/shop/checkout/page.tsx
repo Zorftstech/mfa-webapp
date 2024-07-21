@@ -35,6 +35,8 @@ import { addDoc, collection } from "firebase/firestore";
 import { toast } from "sonner";
 import useStore from "@/store";
 import { useRouter } from "next/navigation";
+import { usePaystackPayment } from "react-paystack";
+
 const formSchema = z.object({
    fname: z.string().min(2, {
       message: "Please enter a First name.",
@@ -86,6 +88,17 @@ function Page() {
    const [email, setEmail] = React.useState("customer@example.com");
    const [name, setName] = React.useState("Customer Name");
    const [formValues, setFormValues] = React.useState(form.getValues());
+   const config = {
+      publicKey,
+   };
+   const onSuccess = (reference: any) => {
+      console.log(reference);
+   };
+   const onClose = () => {
+      // implementation for  whatever you want to do when the Paystack dialog closed.
+      console.log("closed");
+   };
+   const initializePayment = usePaystackPayment(config);
 
    const handlePayment = (values: formInterface, cartItems: typeof currentCart) => {
       if (window.PaystackPop === undefined) return;
@@ -150,7 +163,16 @@ function Page() {
 
    function onSubmit(values: formInterface) {
       setFormValues(values);
-      handlePayment(values, currentCart);
+      initializePayment({
+         onClose,
+         onSuccess,
+         config: {
+            email: values.email,
+            reference: "MFA" + Math.floor(Math.random() * 100000000000000 + 1375),
+            amount,
+         },
+      });
+      // handlePayment(values, currentCart);
    }
 
    return (
@@ -226,7 +248,7 @@ function Page() {
                            </div>
                            <div className="flex items-center space-x-2">
                               <RadioGroupItem value="card" id="r2" />
-                              <Label htmlFor="r2">Debit Card or Bank Transfer</Label>
+                              <Label htmlFor="r2">Debit Card or Bank Transfer t</Label>
                            </div>
                         </RadioGroup>
 
@@ -236,13 +258,13 @@ function Page() {
                         >
                            Place Order
                         </Button>
-                        <div className="hidde">
+                        {/* <div className="hidde">
                            <PaystackButton
                               email={formValues.email}
                               amount={amount}
                               publicKey={publicKey}
                            />
-                        </div>
+                        </div> */}
                      </div>
                   </div>
                </div>
