@@ -26,7 +26,7 @@ function ProductDescription({
 }) {
    const [productCount, setProductCount] = useState(1);
 
-   const { handlePlus } = useContext(CartContext);
+   const { handlePlus, handleMinus } = useContext(CartContext);
 
    const [selectedWeightId, setSelectedWeightId] = useState(
       currentItem.units && currentItem.units[0].unit,
@@ -41,11 +41,19 @@ function ProductDescription({
 
    const handleAdd = () => {
       setProductCount(productCount + 1);
+      handlePlus(product, {
+         price: product.units && product.units[0].price,
+         unit: product.units && product.units[0].unit,
+      });
    };
 
-   const handleMinus = () => {
+   const handleSubtract = () => {
       if (productCount === 1) return setProductCount(1);
       setProductCount(productCount - 1);
+      handleMinus(product, {
+         price: product.units && product.units[0].price,
+         unit: product.units && product.units[0].unit,
+      });
    };
 
    return (
@@ -106,7 +114,7 @@ function ProductDescription({
          <div className="my-3">
             <div className="flex w-fit items-center gap-2 rounded-full border border-gray-300 p-2">
                <Button
-                  onClick={handleMinus}
+                  onClick={handleSubtract}
                   className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-gray-200 text-black"
                >
                   <Minus className="w-4" />

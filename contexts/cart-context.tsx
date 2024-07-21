@@ -146,8 +146,10 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
          (item) => !(item.id === itemId && item.chosenUnit === chosenUnit),
       );
       setCurrentCart(updatedCart);
+
       toast.success("Item removed from cart");
    };
+   console.log({ currentCart });
 
    const clearCart = () => {
       setCurrentCart([]);

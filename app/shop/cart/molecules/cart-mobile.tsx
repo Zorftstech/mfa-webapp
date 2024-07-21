@@ -58,7 +58,7 @@ function CartMobile() {
                      </div>
                   </div>
                   <Button
-                     onClick={() => handleRemove(item.id)}
+                     onClick={() => handleRemove(item.id, item.chosenUnit)}
                      className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-gray-200 text-black"
                   >
                      <X className="w-3" />

@@ -69,7 +69,7 @@ function ShoppingCart() {
                                        </div>
                                     </div>
                                     <Button
-                                       onClick={() => handleRemove(item?.id)}
+                                       onClick={() => handleRemove(item?.id, item?.chosenUnit)}
                                        className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-gray-200 text-black"
                                     >
                                        <X className="w-3" />
