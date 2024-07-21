@@ -36,6 +36,8 @@ import { toast } from "sonner";
 import useStore from "@/store";
 import { useRouter } from "next/navigation";
 import { usePaystackPayment } from "react-paystack";
+import PayWithWalletModal from "@/components/shared/pay-with-wallet";
+import { set } from "date-fns";
 
 const formSchema = z.object({
    fname: z.string().min(2, {
@@ -68,6 +70,9 @@ type formInterface = z.infer<typeof formSchema>;
 
 function Page() {
    const { currentCart, clearCart } = useContext(CartContext);
+   const [openWalletModal, setOpenWalletModal] = useState(false);
+   const [selectedValue, setSelectedValue] = useState("card");
+
    const { authDetails } = useStore((state) => state);
    const router = useRouter();
    const form = useForm<formInterface>({
@@ -220,18 +225,30 @@ function Page() {
                            Payment Method
                         </Text>
                         <RadioGroup className="my-3" defaultValue="card">
-                           <div className="flex items-center space-x-2">
+                           <div
+                              className="flex items-center space-x-2"
+                              onClick={() => setSelectedValue("wallet")}
+                           >
                               <RadioGroupItem value="wallet" id="r1" />
                               <Label htmlFor="r1">From Wallet Balance</Label>
                            </div>
-                           <div className="flex items-center space-x-2">
+                           <div
+                              className="flex items-center space-x-2"
+                              onClick={() => setSelectedValue("card")}
+                           >
                               <RadioGroupItem value="card" id="r2" />
                               <Label htmlFor="r2">Debit Card or Bank Transfer</Label>
                            </div>
                         </RadioGroup>
 
                         <Button
-                           onClick={() => form.handleSubmit(onSubmit)()}
+                           onClick={() => {
+                              if (selectedValue === "wallet") {
+                                 setOpenWalletModal(true);
+                              } else {
+                                 form.handleSubmit(onSubmit)();
+                              }
+                           }}
                            className="mb-3 mt-5 w-full rounded-3xl px-4 text-xs"
                         >
                            Place Order
@@ -239,6 +256,7 @@ function Page() {
                      </div>
                   </div>
                </div>
+               <PayWithWalletModal open={openWalletModal} setOpen={setOpenWalletModal} />
             </main>
          </Container>
       </div>

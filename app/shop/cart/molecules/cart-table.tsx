@@ -22,7 +22,8 @@ import CartTotal from "./cart-total";
 import Link from "next/link";
 
 function CartTable() {
-   const { currentCart, handleMinus, handlePlus, handleRemove } = useContext(CartContext);
+   const { currentCart, handleMinus, handlePlus, handleRemove, clearCart } =
+      useContext(CartContext);
 
    return (
       <div className="flex w-full flex-col items-start justify-between gap-4 lg:flex-row">
@@ -85,9 +86,18 @@ function CartTable() {
                </TableBody>
             </Table>
             <div className="mt-5 flex w-full items-center justify-between px-4">
-               <Link href="/shop" className="rounded-3xl bg-[#7ab42c] px-5 py-2 text-xs text-white">
+               <Link
+                  href="/shop/categories"
+                  className="rounded-3xl bg-[#7ab42c] px-5 py-2 text-xs text-white"
+               >
                   Return to shop
                </Link>
+               <Button
+                  onClick={clearCart}
+                  className="rounded-3xl bg-[#7ab42c] px-5 py-2 text-xs text-white"
+               >
+                  Clear Cart
+               </Button>
             </div>
          </div>
          <div className="hidden flex-[2] md:flex">
