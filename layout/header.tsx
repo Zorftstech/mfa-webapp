@@ -24,6 +24,7 @@ import useStore from "@/store";
 import { CartContext } from "@/contexts/cart-context";
 import { calculateTotalPrice } from "@/app/helper";
 import useAnnouncement from "@/app/shop/hooks/announcement/announcement";
+import ShoppingCartDropdown from "./components/shopping-cart-dropdown";
 const Header = () => {
    const { loggedIn } = useStore((store) => store);
    const { data: info } = useAnnouncement();
@@ -105,7 +106,8 @@ const Header = () => {
                         </Link>
                         <Separator orientation="vertical" />
                         <div className="flex items-center justify-start gap-4">
-                           <ShoppingCart />
+                           {/* <ShoppingCart /> */}
+                           <ShoppingCartDropdown />
                            <span className="flex flex-col">
                               <Text size={"xs"}>Shopping cart</Text>
                               <Text weight={"bold"} size={"xs"}>
