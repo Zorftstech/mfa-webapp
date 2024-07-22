@@ -44,7 +44,7 @@ function Page() {
                         item={item}
                         purpose={item?.purpose}
                         discount={item?.discountAmount}
-                        name={item?.code.slice(0, 14)}
+                        name={item?.code}
                         link={`/${item?.id}`}
                         date={formatDate(new Date(item?.expirationDate.seconds * 1000).toString())}
                      />
