@@ -1,13 +1,18 @@
 import React, { useState } from "react";
-import { useSearchBox, useHits } from "react-instantsearch";
+import { useSearchBox, useHits, Hits } from "react-instantsearch";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Search } from "lucide-react";
+import { Paperclip, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 
 const Hit = ({ hit }: { hit: any }) => (
-   <Link href={`/product/${hit.slug}`} className="block p-2 capitalize underline hover:bg-gray-100">
+   <Link
+      href={`/shop/${hit.slug}`}
+      className="flex items-center  gap-2 p-2 capitalize hover:bg-gray-100"
+   >
+      <Paperclip className="w-4" />
+
       <p className="text-sm">{hit.name}</p>
    </Link>
 );
@@ -36,7 +41,7 @@ const SearchBar: React.FC = () => {
             </Button>
          </DialogTrigger>
          <DialogContent className="w-[95%] max-w-md bg-white">
-            <div className="mb-4">
+            <div className="">
                <Input
                   type="search"
                   placeholder="Search..."
@@ -52,6 +57,7 @@ const SearchBar: React.FC = () => {
                   ))}
                </div>
             )}
+            {/* {query && <Hits hitComponent={Hit} />} */}
          </DialogContent>
       </Dialog>
    );
