@@ -28,11 +28,22 @@ import {
    updateProfile,
 } from "firebase/auth";
 import { authFirebase, db } from "@/firebase";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import {
+   doc,
+   setDoc,
+   getDoc,
+   collection,
+   where,
+   getDocs,
+   updateDoc,
+   query,
+   increment,
+} from "firebase/firestore";
 import ProcessError from "@/lib/error";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import Spinner from "@/components/ui/spinner";
+import { useParams, useSearchParams } from "next/navigation";
 const formSchema = z.object({
    email: z.string().min(2, {
       message: "email must be at least 2 characters.",
@@ -56,6 +67,8 @@ function Page() {
       },
    });
    const router = useRouter();
+   const search = useSearchParams();
+   const ref = search.get("ref");
 
    const { setAuthDetails, setLoggedIn, setCurrentUser } = useStore((store) => store);
 
@@ -73,26 +86,58 @@ function Page() {
    const { mutate, isPending } = useMutation<any, any, any>({
       mutationFn: async ({ email, password }) => {
          try {
-            //Create user
+            // Create user
             const res = await createUserWithEmailAndPassword(authFirebase, email, password);
 
             await updateProfile(res.user, {
                displayName: "",
             });
-            //create user on firestore
+
+            // Generate a unique referral code
+            const referralCode =
+               Math.floor(Math.random() * 1000000000 + 1) +
+               Math.floor(Math.random() * 1000000000 + 1) +
+               "R";
+
+            // Create user document on Firestore
             await setDoc(doc(db, "users", res.user.uid), {
                uid: res.user.uid,
                displayName: "",
                email,
                photoURL: "",
                role: "user",
-               referralCode:
-                  Math.floor(Math.random() * 1000000000 + 1) +
-                  Math.floor(Math.random() * 1000000000 + 1) +
-                  "R",
             });
+
+            // Create a referral document for the user with points
+            await setDoc(doc(db, "referrals", res.user.uid), {
+               referralCode,
+               userId: res.user.uid,
+               points: 0, // Initialize points to 0 or any desired initial value
+            });
+            if (ref) {
+               const refQuery = query(
+                  collection(db, "referrals"),
+                  where("referralCode", "==", ref),
+               );
+               const refQuerySnapshot = await getDocs(refQuery);
+
+               if (!refQuerySnapshot.empty) {
+                  const refDoc = refQuerySnapshot.docs[0];
+                  const refData = refDoc.data();
+                  // Increase referrer's points by 100
+                  await updateDoc(refDoc.ref, {
+                     points: increment(100),
+                  });
+                  toast.success("Referral bonus applied!");
+               } else {
+                  toast.error("Invalid referral code. No bonus applied.");
+               }
+            }
+            return res.user;
          } catch (err) {
             console.log(err);
+            ProcessError(err);
+
             throw err;
          }
       },
