@@ -83,7 +83,7 @@ const Header = () => {
                </Show.When>
             </Show>
 
-            <main className="mx-auto flex w-full max-w-[1200px] items-center justify-between px-4 py-4 md:px-8">
+            <main className="mx-auto flex w-full max-w-[1200px] items-center justify-between px-4 py-4 md:px-0">
                <Button
                   className="block md:hidden"
                   variant={"ghost"}

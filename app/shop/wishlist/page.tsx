@@ -23,7 +23,7 @@ function Page() {
    const { data, refetch } = useQueryCollectionByField("wishlist", "userId", authDetails.id ?? "");
    const router = useRouter();
    const removeFromWishList = (item: any) => {
-      const removeOrder = async () => {
+      const removeItem = async () => {
          if (!authDetails || !authDetails.id) {
             console.error("User ID is undefined or authDetails is not properly initialized.");
             toast.error("Error removing item from wishlist. User ID is missing.");
@@ -55,7 +55,7 @@ function Page() {
          }
       };
 
-      removeOrder();
+      removeItem();
    };
    return (
       <div className="pt-[100px]">

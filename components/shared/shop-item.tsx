@@ -31,12 +31,19 @@ import {
    updateDoc,
    arrayUnion,
    doc,
+   arrayRemove,
 } from "firebase/firestore";
 import { db } from "@/firebase";
 import useStore from "@/store";
+import Spinner from "../ui/spinner";
+import useQueryCollectionByField from "@/hooks/useFirebaseFieldQuery";
 const Shop = ({ itemDetails, isFlashSale }: { itemDetails: ShopItem; isFlashSale?: boolean }) => {
    const { handlePlus } = useContext(CartContext);
    const { authDetails, loggedIn } = useStore((state) => state);
+   const { data, refetch } = useQueryCollectionByField("wishlist", "userId", authDetails.id ?? "");
+   const wishlist = data ? data[0]?.items : [];
+
+   const [isLoading, setIsLoading] = React.useState(false);
 
    const addToWishList = (item: any) => {
       const singleOrder = {
@@ -44,7 +51,8 @@ const Shop = ({ itemDetails, isFlashSale }: { itemDetails: ShopItem; isFlashSale
          userId: authDetails.id,
       };
 
-      const createOrUpdateOrder = async () => {
+      const addItem = async () => {
+         setIsLoading(true);
          try {
             const collectionRef = collection(db, "wishlist");
             const q = query(collectionRef, where("userId", "==", authDetails.id ?? ""));
@@ -63,15 +71,55 @@ const Shop = ({ itemDetails, isFlashSale }: { itemDetails: ShopItem; isFlashSale
                   items: arrayUnion(item),
                });
                toast.success("Item added to wishlist successfully.");
+               refetch();
             }
          } catch (error) {
             console.error("Error creating or updating order: ", error);
             toast.error("Error adding item to wishlist. Please try again.");
          }
+         setIsLoading(false);
       };
 
-      createOrUpdateOrder();
+      addItem();
    };
+   const removeFromWishList = (item: any) => {
+      const removeItem = async () => {
+         if (!authDetails || !authDetails.id) {
+            console.error("User ID is undefined or authDetails is not properly initialized.");
+            toast.error("Error removing item from wishlist. User ID is missing.");
+            return;
+         }
+         setIsLoading(true);
+
+         try {
+            const collectionRef = collection(db, "wishlist");
+            const q = query(collectionRef, where("userId", "==", authDetails.id));
+            const querySnapshot = await getDocs(q);
+
+            if (querySnapshot.empty) {
+               toast.error("No wishlist found for the user.");
+               return;
+            }
+
+            const wishlistDoc = querySnapshot.docs[0];
+            const wishlistDocRef = doc(db, "wishlist", wishlistDoc.id);
+
+            await updateDoc(wishlistDocRef, {
+               items: arrayRemove(item),
+            });
+
+            toast.info("Item removed from wishlist successfully.");
+            refetch();
+         } catch (error) {
+            console.error("Error removing item from wishlist: ", error);
+            toast.error("Error removing item from wishlist. Please try again.");
+         }
+         setIsLoading(false);
+      };
+
+      removeItem();
+   };
+
    return (
       <div
          //  href={`/shop/${itemDetails.id}`}
@@ -83,10 +131,27 @@ const Shop = ({ itemDetails, isFlashSale }: { itemDetails: ShopItem; isFlashSale
             </div>
          )}
          {loggedIn && (
-            <HeartIcon
-               onClick={() => addToWishList(itemDetails)}
-               className="absolute right-3 top-3  w-6 text-gray-600"
-            />
+            <>
+               {isLoading ? (
+                  <Spinner className="absolute right-3 top-3 w-4 text-red-600" />
+               ) : (
+                  <HeartIcon
+                     onClick={() => {
+                        wishlist.some((wishItem: any) => wishItem.id === itemDetails.id)
+                           ? removeFromWishList(itemDetails)
+                           : addToWishList(itemDetails);
+                     }}
+                     className={cn("absolute right-3 top-3  w-6 text-gray-600", {
+                        "text-red-600": wishlist.some(
+                           (wishItem: any) => wishItem.id === itemDetails.id,
+                        ),
+                        "fill-red-600": wishlist.some(
+                           (wishItem: any) => wishItem.id === itemDetails.id,
+                        ),
+                     })}
+                  />
+               )}
+            </>
          )}
          <div className="w-full p-0">
             <div
