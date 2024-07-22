@@ -191,7 +191,7 @@ const Shop = ({ itemDetails, isFlashSale }: { itemDetails: ShopItem; isFlashSale
                href={`/shop/${splitStringBySpaceAndReplaceWithDash(itemDetails.name)}`}
                className="flex w-full flex-col items-start justify-start"
             >
-               <Text className="mt-2" size={"sm"} weight={"semibold"}>
+               <Text className="mt-2 capitalize" size={"sm"} weight={"semibold"}>
                   {itemDetails.name}
                </Text>
                <div className="my-2 flex w-full flex-col items-start justify-between gap-2 md:flex-row md:items-center">
