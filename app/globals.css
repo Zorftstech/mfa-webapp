@@ -38,6 +38,34 @@ body {
       --text-link: var(--primary);
    }
 }
+@layer utilities {
+   *::-webkit-scrollbar-thumb {
+      width: 4px;
+      height: 4px;
+   }
+
+   *::-webkit-scrollbar-track {
+      width: 4px;
+      height: 4px;
+   }
+
+   .no-scrollbar {
+      scrollbar-width: 0 !important;
+   }
+
+   .no-scrollbar::-webkit-scrollbar {
+      display: none !important;
+   }
+
+   .no-scrollbar div {
+      scrollbar-width: 0 !important;
+   }
+
+   .no-scrollbar div::-webkit-scrollbar {
+      display: none !important;
+   }
+}
+
 .hideScroll::-webkit-scrollbar {
    display: none;
 }
