@@ -7,14 +7,39 @@ import useStore from "@/store";
 import useQueryCollectionByField from "@/hooks/useFirebaseFieldQuery";
 import { copyToClipboard } from "@/helper";
 import { Copy } from "lucide-react";
-
+import { toast } from "sonner";
+import axios from "axios";
+import Spinner from "@/components/ui/spinner";
 function Page() {
    const { authDetails } = useStore((store) => store);
+   const [isLoading, setIsLoading] = React.useState(false);
    const { data: balance, refetch: refetchBalance } = useQueryCollectionByField(
       "referrals",
       "userId",
       authDetails.id ?? "",
    );
+   const withdrawToWallet = async () => {
+      setIsLoading(true);
+      const payload = {
+         email: authDetails.email,
+
+         name: `${authDetails.firstName} ${authDetails.lastName}`,
+         firstName: authDetails.firstName,
+         lastName: authDetails.lastName,
+         userId: authDetails.id,
+      };
+
+      try {
+         await axios.post("/api/payment/redeem-points", payload);
+         refetchBalance();
+
+         toast.success("Wallet updated successfully");
+      } catch (error) {
+         console.error("Error updating wallet:", error);
+         toast.error("Error updating wallet. Please try again.");
+      }
+      setIsLoading(false);
+   };
 
    return (
       <DashboardLayout>
@@ -63,15 +88,17 @@ function Page() {
                   </span>
                </button>
                <button
+                  disabled={isLoading}
                   onClick={() => {
-                     copyToClipboard(
-                        `https://myfoodangels.com/account/register?ref=${balance?.[0]?.referralCode ?? 0}`,
-                        "Referral Link Copied to Clipboard",
-                     );
+                     withdrawToWallet();
                   }}
-                  className=" gap-2 rounded-md border  border-primary-2 py-3 text-center text-[1rem] font-[600] capitalize leading-[27px] text-primary-2 "
+                  className=" disabled: cursor-not-allowed gap-2  rounded-md border border-primary-2 py-3 text-center text-[1rem] font-[600] capitalize leading-[27px] text-primary-2 disabled:opacity-50"
                >
-                  Redeem Points To Wallet Balance
+                  {isLoading ? (
+                     <Spinner color="green" className="mx-auto text-primary-2" />
+                  ) : (
+                     "Withdraw to Wallet"
+                  )}
                </button>
             </div>
          </div>

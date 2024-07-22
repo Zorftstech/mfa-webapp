@@ -41,7 +41,7 @@ const Shop = ({ itemDetails, isFlashSale }: { itemDetails: ShopItem; isFlashSale
    const { handlePlus } = useContext(CartContext);
    const { authDetails, loggedIn } = useStore((state) => state);
    const { data, refetch } = useQueryCollectionByField("wishlist", "userId", authDetails.id ?? "");
-   const wishlist = data ? data[0]?.items : [];
+   const wishlist = data ? data[0]?.items : [{ id: "1" }];
 
    const [isLoading, setIsLoading] = React.useState(false);
 
@@ -133,23 +133,25 @@ const Shop = ({ itemDetails, isFlashSale }: { itemDetails: ShopItem; isFlashSale
          {loggedIn && (
             <>
                {isLoading ? (
-                  <Spinner className="absolute right-3 top-3 w-4 text-red-600" />
+                  <Spinner color="green" className="absolute right-3 top-3 w-4  text-red-600" />
                ) : (
-                  <HeartIcon
-                     onClick={() => {
-                        wishlist.some((wishItem: any) => wishItem.id === itemDetails.id)
-                           ? removeFromWishList(itemDetails)
-                           : addToWishList(itemDetails);
-                     }}
-                     className={cn("absolute right-3 top-3  w-6 text-gray-600", {
-                        "text-red-600": wishlist.some(
-                           (wishItem: any) => wishItem.id === itemDetails.id,
-                        ),
-                        "fill-red-600": wishlist.some(
-                           (wishItem: any) => wishItem.id === itemDetails.id,
-                        ),
-                     })}
-                  />
+                  <>
+                     <HeartIcon
+                        onClick={() => {
+                           wishlist.some((wishItem: any) => wishItem.id === itemDetails.id)
+                              ? removeFromWishList(itemDetails)
+                              : addToWishList(itemDetails);
+                        }}
+                        className={cn("absolute right-3 top-3  w-6 text-gray-600", {
+                           "text-red-600": wishlist.some(
+                              (wishItem: any) => wishItem.id === itemDetails.id,
+                           ),
+                           "fill-red-600": wishlist.some(
+                              (wishItem: any) => wishItem.id === itemDetails.id,
+                           ),
+                        })}
+                     />
+                  </>
                )}
             </>
          )}
