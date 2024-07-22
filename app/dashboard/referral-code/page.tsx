@@ -18,6 +18,7 @@ function Page() {
       "userId",
       authDetails.id ?? "",
    );
+
    const withdrawToWallet = async () => {
       setIsLoading(true);
       const payload = {
@@ -88,11 +89,11 @@ function Page() {
                   </span>
                </button>
                <button
-                  disabled={isLoading}
+                  disabled={isLoading || balance?.[0]?.points <= 0}
                   onClick={() => {
                      withdrawToWallet();
                   }}
-                  className=" disabled: cursor-not-allowed gap-2  rounded-md border border-primary-2 py-3 text-center text-[1rem] font-[600] capitalize leading-[27px] text-primary-2 disabled:opacity-50"
+                  className=" gap-2 rounded-md  border border-primary-2 py-3 text-center text-[1rem] font-[600] capitalize leading-[27px] text-primary-2 disabled:cursor-not-allowed disabled:opacity-50"
                >
                   {isLoading ? (
                      <Spinner color="green" className="mx-auto text-primary-2" />
