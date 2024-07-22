@@ -6,16 +6,21 @@ import { Paperclip, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 
-const Hit = ({ hit }: { hit: any }) => (
-   <Link
-      href={`/shop/${hit.slug}`}
-      className="flex items-center  gap-2 p-2 capitalize hover:bg-gray-100"
-   >
-      <Paperclip className="w-4" />
-
-      <p className="text-sm">{hit.name}</p>
-   </Link>
-);
+const Hit = ({ hit }: { hit: any }) => {
+   console.log(hit);
+   return (
+      <Link
+         href={`/shop/${hit.slug}`}
+         className="flex items-center  gap-2 p-2 capitalize hover:bg-gray-100"
+      >
+         <Paperclip className="w-4" />
+         <div>
+            <p className="text-sm">{hit.name}</p>
+            <p className="text-xs">{hit.desc.slice(0, 30)}</p>
+         </div>
+      </Link>
+   );
+};
 
 const SearchBar: React.FC = () => {
    const [isOpen, setIsOpen] = useState(false);
