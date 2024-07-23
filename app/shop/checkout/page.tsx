@@ -355,7 +355,7 @@ function Page() {
                <PayWithWalletModal
                   open={openWalletModal}
                   setOpen={setOpenWalletModal}
-                  amount={discountedAmount <= 0 ? amount : Number(discountedAmount.toFixed(0))}
+                  amount={discountedAmount <= 0 ? amount/100 : Number(discountedAmount.toFixed(0))}
                   orderDetails={{
                      address: `${form.getValues().streetAddress}, ${form.getValues().state}, ${form.getValues().country}`,
                      message: form.getValues().message,
