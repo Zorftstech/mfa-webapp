@@ -44,7 +44,13 @@ import Spinner from "@/components/ui/spinner";
 import { formatToNaira } from "@/lib/utils";
 import { Show } from "@/components/helpers/show";
 import useDeliveryFees from "../hooks/delivery-fees/useDelivery-fees";
-
+import {
+   Select,
+   SelectContent,
+   SelectItem,
+   SelectTrigger,
+   SelectValue,
+} from "@/components/ui/select";
 const formSchema = z.object({
    fname: z.string().min(2, {
       message: "Please enter a First name.",
@@ -76,16 +82,23 @@ type formInterface = z.infer<typeof formSchema>;
 
 function Page() {
    const { currentCart, clearCart } = useContext(CartContext);
+
+   const { data: deliveryFees, isLoading: fetchingShippingRates, isSuccess } = useDeliveryFees();
+   const shippingRates = deliveryFees || [];
    const [openWalletModal, setOpenWalletModal] = useState(false);
    const [selectedValue, setSelectedValue] = useState("card");
    const [discount, setDiscount] = useState(0);
    const [isLoading, setIsLoading] = useState(false);
    const [couponCode, setCouponCode] = useState("");
-   const [amount, setAmount] = useState(Number(calculateTotalPrice(currentCart)) * 100);
+   const [selectedShippingRate, setSelectedShippingRate] = useState(0);
+   const [amount, setAmount] = useState(
+      Number(calculateTotalPrice(currentCart)) + selectedShippingRate * 100,
+   );
    const [discountedAmount, setDiscountedAmount] = useState(0);
+   const [selectedShipping, setSelectedShipping] = useState("");
+
    const { authDetails } = useStore((state) => state);
    const router = useRouter();
-   const { data: deliveryFees } = useDeliveryFees();
    const form = useForm<formInterface>({
       resolver: zodResolver(formSchema),
       defaultValues: {
@@ -212,11 +225,23 @@ function Page() {
       }
       setIsLoading(false);
    };
-   console.log({ deliveryFees });
 
+   const handleShippingChange = (value: string) => {
+      setSelectedShipping(value);
+      setSelectedShippingRate(shippingRates.find((item) => item.slug === value)?.price || 0);
+   };
+   useEffect(() => {
+      if (isSuccess && shippingRates.length > 0 && shippingRates) {
+         setSelectedShipping(shippingRates.find((item) => item.slug === "nationwide")?.slug || "");
+         setSelectedShippingRate(
+            shippingRates.find((item) => item.slug === "nationwide")?.price || 0,
+         );
+      }
+   }, [fetchingShippingRates, isSuccess]);
    return (
       <div className="pt-[69px]">
          <RouteDisplay route={"Shopping cart"} />
+
          <Container backgroundColor="bg-gray-100">
             <main className="mx-auto mt-8 flex w-full max-w-[1200px] flex-col items-center justify-center gap-1 py-4">
                <div className="flex w-full flex-col items-start justify-between gap-4 px-4 md:flex-row">
@@ -256,23 +281,39 @@ function Page() {
                               Subtotal:
                            </Text>
                            <Text size={"sm"} weight={"medium"}>
-                              ₦{calculateTotalPrice(currentCart).toLocaleString()}
+                              {formatToNaira(calculateTotalPrice(currentCart))}
                            </Text>
                         </div>
                         <div className="mt-3 flex items-center justify-between">
                            <Text size={"sm"} weight={"medium"}>
                               Shipping:
                            </Text>
-                           <Text size={"sm"} weight={"medium"}>
-                              Free
-                           </Text>
+                           <Select onValueChange={handleShippingChange} value={selectedShipping}>
+                              <SelectTrigger className="w-[70%] px-4 py-3 text-sm transition-all duration-300 ease-in-out placeholder:text-lg focus-within:text-black">
+                                 <SelectValue placeholder="Select a shipping location" />
+                              </SelectTrigger>
+                              <SelectContent className="bg-primary-2">
+                                 {shippingRates?.map((item, index) => (
+                                    <SelectItem
+                                       value={item.slug}
+                                       className="cursor-pointer py-3 text-sm  text-white transition-all duration-100 ease-linear hover:text-black"
+                                       key={index}
+                                    >
+                                       {item.location} - {formatToNaira(item.price)}
+                                    </SelectItem>
+                                 ))}
+                              </SelectContent>
+                           </Select>
                         </div>
+
                         <div className="mt-3 flex items-center justify-between">
                            <Text size={"sm"} weight={"medium"}>
                               Total:
                            </Text>
                            <Text size={"sm"} weight={"medium"}>
-                              ₦{calculateTotalPrice(currentCart).toLocaleString()}
+                              {formatToNaira(
+                                 calculateTotalPrice(currentCart) + selectedShippingRate,
+                              )}
                            </Text>
                         </div>
                         <Show>

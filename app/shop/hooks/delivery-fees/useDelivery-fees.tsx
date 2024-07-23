@@ -35,7 +35,11 @@ const useDeliveryFees = () => {
       return deliveryFees;
    };
 
-   const { data, isSuccess, isError, error } = useQuery<any, any, DeliveryFee[]>({
+   const { data, isSuccess, isError, error, isLoading, isRefetching } = useQuery<
+      any,
+      any,
+      DeliveryFee[]
+   >({
       queryKey: ["get-deliveryFees"],
       queryFn: fetchDeliveryFees,
    });
@@ -46,7 +50,7 @@ const useDeliveryFees = () => {
       }
    }, [isError, error]);
 
-   return { data, isSuccess, isError, error };
+   return { data, isSuccess, isError, error, isLoading, isRefetching ,};
 };
 
 export default useDeliveryFees;
