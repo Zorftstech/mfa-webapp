@@ -59,11 +59,11 @@ async function Page({ params: { id } }: params) {
    const TableHeadings = ["Product", "Price", "Quantity", "Subtotal"];
    const checkStepValue = (status: string) => {
       switch (status.toLowerCase()) {
-         case "Order received":
+         case "order received":
             return 1;
          case "pending":
             return 2;
-         case "En route":
+         case "en route":
             return 3;
          case "delivered":
             return 4;
@@ -130,7 +130,7 @@ async function Page({ params: { id } }: params) {
                   <div className="flex justify-between text-[18px]">
                      <p className="capitalize text-[#1A1A1A]">total</p>
                      <p className="font-medium text-[#2C742F]">
-                        {formatToNaira(order.totalAmount / 100)}
+                        {formatToNaira(order.totalAmount)}
                      </p>
                   </div>
                </div>

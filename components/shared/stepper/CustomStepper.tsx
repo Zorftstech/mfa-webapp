@@ -23,7 +23,7 @@ const CustomStepper = ({
             >
                <div className="step">
                   {i + 1 < activeStep || isComplete ? (
-                     <Icon icon="fluent-mdl2:check-mark" width="24" height="24" />
+                     <Icon icon="fluent-mdl2:check-mark" width="24" height="24" className="z-[1]" />
                   ) : (
                      i + 1
                   )}

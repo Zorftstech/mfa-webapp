@@ -58,7 +58,7 @@ const Page = () => {
                         </span>
                      </p>
                      <p
-                        className={`text-[10px] font-[400] capitalize  ${checkStatus(
+                        className={`text-[10px] font-[400] capitalize  text-green-500 ${checkStatus(
                            order.status,
                         )}`}
                      >

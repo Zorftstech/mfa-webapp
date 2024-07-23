@@ -161,7 +161,7 @@ export const checkStatus = (status: string) => {
       case "order received":
          return "text-green-600";
       case "pending":
-         return "text-yellow-400";
+         return "text-yellow-600";
       case "en route":
          return "text-green-600";
       case "delivered":
