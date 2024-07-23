@@ -21,7 +21,7 @@ import profile from "@/images/account.png";
 import Image from "next/image";
 import useStore from "@/store";
 import useQueryCollectionByField from "@/hooks/useFirebaseFieldQuery";
-import { formatToNaira } from "@/lib/utils";
+import { checkStatus, formatToNaira } from "@/lib/utils";
 
 const orderHistory = [
    {
@@ -183,7 +183,11 @@ function Page() {
                                  {order.quantityPurchased > 1 ? " Products" : " Product"})
                               </span> */}
                            </p>
-                           <p className="text-[10px] font-[400] capitalize text-[#333333]">
+                           <p
+                              className={`text-[10px] font-[400] capitalize  ${checkStatus(
+                                 order.status,
+                              )}`}
+                           >
                               {order.status}
                            </p>
                         </div>

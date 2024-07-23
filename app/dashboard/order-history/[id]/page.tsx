@@ -58,7 +58,7 @@ async function Page({ params: { id } }: params) {
    if (!order) return notFound();
    const TableHeadings = ["Product", "Price", "Quantity", "Subtotal"];
    const checkStepValue = (status: string) => {
-      switch (status) {
+      switch (status.toLowerCase()) {
          case "Order received":
             return 1;
          case "pending":
@@ -78,10 +78,7 @@ async function Page({ params: { id } }: params) {
             <p>•</p>
             <p>{order.createdDate}</p>
             <p>•</p>
-            <p>
-               {/* {OrderDetail.quantityPurchased}
-               {OrderDetail.quantityPurchased > 1 ? " Products" : " Product"} */}
-            </p>
+            <p></p>
          </div>
          <div className="my-4 grid gap-4 px-4 md:grid-cols-[2fr,1fr]">
             <div className="grid rounded-xl border md:grid-cols-2">

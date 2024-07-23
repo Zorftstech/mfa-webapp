@@ -10,7 +10,7 @@ import { format } from "date-fns";
 import Link from "next/link";
 import useStore from "@/store";
 import useQueryCollectionByField from "@/hooks/useFirebaseFieldQuery";
-import { formatToNaira } from "@/lib/utils";
+import { checkStatus, formatToNaira } from "@/lib/utils";
 
 const Page = () => {
    const { authDetails } = useStore((store) => store);
@@ -57,7 +57,11 @@ const Page = () => {
                            {order.quantityPurchased > 1 ? " Products" : " Product"}) */}
                         </span>
                      </p>
-                     <p className="text-[10px] font-[400] capitalize text-[#333333]">
+                     <p
+                        className={`text-[10px] font-[400] capitalize  ${checkStatus(
+                           order.status,
+                        )}`}
+                     >
                         {order.status}
                      </p>
                   </div>

@@ -156,3 +156,17 @@ export const formatToNaira = (amount: number | bigint) => {
       maximumFractionDigits: 0,
    }).format(amount);
 };
+export const checkStatus = (status: string) => {
+   switch (status.toLowerCase()) {
+      case "order received":
+         return "text-green-600";
+      case "pending":
+         return "text-yellow-400";
+      case "en route":
+         return "text-green-600";
+      case "delivered":
+         return "text-blue-500";
+      default:
+         return "text-red-500";
+   }
+};
