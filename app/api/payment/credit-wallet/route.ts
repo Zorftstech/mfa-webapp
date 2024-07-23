@@ -7,7 +7,7 @@ import { formatToNaira } from "@/lib/utils";
 export async function POST(req: Request, res: NextApiResponse) {
    try {
       const data = await req.json();
-      const { email, amount, reference, lastName, firstName, transId, userId, status } = data;
+      const { email, amount, reference, lastName, firstName, transId, userId, status, name } = data;
 
       if (status !== "success") {
          return NextResponse.json(
@@ -20,16 +20,20 @@ export async function POST(req: Request, res: NextApiResponse) {
       const walletSnap = await getDoc(walletRef);
 
       if (walletSnap.exists()) {
-         // Update the wallet balance if the document exists
+         // Update the wallet balance and totalDeposit if the document exists
          await updateDoc(walletRef, {
             balance: walletSnap.data().balance + amount,
+            totalDeposit: (walletSnap.data().totalDeposit || 0) + amount,
          });
       } else {
          // Create a new wallet document if it doesn't exist
          await setDoc(walletRef, {
             userId,
             email,
+            name: `${firstName || "user"} ${lastName || "user"}`,
             balance: amount,
+            totalDeposit: amount,
+            totalSpent: 0,
          });
       }
 

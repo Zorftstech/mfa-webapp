@@ -23,37 +23,6 @@ import useStore from "@/store";
 import useQueryCollectionByField from "@/hooks/useFirebaseFieldQuery";
 import { checkStatus, formatToNaira } from "@/lib/utils";
 
-const orderHistory = [
-   {
-      orderId: "ORD123456",
-      datePurchased: "2024-04-01",
-      total: 59.99,
-      quantityPurchased: 2,
-      transactionStatus: "completed",
-   },
-   {
-      orderId: "ORD123457",
-      datePurchased: "2024-04-03",
-      total: 120.0,
-      quantityPurchased: 1,
-      transactionStatus: "processing",
-   },
-   {
-      orderId: "ORD123458",
-      datePurchased: "2024-04-07",
-      total: 35.5,
-      quantityPurchased: 4,
-      transactionStatus: "on the way",
-   },
-   {
-      orderId: "ORD123459",
-      datePurchased: "2024-04-10",
-      total: 89.95,
-      quantityPurchased: 3,
-      transactionStatus: "completed",
-   },
-];
-
 function Page() {
    const { authDetails, setLoggedIn, setCurrentUser, setAuthDetails } = useStore((store) => store);
    const { data } = useQueryCollectionByField("orders", "userId", authDetails.id ?? "");

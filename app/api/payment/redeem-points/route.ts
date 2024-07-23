@@ -27,20 +27,26 @@ export async function POST(req: Request, res: NextApiResponse) {
       const walletSnap = await getDoc(walletRef);
 
       let newBalance = points;
+      let totalDeposit = points;
       if (walletSnap.exists()) {
          newBalance += walletSnap.data().balance;
+         totalDeposit += walletSnap.data().totalDeposit || 0;
       } else {
          await setDoc(walletRef, {
             userId,
             email,
+            name: `${firstName || "user"} ${lastName || "user"}`,
             balance: points,
+            totalDeposit: points,
+            totalSpent: 0,
          });
       }
 
-      // If wallet exists, update wallet balance
+      // If wallet exists, update wallet balance and totalDeposit
       if (walletSnap.exists()) {
          await updateDoc(walletRef, {
             balance: newBalance,
+            totalDeposit,
          });
       }
 

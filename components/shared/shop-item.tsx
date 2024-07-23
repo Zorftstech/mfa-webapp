@@ -138,15 +138,17 @@ const Shop = ({ itemDetails, isFlashSale }: { itemDetails: ShopItem; isFlashSale
                   <>
                      <HeartIcon
                         onClick={() => {
-                           wishlist.some((wishItem: any) => wishItem.id === itemDetails.id)
+                           wishlist?.some((wishItem: any) => wishItem.id === itemDetails.id)
                               ? removeFromWishList(itemDetails)
                               : addToWishList(itemDetails);
+                           if (wishlist) {
+                           }
                         }}
                         className={cn("absolute right-3 top-3  w-6 text-gray-600", {
-                           "text-red-600": wishlist.some(
+                           "text-red-600": wishlist?.some(
                               (wishItem: any) => wishItem.id === itemDetails.id,
                            ),
-                           "fill-red-600": wishlist.some(
+                           "fill-red-600": wishlist?.some(
                               (wishItem: any) => wishItem.id === itemDetails.id,
                            ),
                         })}
@@ -155,6 +157,7 @@ const Shop = ({ itemDetails, isFlashSale }: { itemDetails: ShopItem; isFlashSale
                )}
             </>
          )}
+
          <div className="w-full p-0">
             <div
                className={`${styles.img_container} relative flex w-full items-center justify-center`}

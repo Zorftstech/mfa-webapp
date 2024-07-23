@@ -50,9 +50,10 @@ export async function POST(req: Request, res: NextApiResponse) {
          cartItems,
       });
 
-      // Update the wallet balance
+      // Update the wallet balance and totalSpent
       await updateDoc(walletRef, {
          balance: newBalance,
+         totalSpent: (walletSnap.data().totalSpent || 0) + amount,
       });
 
       // Update the transactions array in the user's transactions document
