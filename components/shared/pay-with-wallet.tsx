@@ -29,9 +29,16 @@ interface IProps {
    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
    amount: number;
    orderDetails: any;
+   revokeCouponCodeForUser: any;
 }
 
-const PayWithWalletModal: React.FC<IProps> = ({ open, setOpen, amount, orderDetails }) => {
+const PayWithWalletModal: React.FC<IProps> = ({
+   open,
+   setOpen,
+   amount,
+   orderDetails,
+   revokeCouponCodeForUser,
+}) => {
    const [isLoading, setIsLoading] = useState(false);
    const { authDetails } = useStore((store) => store);
    const router = useRouter();
@@ -60,6 +67,7 @@ const PayWithWalletModal: React.FC<IProps> = ({ open, setOpen, amount, orderDeta
          await axios.post("/api/payment/pay-with-wallet", payload);
 
          toast.success("Wallet updated successfully");
+         revokeCouponCodeForUser();
          clearCart();
          router.push("/shop/categories");
       } catch (error) {

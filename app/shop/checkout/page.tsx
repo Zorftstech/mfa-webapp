@@ -43,6 +43,7 @@ import axios from "axios";
 import Spinner from "@/components/ui/spinner";
 import { formatToNaira } from "@/lib/utils";
 import { Show } from "@/components/helpers/show";
+import useDeliveryFees from "../hooks/delivery-fees/useDelivery-fees";
 
 const formSchema = z.object({
    fname: z.string().min(2, {
@@ -84,6 +85,7 @@ function Page() {
    const [discountedAmount, setDiscountedAmount] = useState(0);
    const { authDetails } = useStore((state) => state);
    const router = useRouter();
+   const { data: deliveryFees } = useDeliveryFees();
    const form = useForm<formInterface>({
       resolver: zodResolver(formSchema),
       defaultValues: {
@@ -210,6 +212,7 @@ function Page() {
       }
       setIsLoading(false);
    };
+   console.log({ deliveryFees });
 
    return (
       <div className="pt-[69px]">
@@ -325,8 +328,8 @@ function Page() {
 
                               <Button
                                  onClick={checkIfCouponCodeIsValidForUser}
-                                 disabled={isLoading || discount > 0}
-                                 className="mt-3 w-full rounded-3xl px-4 text-xs"
+                                 disabled={isLoading || discount > 0 || !couponCode}
+                                 className="mt-3 w-full rounded-3xl px-4 text-xs disabled:cursor-not-allowed disabled:opacity-70"
                               >
                                  {isLoading ? (
                                     <Spinner color="green" className="mx-auto w-4" />
@@ -355,13 +358,16 @@ function Page() {
                <PayWithWalletModal
                   open={openWalletModal}
                   setOpen={setOpenWalletModal}
-                  amount={discountedAmount <= 0 ? amount/100 : Number(discountedAmount.toFixed(0))}
+                  amount={
+                     discountedAmount <= 0 ? amount / 100 : Number(discountedAmount.toFixed(0))
+                  }
                   orderDetails={{
                      address: `${form.getValues().streetAddress}, ${form.getValues().state}, ${form.getValues().country}`,
                      message: form.getValues().message,
                      phone: form.getValues().phone,
                      cartItems: currentCart,
                   }}
+                  revokeCouponCodeForUser={revokeCouponCodeForUser}
                />
             </main>
          </Container>
