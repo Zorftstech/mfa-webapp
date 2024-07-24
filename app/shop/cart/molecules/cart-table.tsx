@@ -100,9 +100,9 @@ function CartTable() {
                </Button>
             </div>
          </div>
-         <div className="hidden flex-[2] md:flex">
+         {/* <div className="hidden flex-[2] md:flex">
             <CartTotal />
-         </div>
+         </div> */}
       </div>
    );
 }

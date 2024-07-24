@@ -50,7 +50,7 @@ const useDeliveryFees = () => {
       }
    }, [isError, error]);
 
-   return { data, isSuccess, isError, error, isLoading, isRefetching ,};
+   return { data, isSuccess, isError, error, isLoading, isRefetching };
 };
 
 export default useDeliveryFees;
