@@ -251,7 +251,7 @@ function Page() {
                   <div className="flex w-full md:w-auto md:flex-[2] ">
                      <div className="mt-6 w-full bg-white p-4">
                         <Text size={"lg"} weight={"medium"}>
-                           Order Summary
+                           Order Summary``
                         </Text>
                         <Each
                            of={currentCart}
