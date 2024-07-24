@@ -109,7 +109,7 @@ function Page() {
 
       try {
          const res = await axios.post("/api/payment/use-coupon", payload);
-         setDiscount(res.data.discountAmount);
+         setDiscount(Number(Number(res.data.discountAmount).toFixed(0)));
          toast.success("Coupon code applied successfully!");
       } catch (error) {
          toast.error("Error applying coupon code. Please try again.");
@@ -210,6 +210,9 @@ function Page() {
       setSelectedShipping(value);
       const selectedRate = shippingRates.find((item) => item.slug === value)?.price || 0;
       setSelectedShippingRate(selectedRate);
+      // if (couponCode) {
+      //    checkIfCouponCodeIsValidForUser();
+      // }
    };
 
    useEffect(() => {
