@@ -66,6 +66,7 @@ function WishListTable({
 
                      <TableCell className="">
                         <Button
+                           // disabled={!item.inStock}
                            onClick={() => handlePlus(item)}
                            className="rounded-3xl px-4 text-xs"
                         >

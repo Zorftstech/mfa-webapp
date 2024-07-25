@@ -112,43 +112,8 @@ export function FeedbackInformation({ currentItem }: FeedbackInformationProps) {
                </div>
             </div>
          </TabsContent>
-         {/*feedback tab */}
-         <TabsContent value="feedback">
-            <div className="mx-auto w-full max-w-[500px] py-3">
-               {currentItem.ratings &&
-                  currentItem.ratings.map((rating, index) => {
-                     return (
-                        <div className="border-b border-gray-300 p-3" key={index}>
-                           <div className="mb-3 flex items-center justify-between ">
-                              <div className="flex items-center gap-2">
-                                 {/* <Avatar>
-                           <AvatarImage
-                              className="h-full w-full rounded-[inherit] object-cover"
-                              src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-                              alt="Colm Tuite"
-                           />
-                           <AvatarFallback>{"Customer"}</AvatarFallback>
-                        </Avatar> */}
-                                 <div>
-                                    <Text className="mb-1 capitalize" weight={"medium"} size={"sm"}>
-                                       {rating.caption || "No caption available for this rating"}
-                                    </Text>
 
-                                    <Ratings value={5} />
-                                 </div>
-                              </div>
-                              <Text weight={"medium"} size={"xs"}>
-                                 Customer
-                              </Text>
-                           </div>
-                           <Text size={"xs"}>
-                              {rating.description || "No description available for this rating"}
-                           </Text>
-                        </div>
-                     );
-                  })}
-            </div>
-         </TabsContent>
+         <FeedbackTab productId={currentItem.id} />
       </Tabs>
    );
 }

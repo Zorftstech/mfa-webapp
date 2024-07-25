@@ -130,7 +130,7 @@ const Shop = ({ itemDetails, isFlashSale }: { itemDetails: ShopItem; isFlashSale
                Save ₦{itemDetails.amountSaved?.toLocaleString()}
             </div>
          )}
-         {loggedIn && (
+         {loggedIn && itemDetails.inStock && (
             <>
                {isLoading ? (
                   <Spinner color="green" className="absolute right-3 top-3 w-4  text-red-600" />
@@ -171,7 +171,9 @@ const Shop = ({ itemDetails, isFlashSale }: { itemDetails: ShopItem; isFlashSale
                      className="h-[10rem] w-[13rem] rounded-md object-cover"
                   />
                </Link>
-               <div className="absolute bottom-0 hidden w-full items-center justify-between border border-gray-300 bg-gray-200 md:flex">
+               <div
+                  className={`absolute bottom-0 hidden w-full items-center justify-between border border-gray-300 bg-gray-200 ${!itemDetails.inStock ? "" : "md:flex"}`}
+               >
                   <button
                      onClick={(e) => handlePlus(itemDetails)}
                      className="flex w-[50%] flex-col items-center justify-center rounded-none p-0"
@@ -228,6 +230,7 @@ const Shop = ({ itemDetails, isFlashSale }: { itemDetails: ShopItem; isFlashSale
                </div>
             </Link>
             <Button
+               disabled={!itemDetails.inStock}
                onClick={(e) =>
                   handlePlus(itemDetails, {
                      price: itemDetails.units && itemDetails.units[0].price,
@@ -236,7 +239,13 @@ const Shop = ({ itemDetails, isFlashSale }: { itemDetails: ShopItem; isFlashSale
                }
                className="mt-4 w-full rounded-3xl text-xs"
             >
-               Add to Cart <ShoppingCartIcon className="w-3 text-white" />
+               {itemDetails.inStock ? (
+                  <>
+                     Add to Cart <ShoppingCartIcon className="w-3 text-white" />
+                  </>
+               ) : (
+                  "Out of Stock"
+               )}
             </Button>
          </div>
       </div>

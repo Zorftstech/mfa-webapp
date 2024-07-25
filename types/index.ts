@@ -205,6 +205,7 @@ export type ShopItem = {
    price: number;
    no_of_items: number;
    status?: string;
+   inStock?: boolean;
    amountSaved?: number;
    newPrice?: number;
    units?: { ratio: number; unit: string; price: number | string }[];
@@ -291,7 +292,7 @@ export interface SingleProduct {
    quantity: number;
    ratings?: { caption: string; rating: number; ratedBy: string[]; description: string }[];
    id?: any;
-
+   inStock?: boolean;
    no_of_items?: number;
 
    status?: string;

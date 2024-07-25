@@ -49,6 +49,7 @@ function WishListMobile({
                         {formatToNaira(Number(item.units && item.units[0].price) ?? 0)}
                      </Text>
                      <Button
+                        // disabled={!item.inStock}
                         onClick={() => handlePlus(item)}
                         className="mt-4 rounded-3xl px-4 text-xs"
                      >

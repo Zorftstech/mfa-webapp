@@ -78,13 +78,23 @@ function ProductDescription({
             <Text size={"md"} weight={"semibold"}>
                ₦{currentSelectedPrice?.toLocaleString()}
             </Text>
-            <Text
-               className="rounded-2xl border border-green-100 bg-green-100 px-4 py-2"
-               size={"xs"}
-               weight={"normal"}
-            >
-               In stock
-            </Text>
+            {currentItem.inStock ? (
+               <Text
+                  className="rounded-2xl border border-green-100 bg-green-100 px-4 py-2"
+                  size={"xs"}
+                  weight={"normal"}
+               >
+                  In stock
+               </Text>
+            ) : (
+               <Text
+                  className="rounded-2xl border border-red-100 bg-red-100 px-4 py-2"
+                  size={"xs"}
+                  weight={"normal"}
+               >
+                  Out of stock
+               </Text>
+            )}
          </div>
          <div className="mt-4 flex flex-wrap items-center justify-start gap-2">
             <Text size={"sm"} weight={"medium"}>
@@ -114,6 +124,7 @@ function ProductDescription({
          <div className="my-3">
             <div className="flex w-fit items-center gap-2 rounded-full border border-gray-300 p-2">
                <Button
+                  disabled={currentItem.inStock ? false : true}
                   onClick={handleSubtract}
                   className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-gray-200 text-black"
                >
@@ -123,6 +134,7 @@ function ProductDescription({
                   {productCount}
                </Text>
                <Button
+                  disabled={currentItem.inStock ? false : true}
                   onClick={handleAdd}
                   className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-gray-200 text-black"
                >
@@ -132,13 +144,14 @@ function ProductDescription({
          </div>
 
          <Button
+            disabled={currentItem.inStock ? false : true}
             onClick={(e) =>
                handlePlus(product, {
                   unit: selectedWeightId,
                   price: currentSelectedPrice,
                })
             }
-            className="mt-4 w-full rounded-3xl text-sm"
+            className="mt-4 w-full rounded-3xl text-sm disabled:cursor-not-allowed"
          >
             Add to Cart <ShoppingCartIcon className="w-4 text-white" />
          </Button>
