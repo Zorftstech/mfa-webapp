@@ -23,7 +23,7 @@ export default function RootLayout({
    return (
       <html lang="en">
          <body
-            className={`${inter.className} no-scrollbar  relative mx-auto h-full w-full  max-w-[180.75rem] overflow-x-hidden md:overflow-auto`}
+            className={`${inter.className}  relative mx-auto h-full w-full  max-w-[180.75rem] overflow-x-hidden md:overflow-auto`}
          >
             <ReactQueryProviders>
                <RootClientLayout>{children}</RootClientLayout>

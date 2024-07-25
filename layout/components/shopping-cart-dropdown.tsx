@@ -47,8 +47,8 @@ const ShoppingCartDropdown = ({ children }: { children?: React.ReactNode }) => {
                </Button>
             )}
          </Dropdown.Trigger>
-         <Dropdown.Content className=" w-[20rem] overflow-scroll border  bg-white px-4 py-6 shadow-lg transition-all duration-300 ease-linear">
-            <div className="grid h-[10rem] gap-4 overflow-scroll">
+         <Dropdown.Content className=" scrollbar w-[25rem] overflow-scroll border  bg-white  py-6 shadow-lg transition-all duration-300 ease-linear">
+            <div className="grid h-[10rem] gap-4 overflow-scroll px-4">
                <div className="space-y-2">
                   <h4 className="font-medium leading-none">Shopping Card ({currentCart.length})</h4>
                </div>

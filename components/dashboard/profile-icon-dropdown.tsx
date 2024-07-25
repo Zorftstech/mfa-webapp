@@ -49,6 +49,9 @@ const ProfileIconDropdown = ({ children }: { children?: React.ReactNode }) => {
                </Text>
             </Dropdown.Item>
             <Dropdown.Item
+               onClick={() => {
+                  router.push("/dashboard");
+               }}
                // key={crypto.randomUUID()}
                className=" flex cursor-pointer items-center gap-[0.75rem] px-[1.25rem] pb-[0.75rem]  text-[0.9rem] leading-[1.3rem] tracking-[0.01rem] hover:!bg-primary-1"
             >
