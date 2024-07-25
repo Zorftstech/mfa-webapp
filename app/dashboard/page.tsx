@@ -22,6 +22,7 @@ import Image from "next/image";
 import useStore from "@/store";
 import useQueryCollectionByField from "@/hooks/useFirebaseFieldQuery";
 import { checkStatus, formatToNaira } from "@/lib/utils";
+import useUserInfo from "@/hooks/useUser";
 
 function Page() {
    const { authDetails, setLoggedIn, setCurrentUser, setAuthDetails } = useStore((store) => store);
