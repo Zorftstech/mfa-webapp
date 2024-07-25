@@ -18,9 +18,7 @@ function Copyright() {
          <Text style={{ color: "#989898" }} size={"xs"} weight={"medium"}>
             &copy; MY FOOD ANGELS.COM, All rights reserved.
          </Text>
-         <Text style={{ color: "#989898" }} size={"xs"} weight={"medium"}>
-            Designed & Developed by Zorfts Technologies Ltd.
-         </Text>
+
          <div className="flex items-center justify-end gap-2">
             <Each
                of={images}

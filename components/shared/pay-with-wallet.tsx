@@ -24,12 +24,14 @@ import ProcessError from "@/lib/error";
 import Spinner from "../ui/spinner";
 import { useRouter } from "next/navigation";
 import { CartContext } from "@/contexts/cart-context";
+import { useQueryClient } from "@tanstack/react-query";
 interface IProps {
    open: boolean;
    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
    amount: number;
    orderDetails: any;
    revokeCouponCodeForUser: any;
+   couponCode: string;
 }
 
 const PayWithWalletModal: React.FC<IProps> = ({
@@ -38,11 +40,13 @@ const PayWithWalletModal: React.FC<IProps> = ({
    amount,
    orderDetails,
    revokeCouponCodeForUser,
+   couponCode,
 }) => {
    const [isLoading, setIsLoading] = useState(false);
    const { authDetails } = useStore((store) => store);
    const router = useRouter();
    const { currentCart, clearCart } = useContext(CartContext);
+   const queryClient = useQueryClient();
 
    const { data: walletBalance, refetch: refetchWalletBalance } = useQueryCollectionByField(
       "wallets",
@@ -67,7 +71,13 @@ const PayWithWalletModal: React.FC<IProps> = ({
          await axios.post("/api/payment/pay-with-wallet", payload);
 
          toast.success("Wallet updated successfully");
-         revokeCouponCodeForUser();
+         queryClient.invalidateQueries({
+            queryKey: ["wallets", "userId", authDetails.id ?? ""],
+         });
+
+         if (couponCode) {
+            revokeCouponCodeForUser();
+         }
          clearCart();
          router.push("/shop/categories");
       } catch (error) {

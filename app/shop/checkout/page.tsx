@@ -387,6 +387,7 @@ function Page() {
                      cartItems: currentCart,
                   }}
                   revokeCouponCodeForUser={applyCouponCode}
+                  couponCode={couponCode}
                />
             </main>
          </Container>
