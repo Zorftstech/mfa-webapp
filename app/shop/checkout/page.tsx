@@ -155,7 +155,10 @@ function Page() {
          };
          if (response.status === "success") {
             createOrder();
-            applyCouponCode();
+            if(couponCode){
+
+               applyCouponCode();
+            }
          }
       };
 
