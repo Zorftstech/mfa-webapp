@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { NextResponse } from "next/server";
 import { db } from "@/firebase";
 import { getDoc, doc, setDoc, updateDoc, arrayUnion } from "firebase/firestore";
-import { formatToNaira } from "@/lib/utils";
+import { formatToNaira, addProductsToUserSoTheyCanReview } from "@/lib/utils";
 
 export async function POST(req: Request, res: NextApiResponse) {
    try {
@@ -55,6 +55,7 @@ export async function POST(req: Request, res: NextApiResponse) {
          balance: newBalance,
          totalSpent: (walletSnap.data().totalSpent || 0) + amount,
       });
+      await addProductsToUserSoTheyCanReview(userId, cartItems);
 
       // Update the transactions array in the user's transactions document
       const transactionsRef = doc(db, "transactions", userId);

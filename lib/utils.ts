@@ -4,6 +4,8 @@
  * @param inputs - The class names to merge and apply.
  * @returns The merged and applied class names.
  */
+import { db } from "@/firebase";
+import { doc, getDoc, updateDoc, arrayUnion, setDoc } from "firebase/firestore";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import moment from "moment";
@@ -168,5 +170,58 @@ export const checkStatus = (status: string) => {
          return "text-blue-500";
       default:
          return "text-red-500";
+   }
+};
+export const addProductsToUserSoTheyCanReview = async (userId: string, cartItems: any[]) => {
+   try {
+      const userRef = doc(db, "users", userId);
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) {
+         throw new Error("User not found");
+      }
+
+      const userData = userSnap.data();
+      const productIds = cartItems.map((item) => item.id);
+
+      if (!userData.productsBought) {
+         // Initialize the productsBought array if it does not exist
+         await updateDoc(userRef, {
+            productsBought: productIds,
+         });
+      } else {
+         // Ensure we only add unique product IDs
+         const existingProductIds = new Set(userData.productsBought);
+         const newProductIds = productIds.filter((id) => !existingProductIds.has(id));
+
+         if (newProductIds.length > 0) {
+            await updateDoc(userRef, {
+               productsBought: arrayUnion(...newProductIds),
+            });
+         }
+      }
+
+      console.log("Products added to user's productsBought array successfully.");
+   } catch (error) {
+      console.error("Error adding products to user's productsBought array:", error);
+   }
+};
+
+export const hasUserBoughtProduct = async (userId: string, productId: string): Promise<boolean> => {
+   try {
+      const userRef = doc(db, "users", userId);
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) {
+         throw new Error("User not found");
+      }
+
+      const userData = userSnap.data();
+      const productsBought = userData.productsBought || [];
+
+      return productsBought.includes(productId);
+   } catch (error) {
+      console.error("Error checking if user has bought product:", error);
+      return false;
    }
 };

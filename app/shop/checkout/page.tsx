@@ -31,7 +31,7 @@ import { useRouter } from "next/navigation";
 import PayWithWalletModal from "@/components/shared/pay-with-wallet";
 import axios from "axios";
 import Spinner from "@/components/ui/spinner";
-import { formatToNaira } from "@/lib/utils";
+import { addProductsToUserSoTheyCanReview, formatToNaira } from "@/lib/utils";
 import { Show } from "@/components/helpers/show";
 import useDeliveryFees from "../hooks/delivery-fees/useDelivery-fees";
 import {
@@ -141,9 +141,12 @@ function Page() {
             try {
                const collectionRef = collection(db, "orders");
                await addDoc(collectionRef, singleOrder);
+               await addProductsToUserSoTheyCanReview(authDetails.id!, currentCart);
                toast.success("Order created successfully!");
+
                form.reset();
                clearCart();
+
                router.push("/shop/categories");
             } catch (error) {
                console.error("Error creating order: ", error);
