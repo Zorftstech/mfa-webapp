@@ -1,5 +1,3 @@
-"use client";
-
 import RecentlyAddedBlogs from "@/components/blog/RecentlyAddedBlogs";
 import TopCategories from "@/components/blog/TopCategories";
 import WithRouteDisplay from "@/components/shared/with-route-display";
@@ -20,6 +18,7 @@ import {
 import { db } from "@/firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { notFound } from "next/navigation";
+import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
 
 interface params {
    params: {
@@ -70,8 +69,9 @@ async function Page({ params: { id } }: params) {
    if (!slug) return notFound();
    if (!singleBlog) return notFound();
    const iconContainerClasses =
-      "group flex h-[24px] w-[24px] items-center justify-center rounded-full hover:cursor-pointer hover:bg-green-600 hover:text-white duration-700 hover:transition-all";
+      "group flex h-[24px] w-[24px] items-center justify-center rounded-full hover:cursor-pointer hover:bg-green-600 hover:text-white duration-700 hover:transition-all ";
    const iconStyle = "group-hover:text-white";
+   console.log(singleBlog);
 
    return (
       <div>
@@ -107,20 +107,17 @@ async function Page({ params: { id } }: params) {
                         </div>
                      </div>
                      <div className="flex items-center gap-2">
-                        <span onClick={() => {}} className={iconContainerClasses}>
-                           <Icon className={iconStyle} icon="ri:facebook-fill" />
+                        <span className={iconContainerClasses}>
+                           <Facebook className="group-hover:text-white" />
                         </span>
-                        <span onClick={() => {}} className={iconContainerClasses}>
-                           <Icon className={iconStyle} icon="ri:twitter-fill" />
+                        <span className={iconContainerClasses}>
+                           <Twitter className="group-hover:text-white" />
                         </span>
-                        <span onClick={() => {}} className={iconContainerClasses}>
-                           <Icon className={iconStyle} icon="dashicons:pinterest" />
+                        <span className={iconContainerClasses}>
+                           <Linkedin className="group-hover:text-white" />
                         </span>
-                        <span onClick={() => {}} className={iconContainerClasses}>
-                           <Icon className={iconStyle} icon="mdi:instagram" />
-                        </span>
-                        <span onClick={() => {}} className={iconContainerClasses}>
-                           <Icon className={iconStyle} icon="material-symbols:link" />
+                        <span className={iconContainerClasses}>
+                           <Instagram className="group-hover:text-white" />
                         </span>
                      </div>
                   </div>
