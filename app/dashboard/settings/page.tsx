@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import DashboardLayout from "../molecules/dashboard-layout";
 import AccountSettings from "./molecules/account-settings";
