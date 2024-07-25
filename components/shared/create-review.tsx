@@ -46,7 +46,7 @@ const ReviewModal: React.FC<IProps> = ({ productId, trigger, refetchReviews }) =
    const [isLoading, setIsLoading] = useState(false);
    const [hasBoughtProduct, setHasBoughtProduct] = useState(false);
 
-   const { authDetails } = useStore((store) => store);
+   const { authDetails, loggedIn } = useStore((store) => store);
 
    useEffect(() => {
       const checkUserBoughtProduct = async () => {
@@ -117,12 +117,14 @@ const ReviewModal: React.FC<IProps> = ({ productId, trigger, refetchReviews }) =
    return (
       <Dialog onOpenChange={setOpen} open={open}>
          <DialogTrigger asChild>
-            <Button
-               // disabled={!hasBoughtProduct}
-               className="mt-4 w-full rounded-3xl text-sm disabled:cursor-not-allowed"
-            >
-               Add a review <Plus className="w-4 text-white" />
-            </Button>
+            {loggedIn ? (
+               <Button
+                  // disabled={!hasBoughtProduct}
+                  className="mx-auto mt-4 flex w-fit rounded-3xl px-6 text-sm disabled:cursor-not-allowed"
+               >
+                  Add a review <Plus className="w-4 text-white" />
+               </Button>
+            ) : null}
          </DialogTrigger>
          <DialogContent className="bg-white">
             <DialogHeader>
@@ -145,7 +147,10 @@ const ReviewModal: React.FC<IProps> = ({ productId, trigger, refetchReviews }) =
                                        placeholder="Rating (1-5)"
                                        {...field}
                                        value={field.value}
-                                       onChange={(e) => field.onChange(Number(e.target.value))}
+                                       onChange={(e) => {
+                                          const value = e.target.value;
+                                          field.onChange(value === "" ? "" : Number(value));
+                                       }}
                                     />
                                  </FormControl>
                                  <FormMessage />

@@ -62,9 +62,9 @@ function ProductDescription({
             <Text size={"2xl"} weight={"semibold"}>
                {currentItem.name}
             </Text>
-            <Button className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100">
+            {/* <Button className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100">
                <HeartIcon className="w-4 text-gray-600" />
-            </Button>
+            </Button> */}
          </div>
          <div className="mt-4 flex items-end justify-start gap-2">
             <Ratings value={5} />
@@ -78,7 +78,7 @@ function ProductDescription({
             <Text size={"md"} weight={"semibold"}>
                ₦{currentSelectedPrice?.toLocaleString()}
             </Text>
-            {currentItem.inStock ? (
+            {product.inStock ? (
                <Text
                   className="rounded-2xl border border-green-100 bg-green-100 px-4 py-2"
                   size={"xs"}
@@ -124,7 +124,7 @@ function ProductDescription({
          <div className="my-3">
             <div className="flex w-fit items-center gap-2 rounded-full border border-gray-300 p-2">
                <Button
-                  disabled={currentItem.inStock ? false : true}
+                  disabled={product.inStock ? false : true}
                   onClick={handleSubtract}
                   className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-gray-200 text-black"
                >
@@ -134,7 +134,7 @@ function ProductDescription({
                   {productCount}
                </Text>
                <Button
-                  disabled={currentItem.inStock ? false : true}
+                  disabled={product.inStock ? false : true}
                   onClick={handleAdd}
                   className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-gray-200 text-black"
                >
@@ -144,7 +144,7 @@ function ProductDescription({
          </div>
 
          <Button
-            disabled={currentItem.inStock ? false : true}
+            disabled={product.inStock ? false : true}
             onClick={(e) =>
                handlePlus(product, {
                   unit: selectedWeightId,
