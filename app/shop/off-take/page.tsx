@@ -17,6 +17,8 @@ import { categoriesId } from "@/lib/utils";
 import useProducts from "../hooks/products/useProducts";
 import { Show } from "@/components/helpers/show";
 import useSections from "../hooks/sections/sections";
+import { Text } from "@/components/ui/text";
+import Timer from "@/components/ui/timer";
 export const revalidate = 60;
 function Page() {
    const { sortedAndFilteredProducts } = useProducts(categoriesId.farmOffTake);
@@ -49,9 +51,15 @@ function Page() {
             <div className="pt-[100px]">
                <RouteDisplay route="Farm Offtake" />
                <Container backgroundColor="bg-gray-100">
-                  <p className="py-8 text-xl">
-                     Available from <span>{data?.FarmOffTakeAvailable}</span>
-                  </p>
+                  <div className="flex items-center justify-between gap-2 rounded-md bg-white p-2 py-8">
+                     <Text size={"sm"} weight={"semibold"}>
+                        Closing in:
+                     </Text>
+                     <Timer
+                        className="rounded-md bg-[#7ab42c] p-2 text-xs text-white"
+                        availableDate={data?.FarmOffTakeAvailable || ""}
+                     />
+                  </div>
                </Container>
             </div>
          </Show.Else>
