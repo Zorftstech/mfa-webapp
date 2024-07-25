@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { TabsContent } from "@/components/ui/tabs";
 import { Text } from "@/components/ui/text";
 import useQueryCollectionByField from "@/hooks/useFirebaseFieldQuery";
+import ReviewModal from "@/components/shared/create-review";
 
 interface IReviews {
    userId: string;
@@ -20,8 +21,11 @@ interface IReviews {
    isApproved: boolean;
 }
 function FeedbackTab({ productId }: { productId: string }) {
-   const { data } = useQueryCollectionByField("reviews", "productId", productId);
+   const { data, refetch } = useQueryCollectionByField("reviews", "productId", productId);
    const reviews = data as IReviews[];
+   const refetchReviews = () => {
+      refetch();
+   };
    return (
       <TabsContent value="feedback">
          <div className="mx-auto w-full max-w-[500px] py-3">
@@ -56,6 +60,7 @@ function FeedbackTab({ productId }: { productId: string }) {
                   );
                })}
          </div>
+         <ReviewModal productId={productId} refetchReviews={refetchReviews} />
       </TabsContent>
    );
 }

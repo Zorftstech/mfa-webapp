@@ -48,7 +48,7 @@ export async function POST(req: Request, res: NextApiResponse) {
          title,
          image,
          createdDate: new Date(),
-         isApproved: false,
+         isApproved: true,
       };
 
       const reviewsCollectionRef = collection(db, "reviews");
