@@ -1,5 +1,5 @@
 "use client";
-import { HeartIcon, AlignJustify } from "lucide-react";
+import { HeartIcon, AlignJustify, ShoppingBag } from "lucide-react";
 import React, { useContext, useState } from "react";
 
 import Image from "next/image";
@@ -25,8 +25,9 @@ import { CartContext } from "@/contexts/cart-context";
 import { calculateTotalPrice } from "@/app/helper";
 import useAnnouncement from "@/app/shop/hooks/announcement/announcement";
 import ShoppingCartDropdown from "./components/shopping-cart-dropdown";
+import useQueryCollectionByField from "@/hooks/useFirebaseFieldQuery";
 const Header = () => {
-   const { loggedIn } = useStore((store) => store);
+   const { loggedIn, authDetails } = useStore((store) => store);
    const { data: info } = useAnnouncement();
    const data = info ? info[0] : {};
 
@@ -34,7 +35,13 @@ const Header = () => {
    const amount = Number(calculateTotalPrice(currentCart));
 
    const { width } = useWindowDimensions();
+   const { data: wishList, refetch } = useQueryCollectionByField(
+      "wishlist",
+      "userId",
+      authDetails.id ?? "",
+   );
 
+   const allWishListItems = wishList ? wishList[0]?.items : [];
    const [isVisible, setIsVisible] = useState<boolean>(false);
 
    const handleVisibility = () => {
@@ -101,8 +108,17 @@ const Header = () => {
                {width && width > 1040 && (
                   <div className="flex items-center gap-4">
                      <div className="flex items-center gap-2">
-                        <Link href={"/shop/wishlist"} className="">
+                        <Link href={"/shop/wishlist"} className="relative pr-2">
                            <HeartIcon className="w-6" />
+
+                           <span
+                              className="absolute right-0 rounded-full bg-primary px-2"
+                              style={{ top: "-5px" }}
+                           >
+                              <Text variant={"white"} size={"xs"} style={{ fontSize: "10px" }}>
+                                 {allWishListItems?.length}
+                              </Text>
+                           </span>
                         </Link>
                         <Separator orientation="vertical" />
                         <div className="flex items-center justify-start gap-4">
