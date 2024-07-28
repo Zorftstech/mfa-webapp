@@ -33,6 +33,8 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import Spinner from "@/components/ui/spinner";
 import { toast } from "sonner";
+import { useParams, useSearchParams } from "next/navigation";
+
 const formSchema = z.object({
    email: z.string().min(2, {
       message: "email must be at least 2 characters.",
@@ -54,7 +56,8 @@ function Page() {
    });
 
    const router = useRouter();
-
+   const search = useSearchParams();
+   const redirectUrl = search.get("redirect");
    const { setAuthDetails, setLoggedIn, setCurrentUser } = useStore((store) => store);
    const { mutate, isPending } = useMutation<any, any, formInterface>({
       mutationFn: async ({ email, password }) => {
@@ -66,7 +69,11 @@ function Page() {
          setLoggedIn(true);
          setCurrentUser(data);
 
-         router.push("/dashboard");
+         if (redirectUrl) {
+            router.push(redirectUrl);
+         } else {
+            router.push("/dashboard");
+         }
 
          // Create a reference to the document
          const docRef = doc(db, "users", data.user.uid);
@@ -158,7 +165,11 @@ function Page() {
                               Dont have an account?
                            </Text>
                            <Link
-                              href={"/account/register"}
+                              href={
+                                 redirectUrl
+                                    ? `/account/register?redirect=${redirectUrl}`
+                                    : "/account/register"
+                              }
                               className="text-sm font-medium hover:text-blue-800 hover:underline"
                            >
                               Register

@@ -69,6 +69,7 @@ function Page() {
    const router = useRouter();
    const search = useSearchParams();
    const ref = search.get("ref");
+   const redirectUrl = search.get("redirect");
 
    const { setAuthDetails, setLoggedIn, setCurrentUser } = useStore((store) => store);
 
@@ -172,7 +173,12 @@ function Page() {
                ...data["_tokenResponse"],
                id: data.user.uid,
             });
-            router.push("/dashboard");
+
+            if (redirectUrl) {
+               router.push(redirectUrl);
+            } else {
+               router.push("/dashboard");
+            }
             return docSnap.data(); // Return the document data
          } else {
             // Document does not exist
@@ -262,7 +268,11 @@ function Page() {
                               Already have an account?
                            </Text>
                            <Link
-                              href={"/account/signin"}
+                              href={
+                                 redirectUrl
+                                    ? `"/account/signin?redirect=${redirectUrl}`
+                                    : "/account/signin"
+                              }
                               className="text-sm font-medium hover:text-blue-800 hover:underline"
                            >
                               Login

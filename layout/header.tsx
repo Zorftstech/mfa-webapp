@@ -26,6 +26,7 @@ import { calculateTotalPrice } from "@/app/helper";
 import useAnnouncement from "@/app/shop/hooks/announcement/announcement";
 import ShoppingCartDropdown from "./components/shopping-cart-dropdown";
 import useQueryCollectionByField from "@/hooks/useFirebaseFieldQuery";
+import { cn } from "@/lib/utils";
 const Header = () => {
    const { loggedIn, authDetails } = useStore((store) => store);
    const { data: info } = useAnnouncement();
@@ -108,7 +109,10 @@ const Header = () => {
                {width && width > 1040 && (
                   <div className="flex items-center gap-4">
                      <div className="flex items-center gap-2">
-                        <Link href={"/shop/wishlist"} className="relative pr-2">
+                        <Link
+                           href={"/shop/wishlist"}
+                           className={cn("relative pr-2", loggedIn ? "block" : "hidden")}
+                        >
                            <HeartIcon className="w-6" />
 
                            <span

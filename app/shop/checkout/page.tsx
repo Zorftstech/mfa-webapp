@@ -67,7 +67,7 @@ function Page() {
    const [couponCode, setCouponCode] = useState("");
    const [selectedShippingRate, setSelectedShippingRate] = useState(0);
    const [selectedShipping, setSelectedShipping] = useState("");
-   const { authDetails } = useStore((state) => state);
+   const { authDetails, loggedIn } = useStore((state) => state);
    const router = useRouter();
 
    const form = useForm<formInterface>({
@@ -155,8 +155,7 @@ function Page() {
          };
          if (response.status === "success") {
             createOrder();
-            if(couponCode){
-
+            if (couponCode) {
                applyCouponCode();
             }
          }
@@ -369,6 +368,11 @@ function Page() {
                         </div>
                         <Button
                            onClick={() => {
+                              if (!loggedIn) {
+                                 toast.warning("Please login to place an order");
+                                 router.push("/account/signin?redirect=/shop/checkout");
+                                 return;
+                              }
                               if (selectedValue === "wallet") {
                                  setOpenWalletModal(true);
                               } else {
