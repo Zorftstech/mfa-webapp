@@ -270,7 +270,7 @@ function Page() {
                            <Link
                               href={
                                  redirectUrl
-                                    ? `"/account/signin?redirect=${redirectUrl}`
+                                    ? `/account/signin?redirect=${redirectUrl}`
                                     : "/account/signin"
                               }
                               className="text-sm font-medium hover:text-blue-800 hover:underline"
