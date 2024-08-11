@@ -24,7 +24,7 @@ function Page() {
    const data = info ? info[0] : {};
    return (
       <Show>
-         <Show.When isTrue={data?.showOfftakes}>
+         <Show.When isTrue={data?.showFlashSales}>
             <div className="pt-[100px]">
                <RouteDisplay route="Flash Sales" />
                <Container backgroundColor="bg-gray-100">

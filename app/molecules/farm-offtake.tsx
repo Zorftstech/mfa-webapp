@@ -26,7 +26,6 @@ function FarmOfftake() {
    const { data: info } = useSections();
    const data = info ? info[0] : {};
    const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
-   console.log(data);
 
    useEffect(() => {
       const interval = setInterval(() => {

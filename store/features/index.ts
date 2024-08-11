@@ -9,6 +9,10 @@ export type FeaturesStateType = {
    setLoading: (arg: boolean) => void;
    selectedCategory: any;
    setSelectedCategory: (arg: any) => void;
+   showFarmOffTakesForAll: boolean;
+   setShowFarmOffTakesForAll: (arg: boolean) => void;
+   showFlashSalesForAll: boolean;
+   setShowFlashSalesForAll: (arg: boolean) => void;
 };
 
 const featuresSlice: StateCreator<FeaturesStateType, [["zustand/devtools", never]], []> = (
@@ -18,6 +22,14 @@ const featuresSlice: StateCreator<FeaturesStateType, [["zustand/devtools", never
    subcategories: [],
    isLoading: false,
    selectedCategory: null,
+   showFarmOffTakesForAll: false,
+   showFlashSalesForAll: false,
+   setShowFarmOffTakesForAll: (arg) => {
+      set({ showFarmOffTakesForAll: arg });
+   },
+   setShowFlashSalesForAll: (arg) => {
+      set({ showFlashSalesForAll: arg });
+   },
    setSelectedCategory: (arg) => {
       set({ selectedCategory: arg });
    },

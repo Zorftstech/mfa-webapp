@@ -2,12 +2,20 @@ import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/firebase";
-import { getCreatedDateFromDocument } from "@/lib/utils";
+import { categoriesId, getCreatedDateFromDocument } from "@/lib/utils";
 import ProcessError from "@/lib/error";
 import useStore from "@/store";
 
 const useCategories = () => {
-   const { setCategories, setSubcategories, setLoading } = useStore((state) => state);
+   const {
+      setCategories,
+      setSubcategories,
+      setLoading,
+      showFarmOffTakesForAll,
+      showFlashSalesForAll,
+      categories,
+      subcategories,
+   } = useStore((state) => state);
 
    const fetchCategories = async () => {
       setLoading(true);
@@ -41,10 +49,18 @@ const useCategories = () => {
 
    useEffect(() => {
       if (isSuccess) {
-         setCategories(data.categories);
+         let categories = data.categories;
+         if (!showFarmOffTakesForAll) {
+            categories = categories.filter((item: any) => item.id !== categoriesId.farmOffTake);
+         }
+         if (!showFlashSalesForAll) {
+            categories = categories.filter((item: any) => item.id !== categoriesId.flashSales);
+         }
+         setCategories(categories);
+
          setSubcategories(data.subCategories);
       }
-   }, [isSuccess, data, setCategories, setSubcategories]);
+   }, [isSuccess, data]);
 
    useEffect(() => {
       if (isError) {
@@ -52,7 +68,7 @@ const useCategories = () => {
       }
    }, [isError, error]);
 
-   return { data, isSuccess, isError, error };
+   return { isSuccess, isError, error, data: { categories, subcategories } };
 };
 
 export default useCategories;
