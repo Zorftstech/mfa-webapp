@@ -17,7 +17,6 @@ import {
 } from "@/components/ui/table";
 import { format } from "date-fns";
 import Link from "next/link";
-import profile from "@/images/account.png";
 import Image from "next/image";
 import useStore from "@/store";
 import useQueryCollectionByField from "@/hooks/useFirebaseFieldQuery";
@@ -26,7 +25,7 @@ import useUserInfo from "@/hooks/useUser";
 
 function Page() {
    const { authDetails, setLoggedIn, setCurrentUser, setAuthDetails } = useStore((store) => store);
-   const { data } = useQueryCollectionByField("orders", "userId", authDetails.id ?? "");
+   const { data } = useQueryCollectionByField("orders", "userId", authDetails.id ?? "", true);
 
    return (
       <DashboardLayout backgroundColor="bg-transparent">

@@ -6,7 +6,6 @@ import { db } from "@/firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { Order } from "@/types";
 import { notFound } from "next/navigation";
-import SampleProductImg from "@/public/images/orders/sample-product.png";
 
 import {
    Table,

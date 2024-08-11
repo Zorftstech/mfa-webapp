@@ -14,7 +14,7 @@ import { checkStatus, formatToNaira } from "@/lib/utils";
 
 const Page = () => {
    const { authDetails } = useStore((store) => store);
-   const { data } = useQueryCollectionByField("orders", "userId", authDetails.id ?? "");
+   const { data } = useQueryCollectionByField("orders", "userId", authDetails.id ?? "", true);
 
    const {
       handleNext,
