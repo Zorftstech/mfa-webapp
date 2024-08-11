@@ -287,7 +287,7 @@ export interface Category {
 }
 
 export interface SingleProduct {
-   units?: { ratio: number; unit: string; price: number | string }[];
+   units?: UnitsForPrice[];
    costprice: string | number;
    nameYourPrice: boolean;
    subcategory: { name: string; id: string };

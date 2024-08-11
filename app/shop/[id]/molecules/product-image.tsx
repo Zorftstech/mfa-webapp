@@ -19,7 +19,6 @@ function ProductImage({ image }: { image: string }) {
    return (
       <div>
          <div className="flex h-[300px] w-full items-center justify-center">
-            {/* <Image src={images[activeImg]} alt={'Product Image'} /> */}
             <Image
                src={image}
                alt={"Product Image"}
@@ -28,18 +27,6 @@ function ProductImage({ image }: { image: string }) {
                className="h-[300px] w-[300px] rounded-md object-cover"
             />
          </div>
-         {/* <div className={`${styles.sub_image} mt-8 w-full`}>
-        <Each
-          of={images}
-          render={(item: any, index: any) => (
-            <div key={index}>
-              <Button onClick={() => handleActiveImg(index)} variant={'ghost'}>
-                <Image src={item} alt={`Image ${index}`} />
-              </Button>
-            </div>
-          )}
-        />
-      </div> */}
       </div>
    );
 }

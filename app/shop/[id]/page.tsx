@@ -66,7 +66,6 @@ async function Page({ params: { id } }: params) {
          <Container>
             <main className="mx-auto mt-8 flex w-full max-w-[1200px] flex-col items-center justify-center gap-1 py-4">
                <div className="grid w-full grid-cols-1 gap-2 p-4 md:grid-cols-2 lg:grid-cols-3">
-                  <ProductImage image={product?.image} />
                   <ProductDescription
                      product={product}
                      currentItem={{
