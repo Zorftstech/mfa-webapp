@@ -45,7 +45,7 @@ function FlashSales() {
                         <Each
                            of={sortedAndFilteredProducts?.slice(0, 8) || []}
                            render={(item: ItemType, index: number) => (
-                              <ShopItem isFlashSale={true} key={index} itemDetails={item} />
+                              <ShopItem key={index} itemDetails={item} />
                            )}
                         />
                      </div>

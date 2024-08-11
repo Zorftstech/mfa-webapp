@@ -16,7 +16,7 @@ function Copyright() {
    return (
       <div className="mb-6 flex w-full flex-col items-center justify-between gap-8 px-4 pt-6 sm:flex-row md:gap-2">
          <Text style={{ color: "#989898" }} size={"xs"} weight={"medium"}>
-            &copy; MY FOOD ANGELS.COM, All rights reserved.
+            &copy; MYFOODANGELS.COM, All rights reserved.
          </Text>
 
          <div className="flex items-center justify-end gap-2">

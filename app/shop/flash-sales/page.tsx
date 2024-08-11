@@ -35,7 +35,7 @@ function Page() {
                            <Each
                               of={sortedAndFilteredProducts || []}
                               render={(item: any, index: number) => (
-                                 <ShopItem isFlashSale={true} key={index} itemDetails={item} />
+                                 <ShopItem key={index} itemDetails={item} />
                               )}
                            />
                         </div>

@@ -140,8 +140,8 @@ export function getCreatedDateFromDocument(documentData: DocumentData): string {
 export const revalidateNumber: number = 60;
 
 export const categoriesId = {
-   flashSales: "kI6Q5AR1y86h7gwdRHqz",
-   farmOffTake: "kTrRflfQO8Xxdj6jiVyx",
+   flashSales: "v9CV5vnTQWODds3JedHF",
+   farmOffTake: "Edi7pOIPuxHkoSHLANtw",
 };
 export const mailChimpApiKeys = "6e653a9c12f9e5d2ad88feeb178b6789-us17";
 export function splitStringBySpaceAndReplaceWithDash(str: string): string {

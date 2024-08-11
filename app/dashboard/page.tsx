@@ -110,7 +110,7 @@ function Page() {
                               <TableCell>
                                  <span
                                     className={`${
-                                       order.status === "completed"
+                                       order.status.toLowerCase() === "delivered"
                                           ? "text-green-500"
                                           : order.status === "cancelled"
                                             ? "text-red-500"
