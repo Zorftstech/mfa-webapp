@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextResponse } from "next/server";
 import { db } from "@/firebase";
-import { getDoc, doc, setDoc, updateDoc, arrayUnion } from "firebase/firestore";
+import { getDoc, doc, setDoc, updateDoc, arrayUnion, serverTimestamp } from "firebase/firestore";
 import { formatToNaira, addProductsToUserSoTheyCanReview } from "@/lib/utils";
 
 export async function POST(req: Request, res: NextApiResponse) {
@@ -48,6 +48,7 @@ export async function POST(req: Request, res: NextApiResponse) {
          phone,
          message,
          cartItems,
+         created_date: serverTimestamp(),
       });
 
       // Update the wallet balance and totalSpent

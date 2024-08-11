@@ -10,7 +10,6 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Text } from "@/components/ui/text";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
-import tomato from "@/images/tomato.png";
 import { PaystackButton, usePaystackPayment } from "react-paystack";
 import RouteDisplay from "../../../components/shared/route-display";
 import { Label } from "@/components/ui/label";
@@ -24,7 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { db } from "@/firebase";
 import { z } from "zod";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { toast } from "sonner";
 import useStore from "@/store";
 import { useRouter } from "next/navigation";
@@ -135,6 +134,7 @@ function Page() {
             orderId: `${response.reference}`,
             status: "pending",
             userId: authDetails.id || values.email,
+            created_date: serverTimestamp(),
          };
 
          const createOrder = async () => {
