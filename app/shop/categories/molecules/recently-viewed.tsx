@@ -6,24 +6,30 @@ import Image from "next/image";
 import { Text } from "@/components/ui/text";
 import Each from "@/components/helpers/each";
 
-const dummyItems: ItemType[] = [
+const dummyItems = [
    {
       id: 1,
+      name: "Dummy Item 1",
+      price: 1000,
       image: dummyItem,
-      name: "Orange-american",
-      rating: 4.5,
-      reviews: 12,
-      price: 2000.0,
-      no_of_items: 1,
    },
    {
       id: 2,
+      name: "Dummy Item 2",
+      price: 2000,
       image: dummyItem,
-      name: "Orange-american",
-      rating: 4.5,
-      reviews: 12,
-      price: 200.0,
-      no_of_items: 1,
+   },
+   {
+      id: 3,
+      name: "Dummy Item 3",
+      price: 3000,
+      image: dummyItem,
+   },
+   {
+      id: 4,
+      name: "Dummy Item 4",
+      price: 4000,
+      image: dummyItem,
    },
 ];
 

@@ -11,7 +11,6 @@ import { ShopItem as ItemType } from "@/types";
 
 import RouteDisplay from "../../../components/shared/route-display";
 
-import { dummyItems } from "@/app/dummyItem";
 import { revalidateNumber } from "@/lib/utils";
 import { categoriesId } from "@/lib/utils";
 import useProducts from "../hooks/products/useProducts";

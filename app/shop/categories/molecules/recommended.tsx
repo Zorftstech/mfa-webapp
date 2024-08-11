@@ -11,27 +11,6 @@ import { ShoppingCartIcon } from "lucide-react";
 import { formatToNaira, splitStringBySpaceAndReplaceWithDash } from "@/lib/utils";
 import Link from "next/link";
 
-const dummyItems: ItemType[] = [
-   {
-      id: 1,
-      image: dummyItem,
-      name: "Orange-american",
-      rating: 4.5,
-      reviews: 12,
-      price: 2000.0,
-      no_of_items: 1,
-   },
-   {
-      id: 2,
-      image: dummyItem,
-      name: "Orange-american",
-      rating: 4.5,
-      reviews: 12,
-      price: 200.0,
-      no_of_items: 1,
-   },
-];
-
 function Recommended() {
    const { sortedAndFilteredProducts } = useProducts("all");
 

@@ -17,8 +17,6 @@ import { ShopItem as ItemType } from "@/types";
 
 import RouteDisplay from "../../../components/shared/route-display";
 
-import { dummyItems, recommendedItems, recentItems } from "@/app/dummyItem";
-import { categoriesId } from "@/lib/utils";
 import useProducts from "../hooks/products/useProducts";
 import { shuffleArray } from "@/helper";
 import { Button } from "@/components/ui/button";

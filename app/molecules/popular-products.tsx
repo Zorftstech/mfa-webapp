@@ -11,7 +11,6 @@ import { Text } from "@/components/ui/text";
 
 import { ShopItem as ItemType } from "@/types";
 
-import { dummyItems } from "../dummyItem";
 import useProducts from "../shop/hooks/products/useProducts";
 import { categoriesId } from "@/lib/utils";
 function PopularProducts() {

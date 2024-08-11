@@ -13,7 +13,6 @@ import RouteDisplay from "../../../components/shared/route-display";
 import ShareItem from "@/components/shared/share-item";
 import { collection, query, where, getDocs, updateDoc, arrayRemove, doc } from "firebase/firestore";
 import { db } from "@/firebase";
-import { wishlistItems } from "@/app/dummyItem";
 import useQueryCollectionByField from "@/hooks/useFirebaseFieldQuery";
 import useStore from "@/store";
 import { toast } from "sonner";
