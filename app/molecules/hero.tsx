@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import "./categories.css";
 import CategoryItem from "./category-item";
 import { useState } from "react";
-import { splitStringBySpaceAndReplaceWithDash } from "@/lib/utils";
+import { categoriesId, splitStringBySpaceAndReplaceWithDash } from "@/lib/utils";
 import useCategories from "../shop/hooks/categories/useCategories";
 import useStore from "@/store";
 import Image from "next/image";
@@ -83,7 +83,15 @@ export default function Hero() {
 
          <div className="category w-full max-w-lg p-2">
             <Each
-               of={data?.categories?.slice(0, 4) || []}
+               of={
+                  data?.categories
+                     ?.filter(
+                        (item: any) =>
+                           item.id !== categoriesId.farmOffTake &&
+                           item.id !== categoriesId.flashSales,
+                     )
+                     ?.slice(0, 4) || []
+               }
                render={(category: any, index: number) => (
                   <Link
                      href={`/shop/categories`}
