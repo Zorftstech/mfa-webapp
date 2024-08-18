@@ -25,6 +25,36 @@ function Page() {
 
    return (
       <div className="pt-[100px]">
+         <head>
+            <title>Popular Products | MyFoodAngels</title>
+            <meta
+               name="description"
+               content="Discover the most popular products at MyFoodAngels. Explore a wide selection of customer favorites and find what you need today."
+            />
+            <meta
+               name="keywords"
+               content="Popular Products, MyFoodAngels, Online Shopping, Grocery Shopping, Bestsellers"
+            />
+            <meta name="robots" content="index, follow" />
+            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+            <link rel="icon" href="/icon.png" />
+            <meta property="og:title" content="Popular Products | MyFoodAngels" />
+            <meta
+               property="og:description"
+               content="Discover the most popular products at MyFoodAngels. Explore a wide selection of customer favorites and find what you need today."
+            />
+            <meta property="og:url" content="https://myfoodangels.com/shop/popular-products" />
+            <meta property="og:type" content="website" />
+            <meta property="og:image" content="/og.jpg" />
+            <meta property="twitter:card" content="summary_large_image" />
+            <meta property="twitter:title" content="Popular Products | MyFoodAngels" />
+            <meta
+               property="twitter:description"
+               content="Discover the most popular products at MyFoodAngels. Explore a wide selection of customer favorites and find what you need today."
+            />
+            <meta property="twitter:image" content="/og.jpg" />
+         </head>
+
          <RouteDisplay route="Popular Products" />
          <Container backgroundColor="bg-gray-100">
             <main className="mx-auto mt-8 flex w-full max-w-[1200px] flex-col items-center justify-center gap-1 py-4">

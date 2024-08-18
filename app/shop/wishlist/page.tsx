@@ -58,6 +58,36 @@ function Page() {
    };
    return (
       <div className="pt-[100px]">
+         <head>
+            <title>My Wishlist | MyFoodAngels</title>
+            <meta
+               name="description"
+               content="View and manage your wishlist on MyFoodAngels. Save your favorite products and easily find them later for purchase."
+            />
+            <meta
+               name="keywords"
+               content="My Wishlist, MyFoodAngels, Wishlist, Favorite Products, Online Shopping, Grocery Wishlist"
+            />
+            <meta name="robots" content="index, follow" />
+            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+            <link rel="icon" href="/icon.png" />
+            <meta property="og:title" content="My Wishlist | MyFoodAngels" />
+            <meta
+               property="og:description"
+               content="View and manage your wishlist on MyFoodAngels. Save your favorite products and easily find them later for purchase."
+            />
+            <meta property="og:url" content="https://myfoodangels.com/account/wishlist" />
+            <meta property="og:type" content="website" />
+            <meta property="og:image" content="/og.jpg" />
+            <meta property="twitter:card" content="summary_large_image" />
+            <meta property="twitter:title" content="My Wishlist | MyFoodAngels" />
+            <meta
+               property="twitter:description"
+               content="View and manage your wishlist on MyFoodAngels. Save your favorite products and easily find them later for purchase."
+            />
+            <meta property="twitter:image" content="/og.jpg" />
+         </head>
+
          <RouteDisplay route={"Wishlist"} />
          <Container>
             <main className="mx-auto mt-8 flex w-full max-w-[1200px] flex-col items-center justify-center gap-1 py-4">

@@ -62,6 +62,35 @@ const ProductSearchPage = () => {
    }, []);
    return (
       <div className="container relative mt-32 h-full w-full  max-w-[1700px]  scroll-mt-32 items-center    px-container-base   transition-all duration-500 ease-in-out  lg:px-container-lg xl:px-container-xl">
+         <head>
+            <title>Search | MyFoodAngels</title>
+            <meta
+               name="description"
+               content="Search for products and services on MyFoodAngels. Find the best deals on groceries, fresh produce, and more."
+            />
+            <meta
+               name="keywords"
+               content="Search, MyFoodAngels, Online Shopping, Grocery Shopping, Fresh Produce"
+            />
+            <meta name="robots" content="index, follow" />
+            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+            <link rel="icon" href="/icon.png" />
+            <meta property="og:title" content="Search | MyFoodAngels" />
+            <meta
+               property="og:description"
+               content="Search for products and services on MyFoodAngels. Find the best deals on groceries, fresh produce, and more."
+            />
+            <meta property="og:url" content="https://myfoodangels.com/search" />
+            <meta property="og:type" content="website" />
+            <meta property="og:image" content="/og.jpg" />
+            <meta property="twitter:card" content="summary_large_image" />
+            <meta property="twitter:title" content="Search | MyFoodAngels" />
+            <meta
+               property="twitter:description"
+               content="Search for products and services on MyFoodAngels. Find the best deals on groceries, fresh produce, and more."
+            />
+            <meta property="twitter:image" content="/og.jpg" />
+         </head>
          <section className=" mb-16">
             <h2 className="  mb-3 text-[1.2rem] font-[700]  leading-[130%] tracking-[0.02rem] transition-all duration-500 ease-in-out md:mb-0  md:text-[1.7rem] md:leading-[4rem] md:tracking-[0.0225rem]">
                {searchInput ? `Search Results for “${searchInput}”` : "Enter your search term"}

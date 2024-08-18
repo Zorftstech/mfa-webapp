@@ -232,6 +232,36 @@ function Page() {
 
    return (
       <div className="pt-[69px]">
+         <head>
+            <title>Checkout | MyFoodAngels</title>
+            <meta
+               name="description"
+               content="Complete your purchase at MyFoodAngels. Review your order, apply discount codes, and choose your preferred payment method."
+            />
+            <meta
+               name="keywords"
+               content="MyFoodAngels, Checkout, Online Shopping, Food Delivery, Secure Payment, Grocery Shopping"
+            />
+            <meta name="robots" content="index, follow" />
+            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+            <link rel="icon" href="/icon.png" />
+            <meta property="og:title" content="Checkout | MyFoodAngels" />
+            <meta
+               property="og:description"
+               content="Complete your purchase at MyFoodAngels. Review your order, apply discount codes, and choose your preferred payment method."
+            />
+            <meta property="og:url" content="https://myfoodangels.com/shop/checkout" />
+            <meta property="og:type" content="website" />
+            <meta property="og:image" content="/og.jpg" />
+            <meta property="twitter:card" content="summary_large_image" />
+            <meta property="twitter:title" content="Checkout | MyFoodAngels" />
+            <meta
+               property="twitter:description"
+               content="Complete your purchase at MyFoodAngels. Review your order, apply discount codes, and choose your preferred payment method."
+            />
+            <meta property="twitter:image" content="/og.jpg" />
+         </head>
+
          <RouteDisplay route={"Shopping cart"} />
          <Container backgroundColor="bg-gray-100">
             <main className="mx-auto mt-8 flex w-full max-w-[1200px] flex-col items-center justify-center gap-1 py-4">
