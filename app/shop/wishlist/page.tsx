@@ -17,6 +17,7 @@ import useQueryCollectionByField from "@/hooks/useFirebaseFieldQuery";
 import useStore from "@/store";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import EmptyContentWrapper from "@/hoc/EmptyContentWrapper";
 function Page() {
    const { authDetails, loggedIn } = useStore((store) => store);
    const { data, refetch } = useQueryCollectionByField("wishlist", "userId", authDetails.id ?? "");
@@ -57,7 +58,7 @@ function Page() {
       removeItem();
    };
    return (
-      <div className="pt-[100px]">
+      <div className="pt-[4rem]">
          <head>
             <title>My Wishlist | MyFoodAngels</title>
             <meta
@@ -94,14 +95,22 @@ function Page() {
                <Text size={"lg"} weight={"semibold"}>
                   My Wishlist
                </Text>
-               <WishListMobile
-                  data={data ? data[0]?.items : []}
-                  removeFromWishList={removeFromWishList}
-               />
-               <WishListTable
-                  data={data ? data[0]?.items : []}
-                  removeFromWishList={removeFromWishList}
-               />
+
+               <EmptyContentWrapper
+                  isEmpty={data && data?.length <= 0}
+                  customMessage="No Items in Wishlist Yet"
+                  className="flex h-full w-full items-center justify-center py-12 "
+               >
+                  <WishListMobile
+                     data={data ? data[0]?.items : []}
+                     removeFromWishList={removeFromWishList}
+                  />
+                  <WishListTable
+                     data={data ? data[0]?.items : []}
+                     removeFromWishList={removeFromWishList}
+                  />
+               </EmptyContentWrapper>
+
                <div className="flex w-full items-center justify-start px-4">
                   <ShareItem />
                </div>

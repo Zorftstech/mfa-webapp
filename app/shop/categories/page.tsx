@@ -34,6 +34,7 @@ import Recommended from "./molecules/recommended";
 import useStore from "@/store";
 import { formatToNaira, revalidateNumber } from "@/lib/utils";
 import { Metadata } from "next";
+import EmptyContentWrapper from "@/hoc/EmptyContentWrapper";
 export const revalidate = 60;
 
 function Page() {
@@ -47,7 +48,7 @@ function Page() {
    const count = sortedAndFilteredProducts?.length ?? 0;
 
    return (
-      <div className="bg-gray-100 pt-[100px]">
+      <div className="bg-gray-100 pt-[4rem]">
          <RouteDisplay route="Categories" />
          <main className="mx-auto mt-6 flex w-full max-w-[1200px] items-start justify-center gap-2 p-4">
             {/* filters */}
@@ -87,12 +88,18 @@ function Page() {
                      </Select>
                   </div>
                </div>
-               <div className="grid w-full grid-cols-2 gap-4 md:grid-cols-3">
-                  <Each
-                     of={sortedAndFilteredProducts || []}
-                     render={(item, index) => <ShopItem key={index} itemDetails={item} />}
-                  />
-               </div>
+               <EmptyContentWrapper
+                  isEmpty={sortedAndFilteredProducts && sortedAndFilteredProducts.length <= 0}
+                  customMessage="No product in this category"
+                  className="flex h-full w-full items-center justify-center py-12 "
+               >
+                  <div className="grid w-full grid-cols-2 gap-4 md:grid-cols-3">
+                     <Each
+                        of={sortedAndFilteredProducts || []}
+                        render={(item, index) => <ShopItem key={index} itemDetails={item} />}
+                     />
+                  </div>
+               </EmptyContentWrapper>
                {count > 20 && <ItemPagination />}
             </main>
          </main>

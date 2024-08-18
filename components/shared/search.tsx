@@ -42,7 +42,7 @@ const SearchBar: React.FC = () => {
                   name="search"
                   readOnly
                />
-               <Search className="absolute right-4 top-1/2 hidden w-4 -translate-y-1/2 transform md:block" />
+               <Search className="absolute right-8 top-1/2 hidden w-4 -translate-y-1/2 transform md:block" />
             </Button>
          </DialogTrigger>
          <DialogContent className="w-[95%] max-w-md bg-white">

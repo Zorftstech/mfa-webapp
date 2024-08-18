@@ -8,6 +8,7 @@ import RecentlyAddedBlogs from "@/components/blog/RecentlyAddedBlogs";
 import BlogSection from "@/components/blog/BlogSection";
 import BlogDetail from "@/components/blog/BlogDetail";
 import useBlogs from "./hooks/useBlogs";
+import EmptyContentWrapper from "@/hoc/EmptyContentWrapper";
 const Page = () => {
    const blogs = useBlogs().data || [];
    return (
@@ -87,13 +88,19 @@ const Page = () => {
                   <TopCategories />
                   <RecentlyAddedBlogs />
                </aside>
-               <div className={cn("hideScroll", styles.blogSection)}>
-                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
-                     {blogs.map((blog, index) => (
-                        <BlogDetail key={index} {...blog} />
-                     ))}
+               <EmptyContentWrapper
+                  isEmpty={blogs && blogs?.length <= 0}
+                  customMessage="No blogs at the moment"
+                  className="flex h-full w-full items-center justify-center py-12 "
+               >
+                  <div className={cn("hideScroll", styles.blogSection)}>
+                     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
+                        {blogs.map((blog, index) => (
+                           <BlogDetail key={index} {...blog} />
+                        ))}
+                     </div>
                   </div>
-               </div>
+               </EmptyContentWrapper>
             </div>
          </WithRouteDisplay>
       </div>

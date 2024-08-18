@@ -21,7 +21,7 @@ function DashboardLayout({ children, removePadding, backgroundColor }: Dashboard
       setSticky(!showSticky);
    };
    return (
-      <div className="pt-[100px]">
+      <div className="pt-[4rem]">
          <RouteDisplay route="Dashboard" />
          <Container backgroundColor="bg-gray-100">
             <main className="relative mx-auto flex w-full max-w-[1200px] items-start justify-between gap-2 py-4">

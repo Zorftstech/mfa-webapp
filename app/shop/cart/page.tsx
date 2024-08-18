@@ -11,7 +11,7 @@ import RouteDisplay from "../../../components/shared/route-display";
 
 function page() {
    return (
-      <div className="pt-[100px]">
+      <div className="pt-[4rem]">
          <head>
             <title>Shopping cart | MyFoodAngels</title>
             <meta

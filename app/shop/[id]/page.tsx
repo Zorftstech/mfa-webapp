@@ -161,7 +161,7 @@ async function Page({ params: { id } }: params) {
    if (!slug || !product) return notFound();
 
    return (
-      <div className="pt-[100px]">
+      <div className="pt-[4rem]">
          <RouteDisplay route={product?.name || ""} />
 
          <Container>

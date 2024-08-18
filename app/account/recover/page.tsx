@@ -60,7 +60,7 @@ function Page() {
    }
 
    return (
-      <div className="pt-[100px]">
+      <div className="pt-[4rem]">
          <RouteDisplay route={"Recover Account"} />
          <Container>
             <main className="mx-auto mt-8 flex w-full max-w-[1200px] flex-col items-center justify-center gap-1 py-4">

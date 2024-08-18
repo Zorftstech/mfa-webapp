@@ -22,7 +22,7 @@ const EmptyContentWrapper = ({
             className,
          )}
       >
-         <img src={url("/images/footer/swag-jobs-1.svg")} alt="" />
+         <img src={url("/svg/dashboard/empty-icon.svg")} alt="" />
          <p className=" text-[12px] leading-[20px] tracking-[0.15px] ">
             {customMessage ? customMessage : `No content available at the moment.`}
          </p>

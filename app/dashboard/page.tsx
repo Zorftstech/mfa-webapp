@@ -22,6 +22,7 @@ import useStore from "@/store";
 import useQueryCollectionByField from "@/hooks/useFirebaseFieldQuery";
 import { checkStatus, formatToNaira } from "@/lib/utils";
 import useUserInfo from "@/hooks/useUser";
+import EmptyContentWrapper from "@/hoc/EmptyContentWrapper";
 
 function Page() {
    const { authDetails, setLoggedIn, setCurrentUser, setAuthDetails } = useStore((store) => store);
@@ -90,85 +91,94 @@ function Page() {
                   <h1 className="text-[15px] font-bold">Recent Order History</h1>
                   <p className="text-sm text-[#7AB42C]">View all</p>
                </div>
-               <div className="hidden w-full min-w-[500px] md:table">
-                  <Table>
-                     <TableHeader style={{ background: "#F2F2F2" }}>
-                        <TableRow>
-                           <TableHead className="w-[100px]">ORDER ID</TableHead>
-                           <TableHead>DATE</TableHead>
-                           <TableHead>TOTAL</TableHead>
-                           <TableHead>STATUS</TableHead>
-                           <TableHead> </TableHead>
-                        </TableRow>
-                     </TableHeader>
-                     <TableBody>
+
+               <EmptyContentWrapper
+                  isEmpty={data && data?.length <= 0}
+                  customMessage="No Orders Placed Yet"
+                  className="flex h-full w-full items-center justify-center py-12 "
+               >
+                  <>
+                     <div className="hidden w-full min-w-[500px] md:table">
+                        <Table>
+                           <TableHeader style={{ background: "#F2F2F2" }}>
+                              <TableRow>
+                                 <TableHead className="w-[100px]">ORDER ID</TableHead>
+                                 <TableHead>DATE</TableHead>
+                                 <TableHead>TOTAL</TableHead>
+                                 <TableHead>STATUS</TableHead>
+                                 <TableHead> </TableHead>
+                              </TableRow>
+                           </TableHeader>
+                           <TableBody>
+                              {data?.slice(0, 5)?.map((order, idx) => (
+                                 <TableRow key={idx}>
+                                    <TableCell className="font-medium">{order.orderId}</TableCell>
+                                    <TableCell>{order.createdDate}</TableCell>
+                                    <TableCell>{formatToNaira(order.totalAmount)}</TableCell>
+                                    <TableCell>
+                                       <span
+                                          className={`${
+                                             order.status.toLowerCase() === "delivered"
+                                                ? "text-green-500"
+                                                : order.status === "cancelled"
+                                                  ? "text-red-500"
+                                                  : "text-yellow-500"
+                                          }`}
+                                       >
+                                          {order.status}
+                                       </span>
+                                    </TableCell>
+                                    <TableCell style={{ color: "#7AB42C" }}>
+                                       <Link href={`/dashboard/order-history/${order.orderId}`}>
+                                          View Details
+                                       </Link>
+                                    </TableCell>
+                                 </TableRow>
+                              ))}
+                           </TableBody>
+                        </Table>
+                     </div>
+                     <div className="flex flex-col gap-2 md:hidden">
                         {data?.slice(0, 5)?.map((order, idx) => (
-                           <TableRow key={idx}>
-                              <TableCell className="font-medium">{order.orderId}</TableCell>
-                              <TableCell>{order.createdDate}</TableCell>
-                              <TableCell>{formatToNaira(order.totalAmount)}</TableCell>
-                              <TableCell>
-                                 <span
-                                    className={`${
-                                       order.status.toLowerCase() === "delivered"
-                                          ? "text-green-500"
-                                          : order.status === "cancelled"
-                                            ? "text-red-500"
-                                            : "text-yellow-500"
-                                    }`}
-                                 >
-                                    {order.status}
-                                 </span>
-                              </TableCell>
-                              <TableCell style={{ color: "#7AB42C" }}>
-                                 <Link href={`/dashboard/order-history/${order.orderId}`}>
-                                    View Details
-                                 </Link>
-                              </TableCell>
-                           </TableRow>
-                        ))}
-                     </TableBody>
-                  </Table>
-               </div>
-               <div className="flex flex-col gap-2 md:hidden">
-                  {data?.map((order, idx) => (
-                     <div
-                        key={idx}
-                        className="grid grid-cols-[2fr,2fr,1.5fr] items-end gap-2 rounded-[16px] bg-slate-50 px-4 py-6"
-                     >
-                        <div>
-                           <p className="mb-2 text-[14px] font-semibold text-[#1a1a1a]">
-                              {order.orderId}
-                           </p>
-                           <p className="text-[10px] font-[400] text-[#828282]">
-                              {order.createdDate}
-                           </p>
-                        </div>
-                        <div>
-                           <p className="mb-2 text-[14px] font-semibold text-[#1a1a1a]">
-                              {formatToNaira(order.totalAmount)}
-                              {/* <span className="text-[12px] font-[400]">
+                           <div
+                              key={idx}
+                              className="grid grid-cols-[2fr,2fr,1.5fr] items-end gap-2 rounded-[16px] bg-slate-50 px-4 py-6"
+                           >
+                              <div>
+                                 <p className="mb-2 text-[14px] font-semibold text-[#1a1a1a]">
+                                    {order.orderId}
+                                 </p>
+                                 <p className="text-[10px] font-[400] text-[#828282]">
+                                    {order.createdDate}
+                                 </p>
+                              </div>
+                              <div>
+                                 <p className="mb-2 text-[14px] font-semibold text-[#1a1a1a]">
+                                    {formatToNaira(order.totalAmount)}
+                                    {/* <span className="text-[12px] font-[400]">
                                  ({order.quantityPurchased}
                                  {order.quantityPurchased > 1 ? " Products" : " Product"})
                               </span> */}
-                           </p>
-                           <p
-                              className={`text-[10px] font-[400] capitalize  ${checkStatus(
-                                 order.status,
-                              )}`}
-                           >
-                              {order.status}
-                           </p>
-                        </div>
-                        <Link
-                           href={`/dashboard/order-history/${order.orderId}`}
-                           className="text-right text-[12px] font-medium text-[#7AB42C] hover:cursor-pointer hover:underline"
-                        >
-                           View Details
-                        </Link>
+                                 </p>
+                                 <p
+                                    className={`text-[10px] font-[400] capitalize  ${checkStatus(
+                                       order.status,
+                                    )}`}
+                                 >
+                                    {order.status}
+                                 </p>
+                              </div>
+                              <Link
+                                 href={`/dashboard/order-history/${order.orderId}`}
+                                 className="text-right text-[12px] font-medium text-[#7AB42C] hover:cursor-pointer hover:underline"
+                              >
+                                 View Details
+                              </Link>
+                           </div>
+                        ))}
                      </div>
-                  ))}
-               </div>
+                  </>
+               </EmptyContentWrapper>
             </div>
          </div>
       </DashboardLayout>

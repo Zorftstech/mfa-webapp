@@ -146,7 +146,7 @@ const about_us = [
 
 function AboutUsPage() {
    return (
-      <div className="pt-[100px]">
+      <div className="pt-[4rem]">
          <RouteDisplay route={"About Us"} />
          <Container>
             <main className="mx-auto mt-8 flex w-full max-w-[1200px] flex-col items-center justify-center py-4">

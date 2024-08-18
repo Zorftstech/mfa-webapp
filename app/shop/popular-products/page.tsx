@@ -24,7 +24,7 @@ function Page() {
    const { sortedAndFilteredProducts, handleSearch } = useProducts("all");
 
    return (
-      <div className="pt-[100px]">
+      <div className="pt-[4rem]">
          <head>
             <title>Popular Products | MyFoodAngels</title>
             <meta

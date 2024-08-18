@@ -57,7 +57,7 @@ function Page() {
          </head>
          <Show>
             <Show.When isTrue={data?.showOfftakes}>
-               <div className="pt-[100px]">
+               <div className="pt-[4rem]">
                   <RouteDisplay route="Farm Offtake" />
                   <Container backgroundColor="bg-gray-100">
                      <main className="mx-auto mt-8 flex w-full max-w-[1200px] flex-col items-center justify-center gap-1 py-4">
@@ -77,7 +77,7 @@ function Page() {
                </div>
             </Show.When>
             <Show.Else>
-               <div className="pt-[100px]">
+               <div className="pt-[4rem]">
                   <RouteDisplay route="Farm Offtake" />
                   <Container backgroundColor="bg-gray-100">
                      <div className="flex items-center justify-between gap-2 rounded-md bg-white p-2 py-8">

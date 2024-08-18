@@ -197,7 +197,7 @@ function Page() {
    }
 
    return (
-      <div className="pt-[100px]">
+      <div className="pt-[4rem]">
          <head>
             <title>Sign Up | MyFoodAngels</title>
             <meta
