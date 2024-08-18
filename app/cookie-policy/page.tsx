@@ -17,13 +17,13 @@ export const metadata: Metadata = {
 
 function CookiesPolicyPage() {
    return (
-      <div>
+      <div className="mt-10 md:mt-0">
          <WithRouteDisplay route="Cookies Policy" extraChildrenClassname="pb-8">
             <Text className="font-semibold leading-[110%] md:text-[0.5rem] lg:text-[1rem]">
                Cookies Policy
             </Text>
          </WithRouteDisplay>
-         <div className="container p-container-lg">
+         <div className="container p-container-base pt-8  md:p-container-lg">
             <Text className="text-base leading-relaxed">
                <strong>Introduction</strong>
                <br />

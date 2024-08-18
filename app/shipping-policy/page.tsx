@@ -19,13 +19,13 @@ export const metadata: Metadata = {
 
 function ShippingAndDeliveryPage() {
    return (
-      <div>
+      <div className="mt-10 md:mt-0">
          <WithRouteDisplay route="Shipping and Delivery" extraChildrenClassname="pb-8">
             <Text className="font-semibold leading-[110%] md:text-[0.5rem] lg:text-[1rem]">
                Shipping and Delivery Policy
             </Text>
          </WithRouteDisplay>
-         <div className="container p-container-lg">
+         <div className="container p-container-base pt-8  md:p-container-lg">
             <Text className="text-base leading-relaxed">
                We offer same day delivery for all orders received before 8 AM. Orders placed after 8
                AM will be treated as next day delivery.

@@ -41,7 +41,7 @@ function FarmOfftake() {
    return (
       <Show>
          <Show.When isTrue={data?.showOfftakes}>
-            <Container backgroundColor="bg-gray-100">
+            <Container backgroundColor="bg-white">
                <main className="mx-auto flex w-full max-w-[1200px] flex-col items-center justify-center gap-1 py-8">
                   {/* <div className="mb-1 flex w-full items-center justify-center gap-1">
                <span

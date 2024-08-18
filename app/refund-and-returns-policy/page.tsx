@@ -17,13 +17,13 @@ export const metadata: Metadata = {
 
 function RefundPolicyPage() {
    return (
-      <div>
+      <div className="mt-10 md:mt-0">
          <WithRouteDisplay route="Refund Policy" extraChildrenClassname="pb-8">
             <Text className="font-semibold leading-[110%] md:text-[0.5rem] lg:text-[1rem]">
                Refund Policy
             </Text>
          </WithRouteDisplay>
-         <div className="container p-container-lg">
+         <div className="container p-container-base pt-8  md:p-container-lg">
             <Text className="text-base leading-relaxed">
                We offer a 100% return or refund if there are any issues with your order.
             </Text>

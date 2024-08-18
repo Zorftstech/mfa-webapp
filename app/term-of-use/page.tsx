@@ -17,13 +17,13 @@ export const metadata: Metadata = {
 
 function TermsOfUsePage() {
    return (
-      <div>
+      <div className="mt-10 md:mt-0">
          <WithRouteDisplay route="Terms Of Use" extraChildrenClassname="pb-8">
             <Text className="font-semibold leading-[110%]  md:text-[0.5rem] lg:text-[1rem]">
                Terms Of Use
             </Text>
          </WithRouteDisplay>
-         <div className="container  p-container-lg">
+         <div className="container p-container-base pt-8  md:p-container-lg">
             <Text className="text-base leading-relaxed">
                <strong>PLEASE READ!</strong> MYFOODANGELS.COM REQUIRES CONSIDERATION FOR AND AS A
                CONDITION OF ALLOWING YOUR USE OF MYFOODANGELS.COM.

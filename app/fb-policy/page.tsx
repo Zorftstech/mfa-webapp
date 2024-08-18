@@ -17,13 +17,13 @@ export const metadata: Metadata = {
 
 function FBPolicyPage() {
    return (
-      <div>
+      <div className="mt-10 md:mt-0">
          <WithRouteDisplay route="Privacy Policy" extraChildrenClassname="pb-8">
             <Text className="font-semibold leading-[110%] md:text-[0.5rem] lg:text-[1rem]">
                FB Policy
             </Text>
          </WithRouteDisplay>
-         <div className="container p-container-lg">
+         <div className="container p-container-base pt-8  md:p-container-lg">
             <Text className="text-base leading-relaxed">
                <strong>Introduction</strong>
                <br />
@@ -58,7 +58,6 @@ function FBPolicyPage() {
                certain countries, specifically those that have blocked the use of Facebook or where
                your use or our content would be prohibited.
             </Text>
-
             <Text className="mt-4 text-base leading-relaxed">
                <strong>Type of Information We Automatically Collect from Users:</strong>
                <br />
@@ -77,7 +76,6 @@ function FBPolicyPage() {
                   <li>Interactions with our App or Facebook Page</li>
                </ul>
             </Text>
-
             <Text className="mt-4 text-base leading-relaxed">
                <strong>
                   Type of Information We Might Collect if You Have Authorized Us to Collect:
@@ -101,7 +99,6 @@ function FBPolicyPage() {
                   <li>Posts or pictures you are tagged in</li>
                </ul>
             </Text>
-
             <Text className="mt-4 text-base leading-relaxed">
                <strong>How We Use Your Information:</strong>
                <br />
@@ -112,7 +109,6 @@ function FBPolicyPage() {
                parties are contractually obligated to keep your information confidential, and they
                will only have access to information that is needed to perform their job.
             </Text>
-
             <Text className="mt-4 text-base leading-relaxed">
                <strong>Other Users:</strong> If you have given us permission, and if one of the
                functions of our Application and/or Fan Page is to allow you to interact with others,
@@ -122,7 +118,6 @@ function FBPolicyPage() {
                aggregate this information, in an anonymized form, to allow us to see how you use our
                Application and/or Page.
             </Text>
-
             <Text className="mt-4 text-base leading-relaxed">
                <strong>Legal Uses:</strong> We may disclose your information if required by a
                subpoena, through any legal process, to comply with any law or regulation, or by
@@ -130,13 +125,11 @@ function FBPolicyPage() {
                reasonably believe it is necessary to prevent harm or injury or loss, in any way, to
                us or any third party.
             </Text>
-
             <Text className="mt-4 text-base leading-relaxed">
                <strong>Business Acquisition or Merger:</strong> If we are acquired or sell our
                business, we may transfer your information. You may contact us in the event this
                happens if you have any concerns with the transfer of your data.
             </Text>
-
             <Text className="mt-4 text-base leading-relaxed">
                <strong>Controlling Your Data:</strong> You may request that we delete any data about
                you at any time. Unless you do so, however, we may retain your data until you ask us
@@ -145,7 +138,6 @@ function FBPolicyPage() {
                from our Page or if your account is deleted. We may provide you with the ability to
                review, correct, or delete your information.
             </Text>
-
             <Text className="mt-4 text-base leading-relaxed">
                <strong>Other Disclosures and Assurances:</strong> We DO NOT sell/transfer/give
                information about your use of Facebook to third parties unless authorized in this
@@ -153,7 +145,6 @@ function FBPolicyPage() {
                have servers located in different jurisdictions, so you are consenting to the
                transfer of this information from your residence to our servers.
             </Text>
-
             <Text className="mt-4 text-base leading-relaxed">
                We do not allow users under 13 to use our Application or Fan Page and will delete
                anyone we suspect is underage. We may update this Privacy Policy as needed. If we do,
