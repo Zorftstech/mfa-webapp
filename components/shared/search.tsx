@@ -34,8 +34,8 @@ const SearchBar: React.FC = () => {
    return (
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
          <DialogTrigger asChild>
-            <Button variant="default" className="relative w-full">
-               <Search className="absolute left-4 top-1/2 w-4 -translate-y-1/2 transform md:hidden" />
+            <Button variant="ghost" className="relative w-full">
+               <Search className="absolute left-6 top-1/2 w-4 -translate-y-1/2 transform md:hidden" />
                <Input
                   className="w-full rounded-full bg-white py-6 pl-[40px] md:pl-2"
                   placeholder="I am looking for..."

@@ -129,7 +129,7 @@ const Shop = ({ itemDetails, isFlashSale }: { itemDetails: ShopItem; isFlashSale
    return (
       <div
          //  href={`/shop/${itemDetails.id}`}
-         className="relative w-full cursor-pointer border border-transparent bg-white px-4 py-10 shadow-none duration-300 hover:border-gray-300"
+         className="relative w-full cursor-pointer border border-transparent bg-white py-10 shadow-none duration-300 md:px-4 md:hover:border-gray-300"
       >
          {isFlashSale && (
             <div className="absolute left-1 top-1 z-10 rounded-3xl bg-red-800 px-5 py-2 text-xs text-white md:left-3 md:top-3">
@@ -185,7 +185,7 @@ const Shop = ({ itemDetails, isFlashSale }: { itemDetails: ShopItem; isFlashSale
                   />
                </Link>
                <div
-                  className={`absolute bottom-0 hidden w-full items-center justify-between border border-gray-300 bg-gray-200 ${!itemDetails.inStock ? "" : "md:flex"}`}
+                  className={`absolute bottom-0 hidden w-full items-center justify-between border border-gray-300 bg-gray-200 ${!itemDetails.inStock ? "" : ""}`}
                >
                   <button
                      onClick={(e) => addToWishList(itemDetails)}

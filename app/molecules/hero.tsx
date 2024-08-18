@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, ArrowUpDown, ArrowUpDownIcon } from "lucide-react";
+import { Search, ArrowUpDown, ArrowUpDownIcon, SearchIcon } from "lucide-react";
 
 import Each from "@/components/helpers/each";
 import { Input } from "@/components/ui/input";
@@ -61,23 +61,12 @@ export default function Hero() {
          </h2>
 
          <form
-            className="flex w-full max-w-lg items-center justify-between gap-2"
+            className="flex w-full max-w-lg items-center justify-between "
             onSubmit={handleSubmit}
          >
-            {/* <div className="relative w-full">
-               <Search className="absolute left-4 top-[25%] block w-4 md:hidden" />
-               <Input
-                  className="w-full rounded-full bg-white py-6 pl-[40px] md:pl-2"
-                  placeholder={width && width > 768 ? "I am looking for..." : "What do you need?"}
-                  onChange={(e) => setSearchInput(e.target.value)}
-                  value={searchInput}
-                  name={"search"}
-               />
-               <Search className="absolute right-4 top-[25%] hidden w-4 md:block" />
-            </div> */}
             <SearchBar />
-            <div className="flex h-full w-12 items-center justify-center rounded-full bg-white md:hidden">
-               <ArrowUpDown className="w-3 text-gray-800" />
+            <div className="flex h-fit  items-center justify-center  rounded-full bg-white px-4 py-3 md:hidden">
+               <SearchIcon className="w-3" />
             </div>
          </form>
 
@@ -112,7 +101,11 @@ export default function Hero() {
                            className="h-16 w-16 rounded-full object-cover"
                         />
                      </div>
-                     <Text variant={"white"} size={"sm"} weight={"medium"} className="capitalize">
+                     <Text
+                        variant={"white"}
+                        weight={"medium"}
+                        className="text-center text-xs capitalize lg:text-sm"
+                     >
                         {category.name?.slice(0, 14)}..
                      </Text>
                   </Link>

@@ -1,10 +1,5 @@
 {
    "typescript.tsdk": "node_modules/.pnpm/typescript@5.0.4/node_modules/typescript/lib",
-   "typescript.enablePromptUseWorkspaceTsdk": true,
-   "workbench.colorCustomizations": {
-      "activityBar.background": "#3B2A21",
-      "titleBar.activeBackground": "#533A2E",
-      "titleBar.activeForeground": "#FBF9F8"
-   }
+   "typescript.enablePromptUseWorkspaceTsdk": true
    // "peacock.color": "blue"
 }

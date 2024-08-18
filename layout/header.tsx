@@ -102,7 +102,9 @@ const Header = () => {
                   <AlignJustify className="w-4" />
                </Button>
                <div className="hidden min-w-[24rem] items-center justify-between gap-8 md:flex">
-                  <Image src={logo} alt="mfa-logo" className="h-8 w-12" />
+                  <Link href={"/"}>
+                     <Image src={logo} alt="mfa-logo" className="h-8 w-12" />
+                  </Link>
                   <TopNav />
                </div>
                <Image src={logo} alt="mfa-logo" className="block h-10 w-12 md:hidden" />
