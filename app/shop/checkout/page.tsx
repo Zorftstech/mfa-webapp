@@ -40,6 +40,7 @@ import {
    SelectTrigger,
    SelectValue,
 } from "@/components/ui/select";
+import EmptyContentWrapper from "@/hoc/EmptyContentWrapper";
 
 // Form validation schema using zod
 const formSchema = z.object({
@@ -264,7 +265,14 @@ function Page() {
 
          <RouteDisplay route={"Shopping cart"} />
          <Container backgroundColor="bg-gray-100">
-            <main className="mx-auto mt-8 flex w-full max-w-[1200px] flex-col items-center justify-center gap-1 py-4">
+
+
+              <EmptyContentWrapper
+               isEmpty={currentCart && currentCart?.length <= 0}
+               customMessage="Empty Cart"
+               className="flex h-full w-full items-center justify-center py-12 "
+            >
+               <main className="mx-auto mt-8 flex w-full max-w-[1200px] flex-col items-center justify-center gap-1 py-4">
                <div className="flex w-full flex-col items-start justify-between gap-4 px-4 md:flex-row">
                   <div className="mt-6 w-full flex-[4] bg-white p-3">
                      <CheckoutForm form={form} onSubmit={onSubmit} />
@@ -430,6 +438,9 @@ function Page() {
                   couponCode={couponCode}
                />
             </main>
+
+         </EmptyContentWrapper>
+            
          </Container>
       </div>
    );

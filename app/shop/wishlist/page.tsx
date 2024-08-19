@@ -97,7 +97,7 @@ function Page() {
                </Text>
 
                <EmptyContentWrapper
-                  isEmpty={data && data?.length <= 0}
+                  isEmpty={data && data?.length <= 0 || data && data[0]?.items.length <= 0}
                   customMessage="No Items in Wishlist Yet"
                   className="flex h-full w-full items-center justify-center py-12 "
                >

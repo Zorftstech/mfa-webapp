@@ -53,7 +53,7 @@ const Page = () => {
                      >
                         <div>
                            <p className="mb-2 text-[14px] font-semibold text-[#1a1a1a]">
-                              {order.orderId}
+                              {order.orderId?.slice(0,6)}
                            </p>
                            <p className="text-[10px] font-[400] text-[#828282]">
                               {order.createdDate}

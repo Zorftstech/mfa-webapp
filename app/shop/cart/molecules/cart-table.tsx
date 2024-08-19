@@ -20,6 +20,7 @@ import Image from "next/image";
 import { Minus, Plus, X } from "lucide-react";
 import CartTotal from "./cart-total";
 import Link from "next/link";
+import EmptyContentWrapper from "@/hoc/EmptyContentWrapper";
 
 function CartTable() {
    const { currentCart, handleMinus, handlePlus, handleRemove, clearCart } =
@@ -27,7 +28,12 @@ function CartTable() {
 
    return (
       <div className="flex w-full flex-col items-start justify-between gap-4 lg:flex-row">
-         <div className="mt-6 hidden w-full flex-[4] bg-white p-3 md:table">
+           <EmptyContentWrapper
+               isEmpty={currentCart && currentCart?.length <= 0}
+               customMessage="Empty Cart"
+               className="flex h-full w-full items-center justify-center py-12 "
+         > <>
+          <div className="mt-6 hidden w-full flex-[4] bg-white p-3 md:table">
             <Table className="">
                <TableHeader>
                   <TableRow>
@@ -100,9 +106,13 @@ function CartTable() {
                </Button>
             </div>
          </div>
-         {/* <div className="hidden flex-[2] md:flex">
+         <div className="hidden flex-[2] md:flex">
             <CartTotal />
-         </div> */}
+         </div></>
+
+
+         </EmptyContentWrapper>
+        
       </div>
    );
 }
