@@ -1,7 +1,7 @@
 "use client";
 
 import { Home, ShoppingCart, Heart, User } from "lucide-react";
-import React from "react";
+import React, { useContext } from "react";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -10,9 +10,18 @@ import Each from "@/components/helpers/each";
 import { Text } from "@/components/ui/text";
 
 import useStore from "@/store";
+import { CartContext } from "@/contexts/cart-context";
+import useQueryCollectionByField from "@/hooks/useFirebaseFieldQuery";
 function BottomNav() {
    const pathname = usePathname();
-   const { loggedIn } = useStore((store) => store);
+   const { loggedIn ,authDetails} = useStore((store) => store);
+      const { currentCart, handleRemove } = useContext(CartContext);
+ const { data: wishList, refetch } = useQueryCollectionByField(
+      "wishlist",
+      "userId",
+      authDetails.id ?? "",
+   );
+   const allWishListItems = wishList ? wishList[0]?.items : [];
 const links = [
    { id: 1, title: "Home", href: "/", icon: <Home className="w-10" /> },
 
@@ -20,12 +29,32 @@ const links = [
    {
       id: 2, title: "Cart", href: "/shop/cart",
       
-      icon: <ShoppingCart className="w-10" />
+      icon:   <div  className="relative pr-2">
+                 <ShoppingCart className="w-10" />
+                  <span
+                     className="absolute right-0 rounded-full bg-primary py-1 px-[0.5rem]"
+                     style={{ top: "-5px" }}
+                  >
+                     <Text variant={"white"} size={"xs"} style={{ fontSize: "11px" }}>
+                        {currentCart.length}
+                     </Text>
+                  </span>
+               </div> 
    },
    {
       id: 3, title: "Wishlist", href:  loggedIn ? "/shop/wishlist" : "/account/signin",
       
-      icon: <Heart className="w-10" />
+      icon:  <div  className="relative pr-2">
+              <Heart className="w-10" />
+                  <span
+                     className="absolute right-0 rounded-full bg-primary py-1 px-[0.5rem]"
+                     style={{ top: "-5px" }}
+                  >
+                     <Text variant={"white"} size={"xs"} style={{ fontSize: "11px" }}>
+                       {allWishListItems?.length ?? 0}
+                     </Text>
+                  </span>
+               </div>  
    },
    {
       id: 4, title: "Account", href: loggedIn ? "/dashboard" : "/account/signin",

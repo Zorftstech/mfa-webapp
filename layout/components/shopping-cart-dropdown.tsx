@@ -23,13 +23,14 @@ import { useUserContext } from "@/contexts/user-context";
 import useStore from "@/store";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Dropdown } from "@/components/ui/dropdown-menu";
+import useQueryCollectionByField from "@/hooks/useFirebaseFieldQuery";
 
 // should infer current user avatar from a useCurrentUserContext()
 const ShoppingCartDropdown = ({ children }: { children?: React.ReactNode }) => {
    const { authDetails, setLoggedIn, setCurrentUser, setAuthDetails } = useStore((store) => store);
    const router = useRouter();
    const { currentCart, handleRemove } = useContext(CartContext);
-
+  
    return (
       <Dropdown>
          <Dropdown.Trigger>

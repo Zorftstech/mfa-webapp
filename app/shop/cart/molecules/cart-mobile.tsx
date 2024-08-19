@@ -9,16 +9,17 @@ import { Minus, Plus, X } from "lucide-react";
 import CartTotal from "./cart-total";
 import { CartContext } from "@/contexts/cart-context";
 import EmptyContentWrapper from "@/hoc/EmptyContentWrapper";
+import Link from "next/link";
 
 function CartMobile() {
-   const { currentCart, handleMinus, handlePlus, handleRemove } = useContext(CartContext);
+   const { currentCart, handleMinus, handlePlus, handleRemove,clearCart } = useContext(CartContext);
 
    return (
       <div className="my-5 block w-full bg-white p-4 md:hidden">
           <EmptyContentWrapper
                isEmpty={currentCart && currentCart?.length <= 0}
                customMessage="Empty Cart"
-               className="flex h-full w-full items-center justify-center py-12 "
+               className=" flex md:hidden h-full w-full items-center justify-center py-12 "
          >
              <>
           {currentCart &&
@@ -66,6 +67,20 @@ function CartMobile() {
                   </Button>
                </div>
             ))}
+                <div className="mt-5 flex w-full items-center justify-between px-4">
+               <Link
+                  href="/shop/categories"
+                  className="rounded-3xl bg-[#7ab42c] px-5 py-2 text-xs text-white"
+               >
+                  Return to shop
+               </Link>
+               <Button
+                  onClick={clearCart}
+                  className="rounded-3xl bg-[#7ab42c] px-5 py-2 text-xs text-white"
+               >
+                  Clear Cart
+               </Button>
+            </div>
          <CartTotal /></>
 
             </EmptyContentWrapper>

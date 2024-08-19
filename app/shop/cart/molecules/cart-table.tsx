@@ -31,7 +31,7 @@ function CartTable() {
            <EmptyContentWrapper
                isEmpty={currentCart && currentCart?.length <= 0}
                customMessage="Empty Cart"
-               className="flex h-full w-full items-center justify-center py-12 "
+               className="hidden md:flex h-full w-full items-center justify-center py-12  "
          > <>
           <div className="mt-6 hidden w-full flex-[4] bg-white p-3 md:table">
             <Table className="">
