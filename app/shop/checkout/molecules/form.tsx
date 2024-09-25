@@ -33,8 +33,6 @@ interface checkoutFormInterface {
    onSubmit: any;
 }
 export function CheckoutForm({ form, onSubmit }: checkoutFormInterface) {
-   // 1. Define your form.
-
    return (
       <Form {...form}>
          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 bg-white p-3">
@@ -144,7 +142,7 @@ export function CheckoutForm({ form, onSubmit }: checkoutFormInterface) {
                   )}
                />
             </div>
-            <div className="flex items-end gap-2">
+            {/* <div className="flex items-end gap-2">
                <Checkbox id="terms" />
                <label
                   htmlFor="terms"
@@ -152,7 +150,7 @@ export function CheckoutForm({ form, onSubmit }: checkoutFormInterface) {
                >
                   Ship to a different address
                </label>
-            </div>
+            </div> */}
             <Separator className="my-4" />
             <Text size={"md"} weight={"semibold"}>
                Additional Info
@@ -179,7 +177,7 @@ export function CheckoutForm({ form, onSubmit }: checkoutFormInterface) {
                   </FormItem>
                )}
             />
-            <Button type="submit">Submit</Button>
+            {/* <Button type="submit">Submit</Button> */}
          </form>
       </Form>
    );

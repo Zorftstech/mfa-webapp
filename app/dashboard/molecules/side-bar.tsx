@@ -6,9 +6,12 @@ import Each from "@/components/helpers/each";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
-
+import useStore from "@/store";
+import { useRouter } from "next/navigation";
 function Sidebar() {
    const pathname = usePathname();
+   const { setLoggedIn, setCurrentUser, setAuthDetails } = useStore((store) => store);
+   const router = useRouter();
    return (
       <div className="hidden flex-1 flex-col items-center justify-start gap-2 bg-white p-3 md:flex">
          <Each
@@ -22,7 +25,13 @@ function Sidebar() {
                </Link>
             )}
          />
-         <Button className="mt-5 w-full">Logout</Button>
+         <Button  onClick={() => {
+                  setLoggedIn(false);
+                  setCurrentUser(null);
+                  setAuthDetails({});
+
+                  router.push("/account/signin");
+               }} className="mt-5 w-full">Logout</Button>
       </div>
    );
 }

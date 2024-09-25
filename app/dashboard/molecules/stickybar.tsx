@@ -7,9 +7,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
+import useStore from "@/store";
+import { useRouter } from "next/navigation";
+
 
 function Stickybar({ handleSticky }: { handleSticky: any }) {
    const pathname = usePathname();
+   const router = useRouter();
+     const {  setLoggedIn, setCurrentUser, setAuthDetails } = useStore((store) => store);
    return (
       <div className="fixed left-0 z-[100000] flex h-[100vh] w-[70%] flex-1 flex-col items-center justify-start gap-2 bg-white p-3">
          <div className="flex w-full items-start justify-start px-4 py-2">
@@ -27,7 +32,13 @@ function Stickybar({ handleSticky }: { handleSticky: any }) {
             )}
          />
 
-         <Button className="mt-10 w-full">Logout</Button>
+         <Button  onClick={() => {
+                  setLoggedIn(false);
+                  setCurrentUser(null);
+                  setAuthDetails({});
+
+                  router.push("/account/signin");
+               }} className="mt-10 w-full">Logout</Button>
       </div>
    );
 }

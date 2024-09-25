@@ -6,7 +6,6 @@ import { db } from "@/firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { Order } from "@/types";
 import { notFound } from "next/navigation";
-import SampleProductImg from "@/public/images/orders/sample-product.png";
 
 import {
    Table,
@@ -58,12 +57,12 @@ async function Page({ params: { id } }: params) {
    if (!order) return notFound();
    const TableHeadings = ["Product", "Price", "Quantity", "Subtotal"];
    const checkStepValue = (status: string) => {
-      switch (status) {
-         case "Order received":
+      switch (status.toLowerCase()) {
+         case "order received":
             return 1;
          case "pending":
             return 2;
-         case "En route":
+         case "en route":
             return 3;
          case "delivered":
             return 4;
@@ -78,10 +77,7 @@ async function Page({ params: { id } }: params) {
             <p>•</p>
             <p>{order.createdDate}</p>
             <p>•</p>
-            <p>
-               {/* {OrderDetail.quantityPurchased}
-               {OrderDetail.quantityPurchased > 1 ? " Products" : " Product"} */}
-            </p>
+            <p></p>
          </div>
          <div className="my-4 grid gap-4 px-4 md:grid-cols-[2fr,1fr]">
             <div className="grid rounded-xl border md:grid-cols-2">
@@ -133,7 +129,7 @@ async function Page({ params: { id } }: params) {
                   <div className="flex justify-between text-[18px]">
                      <p className="capitalize text-[#1A1A1A]">total</p>
                      <p className="font-medium text-[#2C742F]">
-                        {formatToNaira(order.totalAmount / 100)}
+                        {formatToNaira(order.totalAmount)}
                      </p>
                   </div>
                </div>

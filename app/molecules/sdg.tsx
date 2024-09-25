@@ -38,13 +38,16 @@ function Sdg() {
                         className="flex flex-col items-center justify-center gap-4 bg-gradient-to-br from-[#b2dd43] to-[#488d18] p-4"
                      >
                         <Text
-                           className="text-center uppercase text-white"
-                           size={"lg"}
+                           className="text-center text-sm uppercase text-white md:text-lg"
                            weight={"medium"}
                         >
                            {item.title}
                         </Text>
-                        <Image className="h-24 w-24" src={item.imageLink} alt={item.title} />
+                        <Image
+                           className="h-14 w-14 md:h-24 md:w-24"
+                           src={item.imageLink}
+                           alt={item.title}
+                        />
                      </div>
                   )}
                />

@@ -23,14 +23,14 @@ function CartTotal() {
                ₦{calculateTotalPrice(currentCart).toLocaleString()}
             </Text>
          </div>
-         <div className="mt-3 flex items-center justify-between">
+         {/* <div className="mt-3 flex items-center justify-between">
             <Text size={"sm"} weight={"medium"}>
                Shipping:
             </Text>
             <Text size={"sm"} weight={"medium"}>
                Free
             </Text>
-         </div>
+         </div> */}
          <div className="mt-3 flex items-center justify-between">
             <Text size={"sm"} weight={"medium"}>
                Total:

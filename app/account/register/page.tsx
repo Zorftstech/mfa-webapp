@@ -28,11 +28,23 @@ import {
    updateProfile,
 } from "firebase/auth";
 import { authFirebase, db } from "@/firebase";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import {
+   doc,
+   setDoc,
+   getDoc,
+   collection,
+   where,
+   getDocs,
+   updateDoc,
+   query,
+   increment,
+} from "firebase/firestore";
 import ProcessError from "@/lib/error";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import Spinner from "@/components/ui/spinner";
+import { useParams, useSearchParams } from "next/navigation";
+import { Metadata } from "next";
 const formSchema = z.object({
    email: z.string().min(2, {
       message: "email must be at least 2 characters.",
@@ -56,6 +68,9 @@ function Page() {
       },
    });
    const router = useRouter();
+   const search = useSearchParams();
+   const ref = search.get("ref");
+   const redirectUrl = search.get("redirect");
 
    const { setAuthDetails, setLoggedIn, setCurrentUser } = useStore((store) => store);
 
@@ -73,26 +88,58 @@ function Page() {
    const { mutate, isPending } = useMutation<any, any, any>({
       mutationFn: async ({ email, password }) => {
          try {
-            //Create user
+            // Create user
             const res = await createUserWithEmailAndPassword(authFirebase, email, password);
 
             await updateProfile(res.user, {
                displayName: "",
             });
-            //create user on firestore
+
+            // Generate a unique referral code
+            const referralCode =
+               Math.floor(Math.random() * 1000000000 + 1) +
+               Math.floor(Math.random() * 1000000000 + 1) +
+               "R";
+
+            // Create user document on Firestore
             await setDoc(doc(db, "users", res.user.uid), {
                uid: res.user.uid,
                displayName: "",
                email,
                photoURL: "",
                role: "user",
-               referralCode:
-                  Math.floor(Math.random() * 1000000000 + 1) +
-                  Math.floor(Math.random() * 1000000000 + 1) +
-                  "R",
             });
+
+            // Create a referral document for the user with points
+            await setDoc(doc(db, "referrals", res.user.uid), {
+               referralCode,
+               userId: res.user.uid,
+               points: 0, // Initialize points to 0 or any desired initial value
+            });
+            if (ref) {
+               const refQuery = query(
+                  collection(db, "referrals"),
+                  where("referralCode", "==", ref),
+               );
+               const refQuerySnapshot = await getDocs(refQuery);
+
+               if (!refQuerySnapshot.empty) {
+                  const refDoc = refQuerySnapshot.docs[0];
+                  const refData = refDoc.data();
+                  // Increase referrer's points by 100
+                  await updateDoc(refDoc.ref, {
+                     points: increment(100),
+                  });
+                  toast.success("Referral bonus applied!");
+               } else {
+                  toast.error("Invalid referral code. No bonus applied.");
+               }
+            }
+            return res.user;
          } catch (err) {
             console.log(err);
+            ProcessError(err);
+
             throw err;
          }
       },
@@ -127,7 +174,12 @@ function Page() {
                ...data["_tokenResponse"],
                id: data.user.uid,
             });
-            router.push("/dashboard");
+
+            if (redirectUrl) {
+               router.push(redirectUrl);
+            } else {
+               router.push("/dashboard");
+            }
             return docSnap.data(); // Return the document data
          } else {
             // Document does not exist
@@ -145,7 +197,64 @@ function Page() {
    }
 
    return (
-      <div className="pt-[100px]">
+      <div className="pt-[4rem]">
+         <head>
+            <title>Sign Up | MyFoodAngels</title>
+            <meta
+               name="description"
+               content="Sign in to your MyFoodAngels account to access your dashboard, manage your orders, and explore our wide selection of groceries and food items."
+            />
+            <meta
+               name="keywords"
+               content="Sign In, MyFoodAngels, Login, Food Delivery, Account Access"
+            />
+            <meta name="robots" content="index, follow" />
+            <meta name="viewport" content="width=device-width, initial-scale=1, maximumScale=1" />
+            <link rel="icon" href="/icon.png" />
+            <meta property="og:title" content="Sign Up | MyFoodAngels" />
+            <meta
+               property="og:description"
+               content="Sign up to your MyFoodAngels account to manage your orders and explore our grocery selection."
+            />
+            <meta property="og:url" content="https://myfoodangels.com/account/register" />
+            <meta property="og:type" content="website" />
+            <meta property="og:image" content="/images/og.jpg" />
+            <meta property="twitter:card" content="summary_large_image" />
+            <meta property="twitter:title" content="Sign In | MyFoodAngels" />
+            <meta
+               property="twitter:description"
+               content="Sign in to your MyFoodAngels account to manage your orders and explore our grocery selection."
+            />
+            <meta property="twitter:image" content="/images/og.jpg" />
+            <script
+               type="application/ld+json"
+               dangerouslySetInnerHTML={{
+                  __html: JSON.stringify({
+                     "@context": "https://schema.org",
+                     "@type": "FAQPage",
+                     mainEntity: [
+                        {
+                           "@type": "Question",
+                           name: "How do I sign in to MyFoodAngels?",
+                           acceptedAnswer: {
+                              "@type": "Answer",
+                              text: "To sign in to MyFoodAngels, enter your registered email address and password on the sign-in page and click 'Sign In'.",
+                           },
+                        },
+                        {
+                           "@type": "Question",
+                           name: "What if I forgot my password?",
+                           acceptedAnswer: {
+                              "@type": "Answer",
+                              text: "If you forgot your password, click on 'Forgot Password?' on the sign-in page, and follow the instructions to reset your password.",
+                           },
+                        },
+                     ],
+                  }),
+               }}
+            />
+         </head>
+
          <RouteDisplay route={"Register"} />
          <Container>
             <main className="mx-auto mt-8 flex w-full max-w-[1200px] flex-col items-center justify-center gap-1 py-4">
@@ -217,7 +326,11 @@ function Page() {
                               Already have an account?
                            </Text>
                            <Link
-                              href={"/account/signin"}
+                              href={
+                                 redirectUrl
+                                    ? `/account/signin?redirect=${redirectUrl}`
+                                    : "/account/signin"
+                              }
                               className="text-sm font-medium hover:text-blue-800 hover:underline"
                            >
                               Login

@@ -1,5 +1,5 @@
 "use client";
-import { HeartIcon, AlignJustify } from "lucide-react";
+import { HeartIcon, AlignJustify, ShoppingBag } from "lucide-react";
 import React, { useContext, useState } from "react";
 
 import Image from "next/image";
@@ -23,14 +23,26 @@ import Marquee from "react-marquee-slider";
 import useStore from "@/store";
 import { CartContext } from "@/contexts/cart-context";
 import { calculateTotalPrice } from "@/app/helper";
+import useAnnouncement from "@/app/shop/hooks/announcement/announcement";
+import ShoppingCartDropdown from "./components/shopping-cart-dropdown";
+import useQueryCollectionByField from "@/hooks/useFirebaseFieldQuery";
+import { cn } from "@/lib/utils";
 const Header = () => {
-   const { loggedIn } = useStore((store) => store);
+   const { loggedIn, authDetails } = useStore((store) => store);
+   const { data: info } = useAnnouncement();
+   const data = info ? info[0] : {};
 
    const { currentCart } = useContext(CartContext);
    const amount = Number(calculateTotalPrice(currentCart));
 
    const { width } = useWindowDimensions();
+   const { data: wishList, refetch } = useQueryCollectionByField(
+      "wishlist",
+      "userId",
+      authDetails.id ?? "",
+   );
 
+   const allWishListItems = wishList ? wishList[0]?.items : [];
    const [isVisible, setIsVisible] = useState<boolean>(false);
 
    const handleVisibility = () => {
@@ -50,35 +62,37 @@ const Header = () => {
             </Show.When>
          </Show>
          <section className="w-full bg-white shadow">
-            <div className="w-full bg-gray-200 py-2">
-               {width ? (
-                  <Marquee
-                     direction="ltr"
-                     scatterRandomly={false}
-                     onInit={() => {}}
-                     onFinish={() => {}}
-                     resetAfterTries={1}
-                     velocity={25}
-                  >
-                     <Text size={"xs"} weight={"medium"}>
-                        Enjoy 25% off Farm Direct products!
-                     </Text>
-                     <Text size={"xs"} weight={"medium"} className="ml-1">
-                        Shop Now
-                     </Text>
-                  </Marquee>
-               ) : (
-                  <div className="my-1 flex items-center px-5">
-                     <Text size={"xs"} weight={"medium"}>
-                        Enjoy 25% off Farm Direct products!
-                     </Text>
-                     <Text size={"xs"} weight={"medium"} className="ml-1">
-                        Shop Now
-                     </Text>
+            <Show>
+               <Show.When isTrue={!data?.isDurationPast && data?.showAnnouncement}>
+                  <div className="w-full bg-gray-200 py-2">
+                     {width ? (
+                        <Marquee
+                           direction="ltr"
+                           scatterRandomly={false}
+                           onInit={() => {}}
+                           onFinish={() => {}}
+                           resetAfterTries={1}
+                           velocity={25}
+                        >
+                           <Text size={"xs"} weight={"medium"}>
+                              {data?.announcementText}
+                           </Text>
+                           <Text size={"xs"} weight={"medium"}>
+                              .
+                           </Text>
+                        </Marquee>
+                     ) : (
+                        <div className="my-1 flex items-center px-5">
+                           <Text size={"xs"} weight={"medium"}>
+                              {data?.announcementText}
+                           </Text>
+                        </div>
+                     )}
                   </div>
-               )}
-            </div>
-            <main className="mx-auto flex w-full max-w-[1200px] items-center justify-between px-4 py-4 md:px-8">
+               </Show.When>
+            </Show>
+
+            <main className="mx-auto flex w-full max-w-[1200px] items-center justify-between px-4 py-4 md:px-0">
                <Button
                   className="block md:hidden"
                   variant={"ghost"}
@@ -88,19 +102,36 @@ const Header = () => {
                   <AlignJustify className="w-4" />
                </Button>
                <div className="hidden min-w-[24rem] items-center justify-between gap-8 md:flex">
-                  <Image src={logo} alt="mfa-logo" className="h-8 w-12" />
+                  <Link href={"/"}>
+                     <Image src={logo} alt="mfa-logo" className="h-8 w-12" />
+                  </Link>
                   <TopNav />
                </div>
-               <Image src={logo} alt="mfa-logo" className="block h-10 w-12 md:hidden" />
+               <Link href={"/"} className="block h-10 w-12 md:hidden">
+                  <Image src={logo} alt="mfa-logo" className="h-full w-full" />
+               </Link>
                {width && width > 1040 && (
                   <div className="flex items-center gap-4">
                      <div className="flex items-center gap-2">
-                        <Link href={"/shop/wishlist"} className="">
+                        <Link
+                           href={"/shop/wishlist"}
+                           className={cn("relative pr-2", loggedIn ? "block" : "hidden")}
+                        >
                            <HeartIcon className="w-6" />
+
+                           <span
+                              className="absolute right-0 rounded-full bg-primary px-2"
+                              style={{ top: "-5px" }}
+                           >
+                              <Text variant={"white"} size={"xs"} style={{ fontSize: "10px" }}>
+                                 {allWishListItems?.length}
+                              </Text>
+                           </span>
                         </Link>
                         <Separator orientation="vertical" />
                         <div className="flex items-center justify-start gap-4">
-                           <ShoppingCart />
+                           {/* <ShoppingCart /> */}
+                           <ShoppingCartDropdown />
                            <span className="flex flex-col">
                               <Text size={"xs"}>Shopping cart</Text>
                               <Text weight={"bold"} size={"xs"}>

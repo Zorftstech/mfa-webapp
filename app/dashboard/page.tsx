@@ -17,46 +17,16 @@ import {
 } from "@/components/ui/table";
 import { format } from "date-fns";
 import Link from "next/link";
-import profile from "@/images/account.png";
 import Image from "next/image";
 import useStore from "@/store";
 import useQueryCollectionByField from "@/hooks/useFirebaseFieldQuery";
-import { formatToNaira } from "@/lib/utils";
-
-const orderHistory = [
-   {
-      orderId: "ORD123456",
-      datePurchased: "2024-04-01",
-      total: 59.99,
-      quantityPurchased: 2,
-      transactionStatus: "completed",
-   },
-   {
-      orderId: "ORD123457",
-      datePurchased: "2024-04-03",
-      total: 120.0,
-      quantityPurchased: 1,
-      transactionStatus: "processing",
-   },
-   {
-      orderId: "ORD123458",
-      datePurchased: "2024-04-07",
-      total: 35.5,
-      quantityPurchased: 4,
-      transactionStatus: "on the way",
-   },
-   {
-      orderId: "ORD123459",
-      datePurchased: "2024-04-10",
-      total: 89.95,
-      quantityPurchased: 3,
-      transactionStatus: "completed",
-   },
-];
+import { checkStatus, formatToNaira } from "@/lib/utils";
+import useUserInfo from "@/hooks/useUser";
+import EmptyContentWrapper from "@/hoc/EmptyContentWrapper";
 
 function Page() {
    const { authDetails, setLoggedIn, setCurrentUser, setAuthDetails } = useStore((store) => store);
-   const { data } = useQueryCollectionByField("orders", "userId", authDetails.id ?? "");
+   const { data } = useQueryCollectionByField("orders", "userId", authDetails.id ?? "", true);
 
    return (
       <DashboardLayout backgroundColor="bg-transparent">
@@ -121,81 +91,94 @@ function Page() {
                   <h1 className="text-[15px] font-bold">Recent Order History</h1>
                   <p className="text-sm text-[#7AB42C]">View all</p>
                </div>
-               <div className="hidden w-full min-w-[500px] md:table">
-                  <Table>
-                     <TableHeader style={{ background: "#F2F2F2" }}>
-                        <TableRow>
-                           <TableHead className="w-[100px]">ORDER ID</TableHead>
-                           <TableHead>DATE</TableHead>
-                           <TableHead>TOTAL</TableHead>
-                           <TableHead>STATUS</TableHead>
-                           <TableHead> </TableHead>
-                        </TableRow>
-                     </TableHeader>
-                     <TableBody>
+
+               <EmptyContentWrapper
+                  isEmpty={data && data?.length <= 0}
+                  customMessage="No Orders Placed Yet"
+                  className="flex h-full w-full items-center justify-center py-12 "
+               >
+                  <>
+                     <div className="hidden w-full min-w-[500px] md:table">
+                        <Table>
+                           <TableHeader style={{ background: "#F2F2F2" }}>
+                              <TableRow>
+                                 <TableHead className="w-[100px]">ORDER ID</TableHead>
+                                 <TableHead>DATE</TableHead>
+                                 <TableHead>TOTAL</TableHead>
+                                 <TableHead>STATUS</TableHead>
+                                 <TableHead> </TableHead>
+                              </TableRow>
+                           </TableHeader>
+                           <TableBody>
+                              {data?.slice(0, 5)?.map((order, idx) => (
+                                 <TableRow key={idx}>
+                                    <TableCell className="font-medium">{order.orderId}</TableCell>
+                                    <TableCell>{order.createdDate}</TableCell>
+                                    <TableCell>{formatToNaira(order.totalAmount)}</TableCell>
+                                    <TableCell>
+                                       <span
+                                          className={`${
+                                             order.status.toLowerCase() === "delivered"
+                                                ? "text-green-500"
+                                                : order.status === "cancelled"
+                                                  ? "text-red-500"
+                                                  : "text-yellow-500"
+                                          }`}
+                                       >
+                                          {order.status}
+                                       </span>
+                                    </TableCell>
+                                    <TableCell style={{ color: "#7AB42C" }}>
+                                       <Link href={`/dashboard/order-history/${order.orderId}`}>
+                                          View Details
+                                       </Link>
+                                    </TableCell>
+                                 </TableRow>
+                              ))}
+                           </TableBody>
+                        </Table>
+                     </div>
+                     <div className="flex flex-col gap-2 md:hidden">
                         {data?.slice(0, 5)?.map((order, idx) => (
-                           <TableRow key={idx}>
-                              <TableCell className="font-medium">{order.orderId}</TableCell>
-                              <TableCell>{order.createdDate}</TableCell>
-                              <TableCell>{formatToNaira(order.totalAmount / 100)}</TableCell>
-                              <TableCell>
-                                 <span
-                                    className={`${
-                                       order.status === "completed"
-                                          ? "text-green-500"
-                                          : order.status === "cancelled"
-                                            ? "text-red-500"
-                                            : "text-yellow-500"
-                                    }`}
-                                 >
-                                    {order.status}
-                                 </span>
-                              </TableCell>
-                              <TableCell style={{ color: "#7AB42C" }}>
-                                 <Link href={`/dashboard/order-history/${order.orderId}`}>
-                                    View Details
-                                 </Link>
-                              </TableCell>
-                           </TableRow>
-                        ))}
-                     </TableBody>
-                  </Table>
-               </div>
-               <div className="flex flex-col gap-2 md:hidden">
-                  {data?.map((order, idx) => (
-                     <div
-                        key={idx}
-                        className="grid grid-cols-[2fr,2fr,1.5fr] items-end gap-2 rounded-[16px] bg-slate-50 px-4 py-6"
-                     >
-                        <div>
-                           <p className="mb-2 text-[14px] font-semibold text-[#1a1a1a]">
-                              {order.orderId}
-                           </p>
-                           <p className="text-[10px] font-[400] text-[#828282]">
-                              {order.createdDate}
-                           </p>
-                        </div>
-                        <div>
-                           <p className="mb-2 text-[14px] font-semibold text-[#1a1a1a]">
-                              {formatToNaira(order.totalAmount / 100)}
-                              {/* <span className="text-[12px] font-[400]">
+                           <div
+                              key={idx}
+                              className="grid grid-cols-[2fr,2fr,1.5fr] items-end gap-2 rounded-[16px] bg-slate-50 px-4 py-6"
+                           >
+                              <div>
+                                 <p className="mb-2 text-[14px] font-semibold text-[#1a1a1a]">
+                                    {order.orderId?.slice(0,6)}
+                                 </p>
+                                 <p className="text-[10px] font-[400] text-[#828282]">
+                                    {order.createdDate}
+                                 </p>
+                              </div>
+                              <div>
+                                 <p className="mb-2 text-[14px] font-semibold text-[#1a1a1a]">
+                                    {formatToNaira(order.totalAmount)}
+                                    {/* <span className="text-[12px] font-[400]">
                                  ({order.quantityPurchased}
                                  {order.quantityPurchased > 1 ? " Products" : " Product"})
                               </span> */}
-                           </p>
-                           <p className="text-[10px] font-[400] capitalize text-[#333333]">
-                              {order.status}
-                           </p>
-                        </div>
-                        <Link
-                           href={`/dashboard/order-history/${order.orderId}`}
-                           className="text-right text-[12px] font-medium text-[#7AB42C] hover:cursor-pointer hover:underline"
-                        >
-                           View Details
-                        </Link>
+                                 </p>
+                                 <p
+                                    className={`text-[10px] font-[400] capitalize  ${checkStatus(
+                                       order.status,
+                                    )}`}
+                                 >
+                                    {order.status}
+                                 </p>
+                              </div>
+                              <Link
+                                 href={`/dashboard/order-history/${order.orderId}`}
+                                 className="text-right text-[12px] font-medium text-[#7AB42C] hover:cursor-pointer hover:underline"
+                              >
+                                 View Details
+                              </Link>
+                           </div>
+                        ))}
                      </div>
-                  ))}
-               </div>
+                  </>
+               </EmptyContentWrapper>
             </div>
          </div>
       </DashboardLayout>

@@ -53,7 +53,7 @@ const formSchema = z.object({
    }),
 });
 
-const BillingAddress = () => {
+const BillingAddress = ({ refetchUserInfo }: { refetchUserInfo: () => void }) => {
    const { authDetails } = useStore((store) => store);
 
    const [formIsLoading, setFormIsLoading] = useState(false);
@@ -88,6 +88,7 @@ const BillingAddress = () => {
 
          const docRef = doc(db, "users", authDetails.id ?? "");
          await updateDoc(docRef, postData);
+         refetchUserInfo();
          toast.success("Profile updated successfully");
       } catch (error) {
          ProcessError(error);

@@ -42,7 +42,7 @@ const formSchema = z.object({
    }),
 });
 
-const AccountSettings = () => {
+const AccountSettings = ({ refetchUserInfo }: { refetchUserInfo: () => void }) => {
    const { authDetails } = useStore((store) => store);
    console.log("authDetails", authDetails);
    const form = useForm<z.infer<typeof formSchema>>({
@@ -107,6 +107,7 @@ const AccountSettings = () => {
          const docRef = doc(db, "users", authDetails.id ?? "");
          await updateDoc(docRef, postData);
          toast.success("Profile updated successfully");
+         refetchUserInfo();
 
          // form.reset();
          setImageUrl(null);

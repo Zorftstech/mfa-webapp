@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import { db } from "@/firebase";
 import ProcessError from "@/lib/error";
 import useStore from "@/store";
@@ -10,13 +10,23 @@ const useQueryCollectionByField = (
    collectionName: string,
    fieldName: string,
    fieldValue: string,
+   orderByLatest = false,
 ) => {
-   const { setLoading } = useStore((state) => state);
+   const { setLoading, isLoading } = useStore((state) => state);
 
    const fetchItems = async () => {
       setLoading(true);
       const collectionRef = collection(db, collectionName);
-      const q = query(collectionRef, where(fieldName, "==", fieldValue));
+      let q;
+      if (orderByLatest) {
+         q = query(
+            collectionRef,
+            where(fieldName, "==", fieldValue),
+            orderBy("created_date", "desc"),
+         );
+      } else {
+         q = query(collectionRef, where(fieldName, "==", fieldValue));
+      }
 
       const querySnapshot = await getDocs(q);
       const items: any[] = [];
@@ -34,7 +44,7 @@ const useQueryCollectionByField = (
       return items;
    };
 
-   const { data, isSuccess, isError, error } = useQuery({
+   const { data, isSuccess, isError, error, refetch } = useQuery({
       queryKey: [collectionName, fieldName, fieldValue],
       queryFn: fetchItems,
    });
@@ -45,7 +55,7 @@ const useQueryCollectionByField = (
       }
    }, [isError, error]);
 
-   return { data, isSuccess, isError, error };
+   return { data, isSuccess, isError, error, isLoading, refetch };
 };
 
 export default useQueryCollectionByField;

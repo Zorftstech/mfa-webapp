@@ -46,7 +46,7 @@ const formSchema = z
       message: "Passwords do not match",
    });
 
-const ChangePassword = () => {
+const ChangePassword = ({ refetchUserInfo }: { refetchUserInfo: () => void }) => {
    // 1. Define your form.
    const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
@@ -65,6 +65,7 @@ const ChangePassword = () => {
 
          if (user) {
             await updatePassword(user, values.newPassword);
+            refetchUserInfo();
             toast.success("Password updated successfully.");
          } else {
             toast.error("User not found.");

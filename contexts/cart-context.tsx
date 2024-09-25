@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
+import { toast } from "sonner";
 
 interface CartItem {
    units?: { ratio: number; unit: string; price: number | string }[];
@@ -18,7 +19,6 @@ interface CartItem {
    id?: any;
    chosenUnit?: string;
    no_of_items?: number;
-
    status?: string;
 }
 
@@ -40,6 +40,7 @@ interface CartContextType {
       },
    ) => void;
    handleRemove: (itemId: any, chosenUnit?: string) => void;
+   clearCart: () => void;
 }
 
 const CartContext = createContext<CartContextType>({
@@ -48,10 +49,19 @@ const CartContext = createContext<CartContextType>({
    handleMinus: () => {},
    handlePlus: () => {},
    handleRemove: () => {},
+   clearCart: () => {},
 });
 
 const CartProvider = ({ children }: { children: React.ReactNode }) => {
-   const [currentCart, setCurrentCart] = useState<CartItem[]>([]);
+   const storedCart = localStorage.getItem("cart");
+
+   const [currentCart, setCurrentCart] = useState<CartItem[]>(JSON.parse(storedCart ?? "[]"));
+
+   // Update local storage whenever the cart changes
+   useEffect(() => {
+      localStorage.setItem("cart", JSON.stringify(currentCart));
+      console.log(currentCart);
+   }, [currentCart]);
 
    const handleMinus = (
       item: CartItem,
@@ -85,6 +95,8 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
          // If item is not found in the cart, add it with no_of_items set to 1
          setCurrentCart([...currentCart, { ...item, no_of_items: 1 }]);
       }
+
+      toast.success("Item removed from cart");
    };
 
    const handlePlus = (
@@ -121,22 +133,32 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
             {
                ...item,
                no_of_items: 1,
-
                chosenUnit: chosenUnit,
                price: Number(selectedUnit?.price || (item.units && item.units[0].price)),
             },
          ]);
       }
+      toast.success(`Item added to cart`);
    };
 
-   const handleRemove = (itemId: number, chosenUnit?: string) => {
-      const updatedCart = currentCart.filter((item) => item.id !== itemId);
+   const handleRemove = (itemId: any, chosenUnit?: string) => {
+      const updatedCart = currentCart.filter(
+         (item) => !(item.id === itemId && item.chosenUnit === chosenUnit),
+      );
       setCurrentCart(updatedCart);
+
+      toast.success("Item removed from cart");
+   };
+
+   const clearCart = () => {
+      setCurrentCart([]);
+      localStorage.removeItem("cart");
+      toast.success("Cart cleared");
    };
 
    return (
       <CartContext.Provider
-         value={{ currentCart, setCurrentCart, handleMinus, handlePlus, handleRemove }}
+         value={{ currentCart, setCurrentCart, handleMinus, handlePlus, handleRemove, clearCart }}
       >
          {children}
       </CartContext.Provider>

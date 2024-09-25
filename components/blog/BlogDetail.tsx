@@ -30,7 +30,7 @@ const BlogDetail = (blog: Blog) => {
                <p className="text-[12px] uppercase text-[#808080]">{blog.dateAdded}</p>
             </div> */}
          </div>
-         <div className=" p-4" onClick={() => push("/blog/1")}>
+         <div className=" p-4" onClick={() => push(`/blog/${blog.slug}`)}>
             <BlogStat {...blog} />
             <h2 className="mt-4 text-xl font-medium text-[#7AB42C] hover:underline">
                {blog.title}
@@ -42,13 +42,13 @@ const BlogDetail = (blog: Blog) => {
                   
             </p>
                   */}
-            <Link
-               href={"/blog/1"}
+            <a
+               href={`/blog/${blog.slug}`}
                className="mt-4 flex items-center gap-2 font-semibold text-[#7AB42C]"
             >
                <span>Read More</span>
                <ArrowRightIcon />
-            </Link>
+            </a>
          </div>
       </a>
    );

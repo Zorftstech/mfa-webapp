@@ -193,6 +193,15 @@ export type Route = {
    components?: any;
 };
 
+export interface UnitsForPrice {
+   price: number | string;
+   unit: string;
+   ratio: number;
+   markedUpPrice: number;
+   image: string;
+   isDiscounted: boolean;
+}
+
 export type ShopItem = {
    id: any;
    image_url?: any;
@@ -204,10 +213,12 @@ export type ShopItem = {
    rating: number;
    price: number;
    no_of_items: number;
+   ratingCount: number;
    status?: string;
+   inStock?: boolean;
    amountSaved?: number;
    newPrice?: number;
-   units?: { ratio: number; unit: string; price: number | string }[];
+   units: UnitsForPrice[];
 };
 export type User = {
    id: number;
@@ -276,7 +287,7 @@ export interface Category {
 }
 
 export interface SingleProduct {
-   units?: { ratio: number; unit: string; price: number | string }[];
+   units?: UnitsForPrice[];
    costprice: string | number;
    nameYourPrice: boolean;
    subcategory: { name: string; id: string };
@@ -291,7 +302,7 @@ export interface SingleProduct {
    quantity: number;
    ratings?: { caption: string; rating: number; ratedBy: string[]; description: string }[];
    id?: any;
-
+   inStock?: boolean;
    no_of_items?: number;
 
    status?: string;

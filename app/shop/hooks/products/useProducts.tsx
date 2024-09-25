@@ -6,11 +6,15 @@ import { getCreatedDateFromDocument } from "@/lib/utils";
 import ProcessError from "@/lib/error";
 import useSortAndSearch from "@/hooks/useSearchAndSort";
 import useStore from "@/store";
+import { categoriesId } from "@/lib/utils";
 const useProducts = (LandingPageCategory?: string) => {
    const [allProducts, setAllProducts] = useState([]);
    const [searchTerm, setSearchTerm] = useState("");
    const [sortCriterion, setSortCriterion] = useState("");
-   const { selectedCategory } = useStore((state) => state);
+   const [price, setPrice] = useState<number | null>(null);
+   const { selectedCategory, showFarmOffTakesForAll, showFlashSalesForAll } = useStore(
+      (state) => state,
+   );
    const selectedCategoryOnCategoryPage = selectedCategory;
    const fetchProducts = async () => {
       const productsCollectionRef = collection(db, "products");
@@ -35,7 +39,17 @@ const useProducts = (LandingPageCategory?: string) => {
 
    useEffect(() => {
       if (isSuccess) {
-         setAllProducts(data);
+         let products = data;
+         if (!showFarmOffTakesForAll) {
+            products = products.filter(
+               (item: any) => item.category.id !== categoriesId.farmOffTake,
+            );
+         }
+         if (!showFlashSalesForAll) {
+            products = products.filter((item: any) => item.category.id !== categoriesId.flashSales);
+         }
+
+         setAllProducts(products);
       }
    }, [isSuccess, data]);
 
@@ -52,12 +66,16 @@ const useProducts = (LandingPageCategory?: string) => {
    const handleSortChange = (newValue: string) => {
       setSortCriterion(newValue);
    };
+   const handlePriceChange = (newValue: number | null) => {
+      setPrice(newValue);
+   };
 
    const sortedAndFilteredProducts = useSortAndSearch(
       allProducts,
       searchTerm,
       sortCriterion,
       LandingPageCategory || selectedCategoryOnCategoryPage,
+      price,
    );
 
    return {
@@ -67,6 +85,8 @@ const useProducts = (LandingPageCategory?: string) => {
       handleSortChange,
       searchTerm,
       sortCriterion,
+      price,
+      handlePriceChange,
    };
 };
 

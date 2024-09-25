@@ -35,8 +35,8 @@ function ShoppingCart() {
                </span>
             </Button>
          </PopoverTrigger>
-         <PopoverContent className="bg-white">
-            <div className="grid gap-4">
+         <PopoverContent className=" scrollbar  overflow-scroll  bg-white pb-8 px-0">
+            <div className="grid h-[10rem] gap-4 scrollbar overflow-scroll px-4 pb-4">
                <div className="space-y-2">
                   <h4 className="font-medium leading-none">Shopping Card ({currentCart.length})</h4>
                </div>
@@ -69,7 +69,7 @@ function ShoppingCart() {
                                        </div>
                                     </div>
                                     <Button
-                                       onClick={() => handleRemove(item?.id)}
+                                       onClick={() => handleRemove(item?.id, item?.chosenUnit)}
                                        className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-gray-200 text-black"
                                     >
                                        <X className="w-3" />

@@ -49,6 +49,9 @@ const ProfileIconDropdown = ({ children }: { children?: React.ReactNode }) => {
                </Text>
             </Dropdown.Item>
             <Dropdown.Item
+               onClick={() => {
+                  router.push("/dashboard");
+               }}
                // key={crypto.randomUUID()}
                className=" flex cursor-pointer items-center gap-[0.75rem] px-[1.25rem] pb-[0.75rem]  text-[0.9rem] leading-[1.3rem] tracking-[0.01rem] hover:!bg-primary-1"
             >
@@ -62,20 +65,16 @@ const ProfileIconDropdown = ({ children }: { children?: React.ReactNode }) => {
             <hr />
             <Dropdown.Item
                // key={crypto.randomUUID()}
+               onClick={() => {
+                  setLoggedIn(false);
+                  setCurrentUser(null);
+                  setAuthDetails({});
+
+                  router.push("/account/signin");
+               }}
                className=" flex cursor-pointer items-center gap-[0.75rem] py-[0.75rem] text-[0.9rem] leading-[1.3rem] tracking-[0.01rem] hover:!bg-primary-1"
             >
-               <Button
-                  variant={"link"}
-                  onClick={() => {
-                     setLoggedIn(false);
-                     setCurrentUser(null);
-                     setAuthDetails({});
-
-                     router.push("/auth/signin");
-                  }}
-                  className=" whitespace-nowrap text-red-500 "
-                  size={"sm"}
-               >
+               <Button variant={"link"} className=" whitespace-nowrap text-red-500 " size={"sm"}>
                   Log out
                </Button>
             </Dropdown.Item>

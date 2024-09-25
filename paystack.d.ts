@@ -13,7 +13,7 @@ declare interface Window {
                value: string;
             }>;
          };
-         callback: (response: { reference: string }) => void;
+         callback: (response: { trans: any; reference: string; status: string }) => void;
          onClose: () => void;
       }) => {
          openIframe: () => void;

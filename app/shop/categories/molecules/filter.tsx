@@ -32,7 +32,7 @@ function Filter() {
          </Button>
          <Accordion type="single" collapsible className="mt-3 w-full rounded-xl bg-white px-4 py-2">
             <ProductCategories />
-            <Price />
+            {/* <Price /> */}
             <Recommended />
             {/* <RecentlyViewed /> */}
          </Accordion>

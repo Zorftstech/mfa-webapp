@@ -12,7 +12,7 @@ import React from "react";
 import { TableHeadings } from "./mock-orders";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
-import { formatToNaira } from "@/lib/utils";
+import { checkStatus, formatToNaira } from "@/lib/utils";
 
 const OrderTableDesktop = ({ pagedData }: { pagedData: any[] }) => {
    const { push } = useRouter();
@@ -34,23 +34,13 @@ const OrderTableDesktop = ({ pagedData }: { pagedData: any[] }) => {
                   <TableCell className="">{order.orderId}</TableCell>
                   <TableCell className="whitespace-nowrap">{order.createdDate}</TableCell>
                   <TableCell className="">
-                     <span className="font-medium"> {formatToNaira(order.totalAmount / 100)}</span>
+                     <span className="font-medium"> {formatToNaira(order.totalAmount)}</span>
                      {/* ({order.quantityPurchased}
                      {order.quantityPurchased > 1 ? " Products" : " Product"}) */}
                   </TableCell>
                   <TableCell className="capitalize">
                      {" "}
-                     <span
-                        className={`${
-                           order.status === "completed"
-                              ? "text-green-500"
-                              : order.status === "cancelled"
-                                ? "text-red-500"
-                                : "text-yellow-500"
-                        }`}
-                     >
-                        {order.status}
-                     </span>
+                     <span className={`${checkStatus(order.status)}`}>{order.status}</span>
                   </TableCell>
                   <TableCell
                      onClick={() => push(`/dashboard/order-history/${order.orderId}`)}
