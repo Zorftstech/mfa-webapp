@@ -4,8 +4,11 @@ import { toast } from "sonner";
 const ProcessError = (error: any, cb?: CallableFunction) => {
    const err = error as AxiosError<any>;
    if (error?.response?.data?.error?.message) {
+      const message = error?.response?.data?.error?.message;
+      if (message === "Missing or insufficient permissions.") return;
       toast.error(error?.response?.data?.error?.message);
    } else {
+      if (error?.message === "Missing or insufficient permissions.") return;
       toast.error(error?.message || `An error occurred`);
    }
    let msg: any = "";

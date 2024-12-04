@@ -20,11 +20,16 @@ function Page() {
 
       querySnapshot.forEach((doc) => {
          const createdDate = getCreatedDateFromDocument(doc as any);
-         coupons.push({
-            id: doc.id,
-            ...doc.data(),
-            createdDate,
-         });
+         const expirationDate = doc.data().expirationDate;
+         const currentTime = Math.floor(Date.now() / 1000); 
+
+         if (expirationDate.seconds > currentTime) {
+            coupons.push({
+               id: doc.id,
+               ...doc.data(),
+               createdDate,
+            });
+         }
       });
       return coupons;
    }
@@ -33,6 +38,8 @@ function Page() {
       queryKey: ["getCoupons"],
       queryFn: () => fetchCoupons(),
    });
+
+   console.log(data)
    return (
       <DashboardLayout>
          <div className="h-auto">
