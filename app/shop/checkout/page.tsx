@@ -454,7 +454,7 @@ export default Page;
 
 function SuccessModal({ close }: { close: () => void }) {
    return (
-      <div onClick={close} className="fixed inset-0 z-[99999] h-full w-full bg-white/40">
+      <div onClick={close} className="fixed inset-0 z-[99999] h-full w-full bg-white/60">
          <div
             onClick={(e) => e.stopPropagation()}
             className="fle absolute inset-0 m-auto w-[95%] max-w-2xl flex flex-col items-center h-fit justify-center gap-y-10 rounded-xl bg-white py-10  px-6"
