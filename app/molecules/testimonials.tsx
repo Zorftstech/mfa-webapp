@@ -50,7 +50,9 @@ function Testimonials() {
             >
                <div className="mb-4 flex w-full items-center justify-between py-8">
                   <Text size={"xl"} weight={"bold"}>
+
                      Reviews
+
                   </Text>
                   <span className="flex items-center justify-end gap-2">
                      <CarouselPrevious className="relative left-0 top-0 translate-y-0" />
