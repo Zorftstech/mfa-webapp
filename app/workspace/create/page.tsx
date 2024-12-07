@@ -60,7 +60,7 @@ const CreateOrganization = () => {
 
          router.push("/dashboard");
       } catch (error: unknown) {
-         if (error instanceof AxiosError) ProcessError(error);
+         if (error instanceof AxiosError) // ProcessError(error);
       }
    };
 

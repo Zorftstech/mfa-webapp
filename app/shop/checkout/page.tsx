@@ -41,6 +41,7 @@ import {
    SelectValue,
 } from "@/components/ui/select";
 import EmptyContentWrapper from "@/hoc/EmptyContentWrapper";
+import { useCreate } from "@/lib/hooks/request";
 
 // Form validation schema using zod
 const formSchema = z.object({
@@ -68,6 +69,7 @@ function Page() {
    const [selectedShippingRate, setSelectedShippingRate] = useState(0);
    const [selectedShipping, setSelectedShipping] = useState("");
    const { authDetails, loggedIn } = useStore((state) => state);
+   const {create} = useCreate('')
    const router = useRouter();
 
    const form = useForm<formInterface>({
@@ -118,7 +120,7 @@ function Page() {
    };
 
    const onSubmit = async (values: formInterface) => {
-      const onSuccess = (response: any) => {
+      const onSuccess = async (response: any) => {
          toast.success("Payment Successful! Reference: " + response.reference);
 
          const singleOrder = {
@@ -137,6 +139,25 @@ function Page() {
             userId: authDetails.id || values.email,
             created_date: serverTimestamp(),
          };
+
+         //create loystar user
+         const payloadLoystar = {
+            first_name: values?.fname,
+            last_name: values.lname,
+            email: values.email,
+            phone_number: values.phone,
+            date_of_birth: "23-04-1980",
+            sex: "M",
+            local_db_created_at: "NiL",
+            address_line1: "",
+            address_line2: "NIL",
+            postcode: "00",
+            state: values.state,
+            country: values.country || "Nigeria",
+         };
+         await create(payloadLoystar, `add_user_for_merchant/:merchant_id`);
+
+         // create loystar order
 
          const createOrder = async () => {
             try {
@@ -265,182 +286,178 @@ function Page() {
 
          <RouteDisplay route={"Shopping cart"} />
          <Container backgroundColor="bg-gray-100">
-
-
-              <EmptyContentWrapper
+            <EmptyContentWrapper
                isEmpty={currentCart && currentCart?.length <= 0}
                customMessage="Empty Cart"
                className="flex h-full w-full items-center justify-center py-12 "
             >
                <main className="mx-auto mt-8 flex w-full max-w-[1200px] flex-col items-center justify-center gap-1 py-4">
-               <div className="flex w-full flex-col items-start justify-between gap-4 px-4 md:flex-row">
-                  <div className="mt-6 w-full flex-[4] bg-white p-3">
-                     <CheckoutForm form={form} onSubmit={onSubmit} />
-                  </div>
-                  <div className="flex w-full md:w-auto md:flex-[2]">
-                     <div className="mt-6 w-full bg-white p-4">
-                        <Text size={"lg"} weight={"medium"}>
-                           Order Summary
-                        </Text>
-                        <Each
-                           of={currentCart}
-                           render={(item) => (
-                              <div className="my-2 flex items-center justify-between">
-                                 <div className="p-3">
-                                    <Image
-                                       src={item.image}
-                                       alt={item.name}
-                                       className="h-10 w-10"
-                                       width={12}
-                                       height={12}
-                                    />
+                  <div className="flex w-full flex-col items-start justify-between gap-4 px-4 md:flex-row">
+                     <div className="mt-6 w-full flex-[4] bg-white p-3">
+                        <CheckoutForm form={form} onSubmit={onSubmit} />
+                     </div>
+                     <div className="flex w-full md:w-auto md:flex-[2]">
+                        <div className="mt-6 w-full bg-white p-4">
+                           <Text size={"lg"} weight={"medium"}>
+                              Order Summary
+                           </Text>
+                           <Each
+                              of={currentCart}
+                              render={(item) => (
+                                 <div className="my-2 flex items-center justify-between">
+                                    <div className="p-3">
+                                       <Image
+                                          src={item.image}
+                                          alt={item.name}
+                                          className="h-10 w-10"
+                                          width={12}
+                                          height={12}
+                                       />
+                                       <Text size={"sm"} weight={"medium"}>
+                                          {item.name}
+                                       </Text>
+                                    </div>
                                     <Text size={"sm"} weight={"medium"}>
-                                       {item.name}
+                                       {item.no_of_items} x ₦{item.price.toLocaleString()}
                                     </Text>
                                  </div>
-                                 <Text size={"sm"} weight={"medium"}>
-                                    {item.no_of_items} x ₦{item.price.toLocaleString()}
-                                 </Text>
-                              </div>
-                           )}
-                        />
-                        <Separator />
-                        <div className="mt-3 flex items-center justify-between">
-                           <Text size={"sm"} weight={"medium"}>
-                              Subtotal:
-                           </Text>
-                           <Text size={"sm"} weight={"medium"}>
-                              {formatToNaira(calculateTotalPrice(currentCart))}
-                           </Text>
-                        </div>
-                        <div className="mt-3 flex items-center justify-between">
-                           <Text size={"sm"} weight={"medium"}>
-                              Shipping:
-                           </Text>
-                           <Select onValueChange={handleShippingChange} value={selectedShipping}>
-                              <SelectTrigger className="w-[70%] px-4 py-3 text-sm transition-all duration-300 ease-in-out placeholder:text-lg focus-within:text-black">
-                                 <SelectValue placeholder="Select a shipping location" />
-                              </SelectTrigger>
-                              <SelectContent className="bg-primary-2">
-                                 {shippingRates?.map((item, index) => (
-                                    <SelectItem
-                                       value={item.slug}
-                                       className="cursor-pointer py-3 text-sm  text-white transition-all duration-100 ease-linear hover:text-black"
-                                       key={index}
-                                    >
-                                       {item.location} - {formatToNaira(item.price)}
-                                    </SelectItem>
-                                 ))}
-                              </SelectContent>
-                           </Select>
-                        </div>
-                        <div className="mt-3 flex items-center justify-between">
-                           <Text size={"sm"} weight={"medium"}>
-                              Total:
-                           </Text>
-                           <Text size={"sm"} weight={"medium"}>
-                              {formatToNaira(total)}
-                           </Text>
-                        </div>
-                        <Show>
-                           <Show.When isTrue={discount > 0}>
-                              <div className="mt-3 flex items-center justify-between">
-                                 <Text size={"sm"} weight={"medium"}>
-                                    Discount:
-                                 </Text>
-                                 <Text size={"sm"} weight={"medium"}>
-                                    {formatToNaira(discountAmount)}
-                                 </Text>
-                              </div>
-                              <div className="mt-3 flex items-center justify-between">
-                                 <Text size={"sm"} weight={"medium"}>
-                                    New Total:
-                                 </Text>
-                                 <Text size={"sm"} weight={"medium"}>
-                                    {formatToNaira(finalAmount)}
-                                 </Text>
-                              </div>
-                           </Show.When>
-                        </Show>
-                        <Separator className="my-3" />
-                        <Text size={"md"} weight={"semibold"}>
-                           Payment Method
-                        </Text>
-                        <RadioGroup className="my-3" defaultValue="card">
-                           <div
-                              className="flex items-center space-x-2"
-                              onClick={() => setSelectedValue("wallet")}
-                           >
-                              <RadioGroupItem value="wallet" id="r1" />
-                              <Label htmlFor="r1">From Wallet Balance</Label>
-                           </div>
-                           <div
-                              className="flex items-center space-x-2"
-                              onClick={() => setSelectedValue("card")}
-                           >
-                              <RadioGroupItem value="card" id="r2" />
-                              <Label htmlFor="r2">Debit Card or Bank Transfer</Label>
-                           </div>
-                        </RadioGroup>
-                        <div>
-                           <p>
+                              )}
+                           />
+                           <Separator />
+                           <div className="mt-3 flex items-center justify-between">
                               <Text size={"sm"} weight={"medium"}>
-                                 Coupon Code
+                                 Subtotal:
                               </Text>
-                              <Input
-                                 value={couponCode}
-                                 onChange={(e) => setCouponCode(e.target.value.trim())}
-                              />
-                              <Button
-                                 onClick={checkIfCouponCodeIsValidForUser}
-                                 disabled={isLoading || discount > 0 || !couponCode}
-                                 className="mt-3 w-full rounded-3xl px-4 text-xs disabled:cursor-not-allowed disabled:opacity-70"
+                              <Text size={"sm"} weight={"medium"}>
+                                 {formatToNaira(calculateTotalPrice(currentCart))}
+                              </Text>
+                           </div>
+                           <div className="mt-3 flex items-center justify-between">
+                              <Text size={"sm"} weight={"medium"}>
+                                 Shipping:
+                              </Text>
+                              <Select onValueChange={handleShippingChange} value={selectedShipping}>
+                                 <SelectTrigger className="w-[70%] px-4 py-3 text-sm transition-all duration-300 ease-in-out placeholder:text-lg focus-within:text-black">
+                                    <SelectValue placeholder="Select a shipping location" />
+                                 </SelectTrigger>
+                                 <SelectContent className="bg-primary-2">
+                                    {shippingRates?.map((item, index) => (
+                                       <SelectItem
+                                          value={item.slug}
+                                          className="cursor-pointer py-3 text-sm  text-white transition-all duration-100 ease-linear hover:text-black"
+                                          key={index}
+                                       >
+                                          {item.location} - {formatToNaira(item.price)}
+                                       </SelectItem>
+                                    ))}
+                                 </SelectContent>
+                              </Select>
+                           </div>
+                           <div className="mt-3 flex items-center justify-between">
+                              <Text size={"sm"} weight={"medium"}>
+                                 Total:
+                              </Text>
+                              <Text size={"sm"} weight={"medium"}>
+                                 {formatToNaira(total)}
+                              </Text>
+                           </div>
+                           <Show>
+                              <Show.When isTrue={discount > 0}>
+                                 <div className="mt-3 flex items-center justify-between">
+                                    <Text size={"sm"} weight={"medium"}>
+                                       Discount:
+                                    </Text>
+                                    <Text size={"sm"} weight={"medium"}>
+                                       {formatToNaira(discountAmount)}
+                                    </Text>
+                                 </div>
+                                 <div className="mt-3 flex items-center justify-between">
+                                    <Text size={"sm"} weight={"medium"}>
+                                       New Total:
+                                    </Text>
+                                    <Text size={"sm"} weight={"medium"}>
+                                       {formatToNaira(finalAmount)}
+                                    </Text>
+                                 </div>
+                              </Show.When>
+                           </Show>
+                           <Separator className="my-3" />
+                           <Text size={"md"} weight={"semibold"}>
+                              Payment Method
+                           </Text>
+                           <RadioGroup className="my-3" defaultValue="card">
+                              <div
+                                 className="flex items-center space-x-2"
+                                 onClick={() => setSelectedValue("wallet")}
                               >
-                                 {isLoading ? (
-                                    <Spinner color="green" className="mx-auto w-4" />
-                                 ) : (
-                                    "Apply"
-                                 )}
-                              </Button>
-                           </p>
+                                 <RadioGroupItem value="wallet" id="r1" />
+                                 <Label htmlFor="r1">From Wallet Balance</Label>
+                              </div>
+                              <div
+                                 className="flex items-center space-x-2"
+                                 onClick={() => setSelectedValue("card")}
+                              >
+                                 <RadioGroupItem value="card" id="r2" />
+                                 <Label htmlFor="r2">Debit Card or Bank Transfer</Label>
+                              </div>
+                           </RadioGroup>
+                           <div>
+                              <p>
+                                 <Text size={"sm"} weight={"medium"}>
+                                    Coupon Code
+                                 </Text>
+                                 <Input
+                                    value={couponCode}
+                                    onChange={(e) => setCouponCode(e.target.value.trim())}
+                                 />
+                                 <Button
+                                    onClick={checkIfCouponCodeIsValidForUser}
+                                    disabled={isLoading || discount > 0 || !couponCode}
+                                    className="mt-3 w-full rounded-3xl px-4 text-xs disabled:cursor-not-allowed disabled:opacity-70"
+                                 >
+                                    {isLoading ? (
+                                       <Spinner color="green" className="mx-auto w-4" />
+                                    ) : (
+                                       "Apply"
+                                    )}
+                                 </Button>
+                              </p>
+                           </div>
+                           <Button
+                              onClick={() => {
+                                 if (!loggedIn) {
+                                    toast.warning("Please login to place an order");
+                                    router.push("/account/signin?redirect=/shop/checkout");
+                                    return;
+                                 }
+                                 if (selectedValue === "wallet") {
+                                    setOpenWalletModal(true);
+                                 } else {
+                                    form.handleSubmit(onSubmit)();
+                                 }
+                              }}
+                              className="mb-3 mt-5 w-full rounded-3xl px-4 text-xs"
+                           >
+                              Place Order
+                           </Button>
                         </div>
-                        <Button
-                           onClick={() => {
-                              if (!loggedIn) {
-                                 toast.warning("Please login to place an order");
-                                 router.push("/account/signin?redirect=/shop/checkout");
-                                 return;
-                              }
-                              if (selectedValue === "wallet") {
-                                 setOpenWalletModal(true);
-                              } else {
-                                 form.handleSubmit(onSubmit)();
-                              }
-                           }}
-                           className="mb-3 mt-5 w-full rounded-3xl px-4 text-xs"
-                        >
-                           Place Order
-                        </Button>
                      </div>
                   </div>
-               </div>
-               <PayWithWalletModal
-                  open={openWalletModal}
-                  setOpen={setOpenWalletModal}
-                  amount={finalAmount}
-                  orderDetails={{
-                     address: `${form.getValues().streetAddress}, ${form.getValues().state}, ${form.getValues().country}`,
-                     message: form.getValues().message,
-                     phone: form.getValues().phone,
-                     cartItems: currentCart,
-                  }}
-                  revokeCouponCodeForUser={applyCouponCode}
-                  couponCode={couponCode}
-               />
-            </main>
-
-         </EmptyContentWrapper>
-            
+                  <PayWithWalletModal
+                     open={openWalletModal}
+                     setOpen={setOpenWalletModal}
+                     amount={finalAmount}
+                     orderDetails={{
+                        address: `${form.getValues().streetAddress}, ${form.getValues().state}, ${form.getValues().country}`,
+                        message: form.getValues().message,
+                        phone: form.getValues().phone,
+                        cartItems: currentCart,
+                     }}
+                     revokeCouponCodeForUser={applyCouponCode}
+                     couponCode={couponCode}
+                  />
+               </main>
+            </EmptyContentWrapper>
          </Container>
       </div>
    );

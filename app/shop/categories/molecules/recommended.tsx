@@ -22,7 +22,7 @@ function Recommended() {
                .slice(0, 3)
                .map((item: ItemType, index: number) => (
                   <Link
-                     href={`/shop/${splitStringBySpaceAndReplaceWithDash(item.name)}`}
+                     href={`/shop/${item?.id}?name=${splitStringBySpaceAndReplaceWithDash(item.name)}`}
                      className="mb-3 flex w-full items-center  gap-8 px-4"
                      key={index}
                   >
@@ -40,7 +40,7 @@ function Recommended() {
                         <Text className="text-gray-500" size={"sm"} weight={"medium"}>
                            From:{" "}
                            <span className="font-semibold text-black">
-                              {formatToNaira(Number(item.units && item.units[0].price) ?? 0)}
+                              {formatToNaira(Number(item?.price) ?? 0)}
                            </span>
                         </Text>
                      </div>

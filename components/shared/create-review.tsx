@@ -98,7 +98,7 @@ const ReviewModal: React.FC<IProps> = ({ productId, trigger, refetchReviews }) =
          form.reset();
       },
       onError: (error: any) => {
-         ProcessError(error);
+         // ProcessError(error);
          toast.error("Error submitting review. Please try again.");
       },
    });

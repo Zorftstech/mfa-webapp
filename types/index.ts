@@ -200,6 +200,7 @@ export interface UnitsForPrice {
    markedUpPrice: number;
    image: string;
    isDiscounted: boolean;
+   quantity:number;
 }
 
 export type ShopItem = {
@@ -218,6 +219,8 @@ export type ShopItem = {
    inStock?: boolean;
    amountSaved?: number;
    newPrice?: number;
+   costprice:number;
+   quantity: number;
    units: UnitsForPrice[];
 };
 export type User = {
@@ -289,6 +292,7 @@ export interface Category {
 export interface SingleProduct {
    units?: UnitsForPrice[];
    costprice: string | number;
+   created_date:string;
    nameYourPrice: boolean;
    subcategory: { name: string; id: string };
    category: { name: string; id: string };

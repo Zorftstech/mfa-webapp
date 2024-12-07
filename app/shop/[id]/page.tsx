@@ -16,7 +16,7 @@ import ProductDescription from "./molecules/product-description";
 import ProductImage from "./molecules/product-image";
 import { reverseSplitStringByDashAndReplaceWithSpace } from "@/lib/utils";
 import { db } from "@/firebase";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
 import RelatedProducts from "./molecules/related-products";
 import { Metadata, ResolvingMetadata } from "next";
 import { capitalizeFirstLetter } from "@/lib/helpers";
@@ -30,16 +30,14 @@ export const revalidate = 60;
 
 async function queryCollectionByField(
    collectionName: string,
-   fieldName: string,
-   productSlug: string,
+   productId: string, 
 ) {
-   const q = query(collection(db, collectionName), where(fieldName, "==", productSlug));
+   const docRef = doc(db, collectionName, productId); 
 
    try {
-      const querySnapshot = await getDocs(q);
-      if (!querySnapshot.empty) {
-         const firstDoc = querySnapshot.docs[0];
-         return { id: firstDoc.id, ...firstDoc.data() };
+      const docSnapshot = await getDoc(docRef); 
+      if (docSnapshot.exists()) {
+         return { id: docSnapshot.id, ...docSnapshot.data() }; 
       } else {
          console.log("No matching documents found.");
          return null;
@@ -57,8 +55,7 @@ export async function generateMetadata(
    const slug = params.id;
    const product: SingleProduct | null = (await queryCollectionByField(
       "products",
-      "slug",
-      slug,
+      slug
    )) as SingleProduct;
 
    if (!product) {
@@ -152,13 +149,27 @@ export async function generateMetadata(
 }
 async function Page({ params: { id } }: params) {
    const slug = id;
-   const product: SingleProduct | null = (await queryCollectionByField(
+   const singleProduct: SingleProduct | null = (await queryCollectionByField(
       "products",
-      "slug",
       slug,
-   )) as SingleProduct;
+   )) as any;
 
-   if (!slug || !product) return notFound();
+
+   if (!slug || !singleProduct) return notFound();
+
+
+   // Transform the Firestore data to ensure it's safe for Client Components
+   function transformFirestoreData(product: any) {
+      return {
+        ...product,
+        created_date: product.created_date
+          ? new Date(product.created_date.seconds * 1000).toISOString()
+          : "",
+      };
+    }
+  
+    // Transform the product data
+    const product: SingleProduct = transformFirestoreData(singleProduct);
 
    return (
       <div className="pt-[4rem]">
@@ -171,13 +182,20 @@ async function Page({ params: { id } }: params) {
                      product={product}
                      currentItem={{
                         name: product?.name,
-                        price: product?.price,
+                        price: Number(product?.costprice) > 0 &&
+                        Number(product?.costprice) < Number(product?.price)
+                        ? (Number(product.costprice) ?? 0)
+                        : (Number(product.price) ?? 0),
                         no_of_items: product?.no_of_items,
+                        id:product?.id,
                         units: product?.units,
                         category: product?.category,
                         subcategory: product?.subcategory,
                         slug: product?.slug,
                         status: product?.status,
+                        image: product?.image,
+                        quantity: product?.quantity,
+
 
                         ratings: product?.ratings?.map((rating) => {
                            return {

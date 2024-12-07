@@ -113,7 +113,7 @@ const AccountSettings = ({ refetchUserInfo }: { refetchUserInfo: () => void }) =
          setImageUrl(null);
          setFile(null);
       } catch (error) {
-         ProcessError(error);
+         // ProcessError(error);
          toast.error("An error occurred, please try again.");
       } finally {
          setFormIsLoading(false);

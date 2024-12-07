@@ -96,7 +96,7 @@ function ContactUsForm() {
          toast.success("Thanks for contacting us, we will get back to you shortly");
          form.reset();
       } catch (error: any) {
-         setMessage({ text: ProcessError(error), isError: true });
+         setMessage({ text: // ProcessError(error), isError: true });
 
          toast.error("Error sending message, please try again");
       }

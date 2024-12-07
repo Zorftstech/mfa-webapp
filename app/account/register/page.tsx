@@ -138,7 +138,7 @@ function Page() {
             return res.user;
          } catch (err) {
             console.log(err);
-            ProcessError(err);
+            // ProcessError(err);
 
             throw err;
          }
@@ -147,7 +147,7 @@ function Page() {
          doLoginAttempt({ email: variables.email, password: variables.password });
       },
       onError: (err) => {
-         ProcessError(err);
+         // ProcessError(err);
       },
    });
 
@@ -188,7 +188,7 @@ function Page() {
          }
       },
       onError: (err) => {
-         ProcessError(err);
+         // ProcessError(err);
       },
    });
 

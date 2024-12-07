@@ -49,7 +49,7 @@ function Page() {
          const data = await sendPasswordResetEmail(authFirebase, email);
          toast.success("Password reset link sent successfully");
       } catch (error) {
-         ProcessError(error);
+         // ProcessError(error);
       }
 
       setFormIsLoading(false);

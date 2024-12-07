@@ -1,7 +1,7 @@
 "use client";
 
 import { HeartIcon, ShoppingCartIcon, Plus, Minus } from "lucide-react";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useMemo } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Ratings } from "@/components/ui/rating";
@@ -29,16 +29,16 @@ function ProductDescription({
 }) {
    const [productCount, setProductCount] = useState(1);
 
-   const { handlePlus, handleMinus } = useContext(CartContext);
+   const { handlePlus, handleMinus, currentCart } = useContext(CartContext);
 
    const [selectedWeightId, setSelectedWeightId] = useState(
-      currentItem.units && currentItem.units[0].unit,
+      currentItem.units && currentItem.units?.length > 0 ? currentItem.units[0].unit: "",
    );
    const [currentSelectedPrice, setCurrentSelectedPrice] = useState(
-      currentItem.units && currentItem.units[0].price,
+      currentItem.units && currentItem.units?.length > 0 ? currentItem.units[0].price: currentItem?.price,
    );
    const [currentSelectedImage, setCurrentSelectedImage] = useState(
-      currentItem.units && currentItem.units[0].image,
+      currentItem.units && currentItem.units?.length > 0 ? currentItem.units[0].image : currentItem?.image
    );
 
    const [showIsNameYourPrice, setShowIsNameYourPrice] = useState(false);
@@ -50,6 +50,7 @@ function ProductDescription({
 
    const handleAdd = (product: any, price: number, unit: string) => {
       setProductCount(productCount + 1);
+
       handlePlus(product, {
          price: price,
          unit: unit,
@@ -64,6 +65,50 @@ function ProductDescription({
          unit: unit,
       });
    };
+
+   // console.log("sgegeg", currentItem.units, currentItem);
+
+   const acitveUnit = useMemo(() => {
+      if (currentItem && selectedWeightId) {
+         return currentItem?.units?.find((v) => v?.unit === selectedWeightId);
+      } else {
+         return {quantity: Number(currentItem?.quantity|| 0)};
+      }
+   }, [selectedWeightId, currentItem]);
+
+  // console.log(currentItem?.quantity)
+
+   const quantityState = useMemo(() => {
+      if (
+         currentCart?.length > 0 &&
+         Array.isArray(currentItem?.units) &&
+         currentItem?.units?.length > 0
+      ) {
+         // console.log(`${selectedWeightId}${currentSelectedPrice}`)
+         //
+       
+         const qty = currentCart?.find(
+            (v) =>
+               v?.chosenUnit === `${selectedWeightId}${currentSelectedPrice}` &&
+               v?.id === currentItem?.id,
+         )?.no_of_items;
+         return qty;
+      } else if (
+         currentCart?.length > 0 &&
+         Array.isArray(currentItem?.units) &&
+         currentItem?.units?.length === 0
+      ) {
+         return currentCart?.find((v) => v?.id === currentItem?.id)?.no_of_items;
+      } else return 0;
+   }, [currentCart, currentItem, selectedWeightId, currentSelectedPrice]);
+
+  // console.log(quantityState);
+
+  useMemo(() => {
+   if (currentCart?.length === 0) {
+      setProductCount(1)
+   }
+  },[currentCart])
 
    return (
       <>
@@ -117,6 +162,10 @@ function ProductDescription({
                   </Text>
                )}
             </div>
+            <div className="mt-2 flex w-full items-center gap-x-2">
+               <p className="font-medium ">Quantity: </p>
+               <p>{Number(acitveUnit?.quantity || 0) - Number(quantityState || 0) || 0}</p>
+            </div>
             <div className="mt-4 flex flex-wrap items-center justify-start gap-2">
                <Text size={"sm"} weight={"medium"}>
                   Unit of Measurement:
@@ -130,6 +179,7 @@ function ProductDescription({
                            setSelectedWeightId(item?.unit);
                            setCurrentSelectedPrice(item?.price);
                            setCurrentSelectedImage(item?.image);
+                           setProductCount(1);
                            showIsNameYourPrice && setShowIsNameYourPrice(false);
                         }}
                         className={
@@ -221,6 +271,7 @@ function ProductDescription({
                            <Plus className="w-4" />
                         </Button>
                      </div>
+
                      <Button
                         disabled={nameYourPriceValue < product.minimumPrice ? true : false}
                         onClick={(e) => {
@@ -242,37 +293,45 @@ function ProductDescription({
                      </Button>
                   </div>
                ) : (
-                  <div className="flex w-fit items-center gap-2 rounded-full border border-gray-300 p-2">
-                     <Button
-                        disabled={!product.inStock || showIsNameYourPrice ? true : false}
-                        onClick={() => {
-                           handleSubtract(
-                              product,
-                              currentSelectedPrice as number,
-                              selectedWeightId as string,
-                           );
-                        }}
-                        className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-gray-200 text-black"
-                     >
-                        <Minus className="w-4" />
-                     </Button>
-                     <Text size={"sm"} weight={"medium"}>
-                        {productCount}
-                     </Text>
-                     <Button
-                        disabled={!product.inStock || showIsNameYourPrice ? true : false}
-                        onClick={() => {
-                           handleAdd(
-                              product,
-                              currentSelectedPrice as number,
-                              selectedWeightId as string,
-                           );
-                        }}
-                        className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-gray-200 text-black"
-                     >
-                        <Plus className="w-4" />
-                     </Button>
-                  </div>
+                  <>
+                     <div className="flex w-fit items-center gap-2 rounded-full border border-gray-300 p-2">
+                        <Button
+                           disabled={!product.inStock || showIsNameYourPrice ? true : false}
+                           onClick={() => {
+                              handleSubtract(
+                                 product,
+                                 currentSelectedPrice as number,
+                                 selectedWeightId as string,
+                              );
+                           }}
+                           className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-gray-200 text-black"
+                        >
+                           <Minus className="w-4" />
+                        </Button>
+                        <Text size={"sm"} weight={"medium"}>
+                           {productCount}
+                        </Text>
+                        <Button
+                           disabled={
+                              !product.inStock ||
+                              showIsNameYourPrice ||
+                              (acitveUnit && productCount + 1 >= acitveUnit?.quantity)
+                                 ? true
+                                 : false
+                           }
+                           onClick={() => {
+                              handleAdd(
+                                 product,
+                                 currentSelectedPrice as number,
+                                 selectedWeightId as string,
+                              );
+                           }}
+                           className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-gray-200 text-black"
+                        >
+                           <Plus className="w-4" />
+                        </Button>
+                     </div>
+                  </>
                )}
             </div>
             {!showIsNameYourPrice && (

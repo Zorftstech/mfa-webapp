@@ -71,7 +71,7 @@ const CreateAssetModal = () => {
       //     },
       //   });
       // } catch (error: unknown) {
-      //   if (error instanceof AxiosError) ProcessError(error);
+      //   if (error instanceof AxiosError) // ProcessError(error);
       // }
    };
 

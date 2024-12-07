@@ -82,7 +82,7 @@ const PayWithWalletModal: React.FC<IProps> = ({
          router.push("/shop/categories");
       } catch (error) {
          console.error("Error updating wallet:", error);
-         ProcessError(error);
+         // ProcessError(error);
          toast.error("Error updating wallet. Please try again.");
       }
       setIsLoading(false);

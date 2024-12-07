@@ -20,6 +20,7 @@ interface CartItem {
    chosenUnit?: string;
    no_of_items?: number;
    status?: string;
+   loystarUnit?:string;
 }
 
 interface CartContextType {
@@ -38,6 +39,7 @@ interface CartContextType {
          unit?: string;
          price?: number | string;
       },
+      noUnitPrice?:number
    ) => void;
    handleRemove: (itemId: any, chosenUnit?: string) => void;
    clearCart: () => void;
@@ -105,17 +107,19 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
          unit?: string;
          price?: number | string;
       },
+      noUnitPrice?: number
    ) => {
-      const chosenUnit = `${selectedUnit?.unit}${selectedUnit?.price}`;
+      
       let currentItemIndex;
       if (selectedUnit) {
+         const chosenUnit = `${selectedUnit?.unit}${selectedUnit?.price}`;
          currentItemIndex = currentCart.findIndex(
             (cartItem) => cartItem.chosenUnit === chosenUnit && cartItem.id === item.id,
          );
       } else {
          currentItemIndex = currentCart.findIndex((cartItem) => cartItem.id === item.id);
       }
-      console.log(chosenUnit);
+     // console.log(chosenUnit);
       if (currentItemIndex !== -1) {
          const updatedCart = [...currentCart];
          const currentItem = updatedCart[currentItemIndex];
@@ -133,8 +137,9 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
             {
                ...item,
                no_of_items: 1,
-               chosenUnit: chosenUnit,
-               price: Number(selectedUnit?.price || (item.units && item.units[0].price)),
+               chosenUnit: `${selectedUnit?.unit}${selectedUnit?.price}`,
+               loystarUnit: selectedUnit?.unit,
+               price: Number(selectedUnit?.price) || Number(noUnitPrice) || 0,
             },
          ]);
       }
