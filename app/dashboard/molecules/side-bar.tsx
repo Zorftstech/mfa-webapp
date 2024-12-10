@@ -29,7 +29,10 @@ function Sidebar() {
                   setLoggedIn(false);
                   setCurrentUser(null);
                   setAuthDetails({});
-
+                  localStorage.removeItem("loystarUserId");
+                  localStorage.removeItem("loystarToken");
+               
+                  
                   router.push("/account/signin");
                }} className="mt-5 w-full">Logout</Button>
       </div>

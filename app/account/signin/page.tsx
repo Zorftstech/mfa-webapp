@@ -34,6 +34,7 @@ import { useRouter } from "next/navigation";
 import Spinner from "@/components/ui/spinner";
 import { toast } from "sonner";
 import { useParams, useSearchParams } from "next/navigation";
+import { useCreate } from "@/lib/hooks/request";
 
 const formSchema = z.object({
    email: z.string().min(2, {
@@ -58,40 +59,56 @@ function Page() {
    const router = useRouter();
    const search = useSearchParams();
    const redirectUrl = search.get("redirect");
+   const { create } = useCreate("customer_phone_auth_session");
    const { setAuthDetails, setLoggedIn, setCurrentUser } = useStore((store) => store);
    const { mutate, isPending } = useMutation<any, any, formInterface>({
       mutationFn: async ({ email, password }) => {
          const user = await signInWithEmailAndPassword(authFirebase, email, password);
          return user;
       },
-      onSuccess: async (data) => {
+      onSuccess: async (data, variables) => {
          // setAuthDetails(data);
-         setLoggedIn(true);
-         setCurrentUser(data);
+         // check if user is in loystar db
+         const response = await create({
+            payload: { email: variables?.email, merchant_id: 21750 },
 
-         if (redirectUrl) {
-            router.push(redirectUrl);
-         } else {
-            router.push("/dashboard");
-         }
+            errorMessage: "Incomplete details. Kindly update your profile",
+         });
 
-         // Create a reference to the document
-         const docRef = doc(db, "users", data.user.uid);
+      
+         if (response !== null) {
+            if (response?.data?.token) {
+               localStorage.setItem("loystarToken",response?.data?.token)
+               localStorage.setItem("loystarUserId", response?.data?.user?.id)
+               
+            }
+            setLoggedIn(true);
+            setCurrentUser(data);
 
-         // Retrieve the document
-         const docSnap = await getDoc(docRef);
-         if (docSnap.exists()) {
-            // Document exists, use the data
-            setAuthDetails({
-               ...docSnap.data(),
-               ...data["_tokenResponse"],
-               id: data.user.uid,
-            });
-            return docSnap.data(); // Return the document data
-         } else {
-            // Document does not exist
-            console.log("No such document!");
-            return null;
+            if (redirectUrl) {
+               router.push(redirectUrl);
+            } else {
+               router.push("/dashboard");
+            }
+
+            // Create a reference to the document
+            const docRef = doc(db, "users", data.user.uid);
+
+            // Retrieve the document
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+               // Document exists, use the data
+               setAuthDetails({
+                  ...docSnap.data(),
+                  ...data["_tokenResponse"],
+                  id: data.user.uid,
+               });
+               return docSnap.data(); // Return the document data
+            } else {
+               // Document does not exist
+               console.log("No such document!");
+               return null;
+            }
          }
       },
       onError: (err) => {

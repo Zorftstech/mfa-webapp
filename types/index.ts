@@ -98,6 +98,7 @@ export interface authDetailsInterface {
       zipcode: string;
    };
    referralCode?: string;
+   userId?:string;
 }
 
 export interface productInterface {
@@ -201,6 +202,7 @@ export interface UnitsForPrice {
    image: string;
    isDiscounted: boolean;
    quantity:number;
+   loysStarId: number;
 }
 
 export type ShopItem = {
@@ -222,6 +224,7 @@ export type ShopItem = {
    costprice:number;
    quantity: number;
    units: UnitsForPrice[];
+   loystarId:string;
 };
 export type User = {
    id: number;

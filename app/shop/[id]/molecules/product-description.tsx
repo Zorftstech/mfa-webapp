@@ -1,14 +1,12 @@
 "use client";
 
-import { HeartIcon, ShoppingCartIcon, Plus, Minus } from "lucide-react";
+import { ShoppingCartIcon, Plus, Minus } from "lucide-react";
 import React, { useState, useContext, useMemo } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Ratings } from "@/components/ui/rating";
 import { Separator } from "@/components/ui/separator";
 import { Text } from "@/components/ui/text";
-
-import { ShopItem } from "@/types";
 import { toast } from "sonner";
 import { CartContext } from "@/contexts/cart-context";
 import { SingleProduct } from "@/types";
@@ -37,6 +35,12 @@ function ProductDescription({
    const [currentSelectedPrice, setCurrentSelectedPrice] = useState(
       currentItem.units && currentItem.units?.length > 0 ? currentItem.units[0].price: currentItem?.price,
    );
+   const [currentSelectedUnitQty, setCurrentSelectedUnitQty] = useState(
+      currentItem.units && currentItem.units?.length > 0 ? currentItem.units[0].quantity: 0,
+   )
+   const [currentSelectedUnitId, setCurrentSelectedUnitId] = useState(
+      currentItem.units && currentItem.units?.length > 0 ? currentItem.units[0].loysStarId: 0,
+   )
    const [currentSelectedImage, setCurrentSelectedImage] = useState(
       currentItem.units && currentItem.units?.length > 0 ? currentItem.units[0].image : currentItem?.image
    );
@@ -48,32 +52,37 @@ function ProductDescription({
       setSelectedWeightId(id);
    };
 
-   const handleAdd = (product: any, price: number, unit: string) => {
+   const handleAdd = (product: any, price: number, unit: string, qty: number, id: number) => {
       setProductCount(productCount + 1);
 
       handlePlus(product, {
          price: price,
          unit: unit,
+         quantity: qty,
+         unitId: id
       });
    };
 
-   const handleSubtract = (product: any, price: number, unit: string) => {
+   const handleSubtract = (product: any, price: number, unit: string, qty: number, id: number) => {
       if (productCount === 1) return setProductCount(1);
       setProductCount(productCount - 1);
       handleMinus(product, {
          price: price,
          unit: unit,
+         quantity: qty,
+         unitId: id
       });
    };
 
    // console.log("sgegeg", currentItem.units, currentItem);
 
    const acitveUnit = useMemo(() => {
-      if (currentItem && selectedWeightId) {
-         return currentItem?.units?.find((v) => v?.unit === selectedWeightId);
-      } else {
+     
          return {quantity: Number(currentItem?.quantity|| 0)};
-      }
+          // if (currentItem && selectedWeightId) {
+      //    return currentItem?.units?.find((v) => v?.unit === selectedWeightId);
+      // } else {
+     // }
    }, [selectedWeightId, currentItem]);
 
   // console.log(currentItem?.quantity)
@@ -84,15 +93,23 @@ function ProductDescription({
          Array.isArray(currentItem?.units) &&
          currentItem?.units?.length > 0
       ) {
-         // console.log(`${selectedWeightId}${currentSelectedPrice}`)
-         //
        
-         const qty = currentCart?.find(
-            (v) =>
-               v?.chosenUnit === `${selectedWeightId}${currentSelectedPrice}` &&
-               v?.id === currentItem?.id,
-         )?.no_of_items;
-         return qty;
+         //
+         const unitQtySum = currentCart?.filter((item) =>  {
+            console.log(currentItem?.units?.map((i) => `${i.unit}_${i.price}`))
+            console.log(currentItem?.units?.map((i) => `${i.unit}_${i.price}`).includes(item?.chosenUnit || ''))
+            return currentItem?.units?.map((i) => `${i.unit}_${i.price}`).includes(item?.chosenUnit || '')
+         }).reduce((acc, curr) => acc + (Number(curr?.loystarUnitQty || 0) * Number(curr?.no_of_items)), 0)
+       
+         // const qty = currentCart?.find(
+         //    (v) =>
+         //       v?.chosenUnit === `${selectedWeightId}_${currentSelectedPrice}` &&
+         //       v?.id === currentItem?.id,
+         // )?.no_of_items;
+         // const unitValue = currentItem?.units?.find((v) => v?.unit === selectedWeightId)?.quantity
+
+         console.log(unitQtySum)
+         return unitQtySum;
       } else if (
          currentCart?.length > 0 &&
          Array.isArray(currentItem?.units) &&
@@ -109,6 +126,8 @@ function ProductDescription({
       setProductCount(1)
    }
   },[currentCart])
+
+  // console.log("current", currentItem)
 
    return (
       <>
@@ -179,6 +198,8 @@ function ProductDescription({
                            setSelectedWeightId(item?.unit);
                            setCurrentSelectedPrice(item?.price);
                            setCurrentSelectedImage(item?.image);
+                           setCurrentSelectedUnitQty(item?.quantity)
+                           setCurrentSelectedUnitId(item?.loystarId)
                            setProductCount(1);
                            showIsNameYourPrice && setShowIsNameYourPrice(false);
                         }}
@@ -241,6 +262,9 @@ function ProductDescription({
                                     product,
                                     nameYourPriceValue,
                                     selectedWeightId as string,
+                                    currentSelectedUnitQty,
+                                    currentSelectedUnitId
+                                    
                                  );
                               }
                            }}
@@ -263,7 +287,7 @@ function ProductDescription({
                                  return;
                               }
                               if (nameYourPriceValue >= product.minimumPrice) {
-                                 handleAdd(product, nameYourPriceValue, selectedWeightId as string);
+                                 handleAdd(product, nameYourPriceValue, selectedWeightId as string, currentSelectedUnitQty, currentSelectedUnitId);
                               }
                            }}
                            className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-gray-200 text-black"
@@ -283,6 +307,8 @@ function ProductDescription({
                               handlePlus(product, {
                                  unit: selectedWeightId,
                                  price: nameYourPriceValue,
+                                 quantity: currentSelectedUnitQty,
+                                 unitId: currentSelectedUnitId
                               });
                               // setShowIsNameYourPrice(false);
                            }
@@ -302,6 +328,8 @@ function ProductDescription({
                                  product,
                                  currentSelectedPrice as number,
                                  selectedWeightId as string,
+                                 currentSelectedUnitQty as number,
+                                 currentSelectedUnitId as number
                               );
                            }}
                            className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-gray-200 text-black"
@@ -315,7 +343,7 @@ function ProductDescription({
                            disabled={
                               !product.inStock ||
                               showIsNameYourPrice ||
-                              (acitveUnit && productCount + 1 >= acitveUnit?.quantity)
+                              (acitveUnit && (Number(acitveUnit?.quantity || 0) - Number(quantityState || 0) === 0))
                                  ? true
                                  : false
                            }
@@ -324,6 +352,8 @@ function ProductDescription({
                                  product,
                                  currentSelectedPrice as number,
                                  selectedWeightId as string,
+                                 currentSelectedUnitQty as number,
+                                 currentSelectedUnitId as number
                               );
                            }}
                            className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-gray-200 text-black"
@@ -341,6 +371,8 @@ function ProductDescription({
                      handlePlus(product, {
                         unit: selectedWeightId,
                         price: currentSelectedPrice,
+                        quantity: currentSelectedUnitQty,
+                        unitId: currentSelectedUnitId
                      })
                   }
                   className="mt-4 w-full rounded-3xl text-sm disabled:cursor-not-allowed"

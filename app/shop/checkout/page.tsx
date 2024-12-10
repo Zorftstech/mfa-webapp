@@ -1,7 +1,5 @@
 "use client";
 
-import { X } from "lucide-react";
-import { Minus, Plus } from "lucide-react";
 import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import Container from "@/components/shared/container";
@@ -10,7 +8,6 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Text } from "@/components/ui/text";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
-import { PaystackButton, usePaystackPayment } from "react-paystack";
 import RouteDisplay from "../../../components/shared/route-display";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -41,7 +38,8 @@ import {
    SelectValue,
 } from "@/components/ui/select";
 import EmptyContentWrapper from "@/hoc/EmptyContentWrapper";
-import { useCreate } from "@/lib/hooks/request";
+import { useCreateUserRequest } from "@/lib/hooks/request";
+import { callback, HookConfig } from "react-paystack/dist/types";
 
 // Form validation schema using zod
 const formSchema = z.object({
@@ -57,6 +55,51 @@ const formSchema = z.object({
 
 type formInterface = z.infer<typeof formSchema>;
 
+function PaystackButton({
+   hookConfig,
+   onClose,
+   onSuccess,
+}: {
+   hookConfig: HookConfig;
+   onClose: callback;
+   onSuccess: callback;
+}) {
+
+   const isBrowser = typeof window !== 'undefined';
+
+   if (!isBrowser) {
+     return null;
+   }
+ 
+   // Import your Paystack-related code here
+   const { usePaystackPayment } = require('react-paystack')
+   const initializePayment = usePaystackPayment(hookConfig);
+   const router = useRouter();
+   const { loggedIn } = useStore((state) => state);
+
+   const onSubmit = async () => {
+      initializePayment({
+         onClose,
+         onSuccess,
+      });
+   };
+   return (
+      <Button
+         onClick={() => {
+            if (!loggedIn) {
+               toast.warning("Please login to place an order");
+               router.push("/account/signin?redirect=/shop/checkout");
+               return;
+            }
+            onSubmit();
+         }}
+         className="mb-3 mt-5 w-full rounded-3xl px-4 text-xs"
+      >
+         Place Order
+      </Button>
+   );
+}
+
 function Page() {
    const { currentCart, clearCart } = useContext(CartContext);
    const { data: deliveryFees, isLoading: fetchingShippingRates, isSuccess } = useDeliveryFees();
@@ -69,7 +112,9 @@ function Page() {
    const [selectedShippingRate, setSelectedShippingRate] = useState(0);
    const [selectedShipping, setSelectedShipping] = useState("");
    const { authDetails, loggedIn } = useStore((state) => state);
-   const {create} = useCreate('')
+
+
+   const { create } = useCreateUserRequest("sales");
    const router = useRouter();
 
    const form = useForm<formInterface>({
@@ -87,8 +132,6 @@ function Page() {
    });
 
    const publicKey = "pk_test_2f5fe11f645e8ffa062f379d652aef8daf391f82"; // Replace with your Paystack public key
-   const config = { publicKey };
-   const initializePayment = usePaystackPayment(config);
 
    const calculateAmounts = () => {
       const cartTotal = calculateTotalPrice(currentCart);
@@ -100,6 +143,26 @@ function Page() {
    };
 
    const { total, discountAmount, finalAmount } = calculateAmounts();
+
+   const config = {
+      publicKey,
+      email: authDetails?.email,
+      reference: "MFA" + Math.floor(Math.random() * 100000000000000 + 1375),
+      currency: "NGN",
+      amount: finalAmount * 100,
+
+      // metadata: {
+      //    custom_fields: [
+      //       {
+      //          display_name: authDetails.firstName,
+      //          variable_name: "name",
+      //          value: authDetails.lastName,
+      //       },
+      //    ],
+      // },
+   };
+
+   // const config = { publicKey };
 
    const applyCouponCode = async () => {
       setIsLoading(true);
@@ -119,94 +182,130 @@ function Page() {
       setIsLoading(false);
    };
 
-   const onSubmit = async (values: formInterface) => {
-      const onSuccess = async (response: any) => {
-         toast.success("Payment Successful! Reference: " + response.reference);
+   const onSuccess = async (response: any) => {
+      toast.success("Payment Successful! Reference: " + response.reference);
 
-         const singleOrder = {
-            name: `${values.fname} ${values.lname}`,
-            firstName: values.fname,
-            lastName: values.lname,
-            email: values.email,
-            totalAmount: finalAmount,
-            address: `${values.streetAddress}, ${values.state}, ${values.country}`,
-            message: values.message,
-            phone: values.phone,
-            paymentReference: `${response.reference}`,
-            cartItems: currentCart,
-            orderId: `${response.reference}`,
-            status: "pending",
-            userId: authDetails.id || values.email,
-            created_date: serverTimestamp(),
-         };
+      // const singleOrder = {
+      //    name: `${values.fname} ${values.lname}`,
+      //    firstName: values.fname,
+      //    lastName: values.lname,
+      //    email: values.email,
+      //    totalAmount: finalAmount,
+      //    address: `${values.streetAddress}, ${values.state}, ${values.country}`,
+      //    message: values.message,
+      //    phone: values.phone,
+      //    paymentReference: `${response.reference}`,
+      //    cartItems: currentCart,
+      //    orderId: `${response.reference}`,
+      //    status: "pending",
+      //    userId: authDetails.id || values.email,
+      //    created_date: serverTimestamp(),
+      // };
 
-         //create loystar user
-         const payloadLoystar = {
-            first_name: values?.fname,
-            last_name: values.lname,
-            email: values.email,
-            phone_number: values.phone,
-            date_of_birth: "23-04-1980",
-            sex: "M",
-            local_db_created_at: "NiL",
-            address_line1: "",
-            address_line2: "NIL",
-            postcode: "00",
-            state: values.state,
-            country: values.country || "Nigeria",
-         };
-         await create(payloadLoystar, `add_user_for_merchant/:merchant_id`);
+      //create loystar user
+      // const payloadLoystar = {
+      //    first_name: values?.fname,
+      //    last_name: values.lname,
+      //    email: values.email,
+      //    phone_number: values.phone,
+      //    date_of_birth: "23-04-1980",
+      //    sex: "M",
+      //    local_db_created_at: "NiL",
+      //    address_line1: values?.streetAddress,
+      //    address_line2: "NIL",
+      //    postcode: "00",
+      //    state: values.state,
+      //    country: values.country || "Nigeria",
+      // };
 
-         // create loystar order
+      const loystarUserId = localStorage.getItem("loystarUserId")
 
-         const createOrder = async () => {
-            try {
-               const collectionRef = collection(db, "orders");
-               await addDoc(collectionRef, singleOrder);
-               await addProductsToUserSoTheyCanReview(authDetails.id!, currentCart);
-               toast.success("Order created successfully!");
+     // console.log({ currentCart, selectedShipping });
+      const orderedItem  = currentCart?.map((item) => {
+         return {
+            product_id : Number(item?.loystarId),
+            quantity: Number(item?.no_of_items),
+            user_id: Number(loystarUserId),
+            amount: item?.price,
+            merchant_id: 21750,
+          //  custom_quantity_id: item?.loystarUnitId || ''  ,
+          //  "merchant_loyalty_program_id": ""
 
-               form.reset();
-               clearCart();
-
-               router.push("/shop/categories");
-            } catch (error) {
-               console.error("Error creating order: ", error);
-               toast("Error creating order. Please try again.");
-            }
-         };
-         if (response.status === "success") {
-            createOrder();
-            if (couponCode) {
-               applyCouponCode();
-            }
          }
-      };
+      })
 
-      const onClose = () => {
-         toast.info("Payment Closed");
-      };
+  //    return;
 
-      initializePayment({
-         onClose,
-         onSuccess,
-         config: {
-            email: values.email,
-            reference: "MFA" + Math.floor(Math.random() * 100000000000000 + 1375),
-            currency: "NGN",
-            amount: finalAmount * 100,
 
-            metadata: {
-               custom_fields: [
-                  {
-                     display_name: values.fname,
-                     variable_name: "name",
-                     value: values.fname,
-                  },
-               ],
-            },
-         },
-      });
+
+      // merchant id
+      // const responseData =    await create({payload:payloadLoystar, infunctionParam:`add_user_for_merchant/21750`});
+    
+
+     
+
+      // create loystar order
+
+      // const createOrder = async () => {
+      //    try {
+      //       const collectionRef = collection(db, "orders");
+      //       await addDoc(collectionRef, singleOrder);
+      //       await addProductsToUserSoTheyCanReview(authDetails.id!, currentCart);
+      //       toast.success("Order created successfully!");
+
+      //       form.reset();
+      //       clearCart();
+
+      //       router.push("/shop/categories");
+      //    } catch (error) {
+      //       console.error("Error creating order: ", error);
+      //       toast("Error creating order. Please try again.");
+      //    }
+      // };
+      if (response.status === "success") {
+         //console.log("res", response)
+         // createOrder();
+        
+         await create({
+            payload: {
+               "sale": {
+                // "user_id": Number(loystarUserId),
+               //   "shared_loyalty_txn": true,
+               //   "instant_reward_loyalty_txn": false,
+               //   "device_id": "",
+               //   "discount_amount": 50.5,
+                 "is_paid_with_cash": false,
+                 "is_paid_with_card": true,
+                 "is_paid_with_mobile": false,
+                // "is_paid_with_mtransfer": false,
+                 //"is_paid_with_point": false,
+                  //"is_paid_with_customer_account": true,
+                  // "business_branch_id": '',
+               //   "payment_label_id": 12,
+                "payment_reference": response.reference,
+               //   "card_payment_ref": "",
+                // "channel": "web",
+               // "created_at": new Date().toISOString(),
+               //   "loyalty_id": 67,
+               //   "itranfer": "",
+               //   "reference_code": "REF-9876",
+               //   "mtier_amount": 100.0,
+               //   "credit_customer_loyalty": true,
+                 "transactions": orderedItem
+               }
+             }
+             
+             
+            
+         });
+         if (couponCode) {
+            applyCouponCode();
+         }
+      }
+   };
+
+   const onClose = () => {
+      toast.info("Payment Closed");
    };
 
    const checkIfCouponCodeIsValidForUser = async () => {
@@ -294,7 +393,7 @@ function Page() {
                <main className="mx-auto mt-8 flex w-full max-w-[1200px] flex-col items-center justify-center gap-1 py-4">
                   <div className="flex w-full flex-col items-start justify-between gap-4 px-4 md:flex-row">
                      <div className="mt-6 w-full flex-[4] bg-white p-3">
-                        <CheckoutForm form={form} onSubmit={onSubmit} />
+                        <CheckoutForm />
                      </div>
                      <div className="flex w-full md:w-auto md:flex-[2]">
                         <div className="mt-6 w-full bg-white p-4">
@@ -423,23 +522,28 @@ function Page() {
                                  </Button>
                               </p>
                            </div>
-                           <Button
-                              onClick={() => {
-                                 if (!loggedIn) {
-                                    toast.warning("Please login to place an order");
-                                    router.push("/account/signin?redirect=/shop/checkout");
-                                    return;
-                                 }
-                                 if (selectedValue === "wallet") {
+                           {selectedValue === "wallet" ? (
+                              <Button
+                                 onClick={() => {
+                                    if (!loggedIn) {
+                                       toast.warning("Please login to place an order");
+                                       router.push("/account/signin?redirect=/shop/checkout");
+                                       return;
+                                    }
+
                                     setOpenWalletModal(true);
-                                 } else {
-                                    form.handleSubmit(onSubmit)();
-                                 }
-                              }}
-                              className="mb-3 mt-5 w-full rounded-3xl px-4 text-xs"
-                           >
-                              Place Order
-                           </Button>
+                                 }}
+                                 className="mb-3 mt-5 w-full rounded-3xl px-4 text-xs"
+                              >
+                                 Place Order
+                              </Button>
+                           ) : (
+                              <PaystackButton
+                                 onClose={onClose}
+                                 onSuccess={onSuccess}
+                                 hookConfig={config}
+                              />
+                           )}
                         </div>
                      </div>
                   </div>
