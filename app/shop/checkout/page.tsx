@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Container from "@/components/shared/container";
 import { Button } from "@/components/ui/button";
@@ -20,7 +20,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { db } from "@/firebase";
 import { z } from "zod";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, doc, serverTimestamp, writeBatch } from "firebase/firestore";
 import { toast } from "sonner";
 import useStore from "@/store";
 import { useRouter } from "next/navigation";
@@ -64,18 +64,29 @@ function PaystackButton({
    onClose: callback;
    onSuccess: callback;
 }) {
-
-   const isBrowser = typeof window !== 'undefined';
+   const isBrowser = typeof window !== "undefined";
 
    if (!isBrowser) {
-     return null;
+      return null;
    }
- 
+
    // Import your Paystack-related code here
-   const { usePaystackPayment } = require('react-paystack')
+   const { usePaystackPayment } = require("react-paystack");
    const initializePayment = usePaystackPayment(hookConfig);
    const router = useRouter();
-   const { loggedIn } = useStore((state) => state);
+   const { loggedIn, authDetails } = useStore((state) => state);
+
+   const isUserDeliveryAvailable = useMemo(() => {
+      if (authDetails) {
+         return (
+            authDetails?.addressDetails &&
+            authDetails?.addressDetails?.address &&
+            authDetails?.addressDetails?.country &&
+            authDetails?.addressDetails?.state &&
+            authDetails?.addressDetails?.zipcode
+         );
+      } else return false;
+   }, [authDetails]);
 
    const onSubmit = async () => {
       initializePayment({
@@ -91,6 +102,11 @@ function PaystackButton({
                router.push("/account/signin?redirect=/shop/checkout");
                return;
             }
+            if (!isUserDeliveryAvailable) {
+               toast.warning("Please Update ur profile");
+               router.push("/dashboard/settings");
+               return;
+            }
             onSubmit();
          }}
          className="mb-3 mt-5 w-full rounded-3xl px-4 text-xs"
@@ -101,7 +117,7 @@ function PaystackButton({
 }
 
 function Page() {
-   const { currentCart, clearCart } = useContext(CartContext);
+   const { currentCart, clearCart , setCurrentCart} = useContext(CartContext);
    const { data: deliveryFees, isLoading: fetchingShippingRates, isSuccess } = useDeliveryFees();
    const shippingRates = deliveryFees || [];
    const [openWalletModal, setOpenWalletModal] = useState(false);
@@ -112,7 +128,6 @@ function Page() {
    const [selectedShippingRate, setSelectedShippingRate] = useState(0);
    const [selectedShipping, setSelectedShipping] = useState("");
    const { authDetails, loggedIn } = useStore((state) => state);
-
 
    const { create } = useCreateUserRequest("sales");
    const router = useRouter();
@@ -185,122 +200,112 @@ function Page() {
    const onSuccess = async (response: any) => {
       toast.success("Payment Successful! Reference: " + response.reference);
 
-      // const singleOrder = {
-      //    name: `${values.fname} ${values.lname}`,
-      //    firstName: values.fname,
-      //    lastName: values.lname,
-      //    email: values.email,
-      //    totalAmount: finalAmount,
-      //    address: `${values.streetAddress}, ${values.state}, ${values.country}`,
-      //    message: values.message,
-      //    phone: values.phone,
-      //    paymentReference: `${response.reference}`,
-      //    cartItems: currentCart,
-      //    orderId: `${response.reference}`,
-      //    status: "pending",
-      //    userId: authDetails.id || values.email,
-      //    created_date: serverTimestamp(),
-      // };
+      const singleOrder = {
+         name: `${authDetails.firstName} ${authDetails.lastName}`,
+         firstName: authDetails.firstName,
+         lastName: authDetails.lastName,
+         email: authDetails.email,
+         totalAmount: finalAmount,
+         address: `${authDetails.addressDetails?.address}, ${authDetails.addressDetails?.state}, ${authDetails.addressDetails?.country}`,
 
-      //create loystar user
-      // const payloadLoystar = {
-      //    first_name: values?.fname,
-      //    last_name: values.lname,
-      //    email: values.email,
-      //    phone_number: values.phone,
-      //    date_of_birth: "23-04-1980",
-      //    sex: "M",
-      //    local_db_created_at: "NiL",
-      //    address_line1: values?.streetAddress,
-      //    address_line2: "NIL",
-      //    postcode: "00",
-      //    state: values.state,
-      //    country: values.country || "Nigeria",
-      // };
+         phone: authDetails.phone,
+         paymentReference: `${response.reference}`,
+         cartItems: currentCart,
+         orderId: `${response.reference}`,
+         status: "success",
+         userId: authDetails.id || authDetails.email,
+         created_date: serverTimestamp(),
+      };
 
-      const loystarUserId = localStorage.getItem("loystarUserId")
+      const loystarUserId = localStorage.getItem("loystarUserId");
 
-     // console.log({ currentCart, selectedShipping });
-      const orderedItem  = currentCart?.map((item) => {
+      // console.log({ currentCart, selectedShipping });
+      const orderedItem = currentCart?.map((item) => {
          return {
-            product_id : Number(item?.loystarId),
-            quantity: Number(item?.no_of_items),
+            product_id: Number(item?.loystarId),
+            quantity:
+               Array.isArray(item?.units) && item?.units?.length > 0
+                  ? Number(item?.no_of_items || 0) * Number(item?.loystarUnitQty || 0)
+                  : Number(item?.no_of_items),
             user_id: Number(loystarUserId),
             amount: item?.price,
             merchant_id: 21750,
-          //  custom_quantity_id: item?.loystarUnitId || ''  ,
-          //  "merchant_loyalty_program_id": ""
+            created_at: new Date().toISOString(),
+            has_custom_qty: Array.isArray(item?.units) && item?.units?.length > 0 ? true : false,
+            id: Number(item?.loystarId),
+            merchant_product_category_id: item?.category?.loystarId,
+            name: item?.name,
+            price: item?.price,
+            product_type: "product",
+            track_inventory: true,
+            unit: "units",
+            updated_at: new Date().toISOString(),
+            publish_to_loystar_shop: true,
+            bundle_products: [],
+            bundles: [],
+            business_branch_id: null,
+            custom_quantities: item?.units,
+         };
+      });
 
-         }
-      })
-
-  //    return;
-
-
+      //    return;
 
       // merchant id
       // const responseData =    await create({payload:payloadLoystar, infunctionParam:`add_user_for_merchant/21750`});
-    
-
-     
 
       // create loystar order
 
-      // const createOrder = async () => {
-      //    try {
-      //       const collectionRef = collection(db, "orders");
-      //       await addDoc(collectionRef, singleOrder);
-      //       await addProductsToUserSoTheyCanReview(authDetails.id!, currentCart);
-      //       toast.success("Order created successfully!");
+      const createOrder = async () => {
+         try {
+            const collectionRef = collection(db, "orders");
+            await addDoc(collectionRef, singleOrder);
+            await addProductsToUserSoTheyCanReview(authDetails.id!, currentCart);
+            toast.success("Order created successfully!");
+           await updateProductQuantities()
+            form.reset();
+            clearCart();
 
-      //       form.reset();
-      //       clearCart();
-
-      //       router.push("/shop/categories");
-      //    } catch (error) {
-      //       console.error("Error creating order: ", error);
-      //       toast("Error creating order. Please try again.");
-      //    }
-      // };
+            router.push("/shop/categories");
+         } catch (error) {
+            console.error("Error creating order: ", error);
+            toast("Error creating order. Please try again.");
+         }
+      };
       if (response.status === "success") {
          //console.log("res", response)
-         // createOrder();
-        
+
          await create({
             payload: {
-               "sale": {
-                // "user_id": Number(loystarUserId),
-               //   "shared_loyalty_txn": true,
-               //   "instant_reward_loyalty_txn": false,
-               //   "device_id": "",
-               //   "discount_amount": 50.5,
-                 "is_paid_with_cash": false,
-                 "is_paid_with_card": true,
-                 "is_paid_with_mobile": false,
-                // "is_paid_with_mtransfer": false,
-                 //"is_paid_with_point": false,
-                  //"is_paid_with_customer_account": true,
-                  // "business_branch_id": '',
-               //   "payment_label_id": 12,
-                "payment_reference": response.reference,
-               //   "card_payment_ref": "",
-                // "channel": "web",
-               // "created_at": new Date().toISOString(),
-               //   "loyalty_id": 67,
-               //   "itranfer": "",
-               //   "reference_code": "REF-9876",
-               //   "mtier_amount": 100.0,
-               //   "credit_customer_loyalty": true,
-                 "transactions": orderedItem
-               }
-             }
-             
-             
-            
+               sale: {
+                  business_branch_id: null,
+                  card_payment_ref: null,
+                  created_at: new Date().getMilliseconds(),
+                  discount_amount: null,
+                  has_discount: false,
+                  is_paid_with_card: true,
+                  is_paid_with_cash: false,
+                  is_paid_with_customer_account: false,
+                  is_paid_with_mobile: false,
+                  is_paid_with_mtransfer: false,
+                  is_paid_with_point: false,
+                  loyalty_id: null,
+                  mtier_amount: null,
+                  payment_reference: response.reference,
+                  reference_code: new Date().getMilliseconds(),
+                  shared_loyalty_txn: false,
+                  user_id: Number(loystarUserId),
+                  merchant_id: 21750,
+                  transactions: orderedItem,
+               },
+            },
          });
+         // createOrder();
+
          if (couponCode) {
             applyCouponCode();
          }
+        await createOrder()
+         
       }
    };
 
@@ -340,6 +345,20 @@ function Page() {
       //    checkIfCouponCodeIsValidForUser();
       // }
    };
+
+   
+const updateProductQuantities = async () => {
+   const batch = writeBatch(db); 
+   currentCart.forEach((item) => {
+      const productRef = doc(db, "products", item.id); 
+      const newQuantity =  Array.isArray(item?.units) && item?.units?.length > 0
+      ?Number(item?.quantity) - (Number(item?.no_of_items || 0) * Number(item?.loystarUnitQty || 0))
+      : Number(item?.quantity) - Number(item?.no_of_items); 
+      batch.update(productRef, { quantity: newQuantity });
+   });
+   await batch.commit(); // Commit the batch
+};
+   
 
    useEffect(() => {
       if (isSuccess && shippingRates.length > 0) {

@@ -243,7 +243,7 @@ export function useCreateUserRequest<T extends object>(params: string) {
          //    await axiosRequest.post({ url: params, payload: payload });
 
          const response = await axios.post(
-            `https://api0.loystar.co/api/v2/${infunctionParam || params}`,
+            `https://api1.loystar.co/api/v2/${infunctionParam || params}`,
             payload,
             {
                headers: {

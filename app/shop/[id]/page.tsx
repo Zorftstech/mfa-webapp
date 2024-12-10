@@ -184,8 +184,8 @@ async function Page({ params: { id } }: params) {
                         name: product?.name,
                         price: Number(product?.costprice) > 0 &&
                         Number(product?.costprice) < Number(product?.price)
-                        ? (Number(product.costprice) ?? 0)
-                        : (Number(product.price) ?? 0),
+                        ? (Number(product.price) ?? 0)
+                        : (Number(product.costprice) ?? 0),
                         no_of_items: product?.no_of_items,
                         id:product?.id,
                         units: product?.units,

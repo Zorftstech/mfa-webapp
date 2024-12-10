@@ -6,7 +6,7 @@ interface CartItem {
    costprice?: string | number;
    nameYourPrice?: boolean;
    subcategory?: { name: string; id: string };
-   category?: { name: string; id: string };
+   category?: { name: string; id: string, loystarId: number };
    desc?: string;
    minimumPrice?: number;
    price?: number;

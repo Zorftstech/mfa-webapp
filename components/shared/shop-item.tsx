@@ -179,7 +179,7 @@ const Shop = ({ itemDetails, isFlashSale }: { itemDetails: ShopItem; isFlashSale
             </>
          )}
          {itemDetails.inStock &&
-            Number(itemDetails?.price) > Number(itemDetails?.costprice) &&
+            Number(itemDetails?.costprice) > Number(itemDetails?.price) &&
             Number(itemDetails?.costprice) !== 0 && (
                <div className="absolute left-3 top-3 z-[2] rounded-md bg-red-800 p-3">
                   <Text size={"xs"} weight={"medium"} className="text-white opacity-95">
@@ -248,14 +248,14 @@ const Shop = ({ itemDetails, isFlashSale }: { itemDetails: ShopItem; isFlashSale
                         </Text>
                      )} */}
                      {itemDetails.inStock &&
-                        Number(itemDetails?.price) > Number(itemDetails?.costprice) &&
+                        Number(itemDetails?.costprice) > Number(itemDetails?.price) &&
                         Number(itemDetails?.costprice) !== 0 && (
                            <Text
                               weight={"semibold"}
                               size={"xs"}
                               className=" text-gray-500 line-through"
                            >
-                              {formatToNaira(Number(itemDetails.price) ?? 0)}
+                              {formatToNaira(Number(itemDetails.costprice) ?? 0)}
                            </Text>
                         )}
                      <Text
@@ -263,10 +263,7 @@ const Shop = ({ itemDetails, isFlashSale }: { itemDetails: ShopItem; isFlashSale
                         weight={"semibold"}
                         size={"xs"}
                      >
-                        {Number(itemDetails?.costprice) > 0 &&
-                        Number(itemDetails?.costprice) < Number(itemDetails?.price)
-                           ? formatToNaira(Number(itemDetails.costprice) ?? 0)
-                           : formatToNaira(Number(itemDetails.price) ?? 0)}
+                        {formatToNaira(Number(itemDetails.price) ?? 0)}
                      </Text>
                   </div>
                </div>

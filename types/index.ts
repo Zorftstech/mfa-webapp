@@ -290,6 +290,7 @@ export interface Category {
    desc: string;
    name: string;
    createdDate: string;
+   loystarId:number;
 }
 
 export interface SingleProduct {
