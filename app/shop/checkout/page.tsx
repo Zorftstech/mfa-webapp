@@ -59,10 +59,12 @@ function PaystackButton({
    hookConfig,
    onClose,
    onSuccess,
+   isUserDeliveryNotAvailable,
 }: {
    hookConfig: HookConfig;
    onClose: callback;
    onSuccess: callback;
+   isUserDeliveryNotAvailable: boolean;
 }) {
    const isBrowser = typeof window !== "undefined";
 
@@ -75,18 +77,6 @@ function PaystackButton({
    const initializePayment = usePaystackPayment(hookConfig);
    const router = useRouter();
    const { loggedIn, authDetails } = useStore((state) => state);
-
-   const isUserDeliveryAvailable = useMemo(() => {
-      if (authDetails) {
-         return (
-            authDetails?.addressDetails &&
-            authDetails?.addressDetails?.address &&
-            authDetails?.addressDetails?.country &&
-            authDetails?.addressDetails?.state &&
-            authDetails?.addressDetails?.zipcode
-         );
-      } else return false;
-   }, [authDetails]);
 
    const onSubmit = async () => {
       initializePayment({
@@ -102,7 +92,7 @@ function PaystackButton({
                router.push("/account/signin?redirect=/shop/checkout");
                return;
             }
-            if (!isUserDeliveryAvailable) {
+            if (isUserDeliveryNotAvailable) {
                toast.warning("Please Update ur profile");
                router.push("/dashboard/settings");
                return;
@@ -117,7 +107,7 @@ function PaystackButton({
 }
 
 function Page() {
-   const { currentCart, clearCart , setCurrentCart} = useContext(CartContext);
+   const { currentCart, clearCart, setCurrentCart } = useContext(CartContext);
    const { data: deliveryFees, isLoading: fetchingShippingRates, isSuccess } = useDeliveryFees();
    const shippingRates = deliveryFees || [];
    const [openWalletModal, setOpenWalletModal] = useState(false);
@@ -130,8 +120,6 @@ function Page() {
    const { authDetails, loggedIn } = useStore((state) => state);
 
    const [isOpen, setOpen] = useState(false);
-
-
 
    const { create } = useCreateUserRequest("sales");
 
@@ -150,6 +138,28 @@ function Page() {
          streetAddress: authDetails.addressDetails?.address || "",
       },
    });
+
+   const isUserDeliveryNotAvailable = useMemo(() => {
+      if (authDetails && authDetails?.addressDetails  && authDetails?.addressDetails !== null ) {
+      
+         return (
+          
+            (authDetails?.addressDetails?.address === null ||
+               authDetails?.addressDetails?.address === "") &&
+            (authDetails?.addressDetails?.country === null ||
+               authDetails?.addressDetails?.country === "") &&
+            (authDetails?.addressDetails?.state === null ||
+               authDetails?.addressDetails?.state === "") &&
+            (authDetails?.addressDetails?.zipcode === null ||
+               authDetails?.addressDetails?.zipcode === "")
+         );
+      } else {
+         return true
+      };
+   }, [authDetails]);
+
+
+   //console.log({isUserDeliveryNotAvailable}, authDetails && authDetails?.addressDetails  && authDetails?.addressDetails !== null)
 
    const publicKey = "pk_test_2f5fe11f645e8ffa062f379d652aef8daf391f82"; // Replace with your Paystack public key
 
@@ -184,6 +194,40 @@ function Page() {
 
    // const config = { publicKey };
 
+   const createOrder = async (reference: string) => {
+      const singleOrder = {
+         name: `${authDetails.firstName} ${authDetails.lastName}`,
+         firstName: authDetails.firstName,
+         lastName: authDetails.lastName,
+         email: authDetails.email,
+         totalAmount: finalAmount,
+         address: `${authDetails.addressDetails?.address}, ${authDetails.addressDetails?.state}, ${authDetails.addressDetails?.country}`,
+
+         phone: authDetails.phone,
+         paymentReference: `${reference}`,
+         cartItems: currentCart,
+         orderId: `${reference}`,
+         status: "success",
+         userId: authDetails.id || authDetails.email,
+         created_date: serverTimestamp(),
+      };
+      try {
+         const collectionRef = collection(db, "orders");
+         await addDoc(collectionRef, singleOrder);
+         await addProductsToUserSoTheyCanReview(authDetails.id!, currentCart);
+         toast.success("Order created successfully!");
+         await updateProductQuantities();
+         form.reset();
+         clearCart();
+         onToggle();
+
+         router.push("/shop/categories");
+      } catch (error) {
+         console.error("Error creating order: ", error);
+         toast("Error creating order. Please try again.");
+      }
+   };
+
    const applyCouponCode = async () => {
       setIsLoading(true);
       const payload = {
@@ -202,116 +246,21 @@ function Page() {
       setIsLoading(false);
    };
 
-
    const onSuccess = async (response: any) => {
       toast.success("Payment Successful! Reference: " + response.reference);
 
-      const singleOrder = {
-         name: `${authDetails.firstName} ${authDetails.lastName}`,
-         firstName: authDetails.firstName,
-         lastName: authDetails.lastName,
-         email: authDetails.email,
-         totalAmount: finalAmount,
-         address: `${authDetails.addressDetails?.address}, ${authDetails.addressDetails?.state}, ${authDetails.addressDetails?.country}`,
-
-         phone: authDetails.phone,
-         paymentReference: `${response.reference}`,
-         cartItems: currentCart,
-         orderId: `${response.reference}`,
-         status: "success",
-         userId: authDetails.id || authDetails.email,
-         created_date: serverTimestamp(),
-      };
-
-      const loystarUserId = localStorage.getItem("loystarUserId");
-
-      // console.log({ currentCart, selectedShipping });
-      const orderedItem = currentCart?.map((item) => {
-         return {
-            product_id: Number(item?.loystarId),
-            quantity:
-               Array.isArray(item?.units) && item?.units?.length > 0
-                  ? Number(item?.no_of_items || 0) * Number(item?.loystarUnitQty || 0)
-                  : Number(item?.no_of_items),
-            user_id: Number(loystarUserId),
-            amount: item?.price,
-            merchant_id: 21750,
-            created_at: new Date().toISOString(),
-            has_custom_qty: Array.isArray(item?.units) && item?.units?.length > 0 ? true : false,
-            id: Number(item?.loystarId),
-            merchant_product_category_id: item?.category?.loystarId,
-            name: item?.name,
-            price: item?.price,
-            product_type: "product",
-            track_inventory: true,
-            unit: "units",
-            updated_at: new Date().toISOString(),
-            publish_to_loystar_shop: true,
-            bundle_products: [],
-            bundles: [],
-            business_branch_id: null,
-            custom_quantities: item?.units,
-         };
-      });
-
-      //    return;
-
-      // merchant id
-      // const responseData =    await create({payload:payloadLoystar, infunctionParam:`add_user_for_merchant/21750`});
-
       // create loystar order
 
-      const createOrder = async () => {
-         try {
-            const collectionRef = collection(db, "orders");
-            await addDoc(collectionRef, singleOrder);
-            await addProductsToUserSoTheyCanReview(authDetails.id!, currentCart);
-            toast.success("Order created successfully!");
-           await updateProductQuantities()
-            form.reset();
-            clearCart();
-
-            router.push("/shop/categories");
-         } catch (error) {
-            console.error("Error creating order: ", error);
-            toast("Error creating order. Please try again.");
-         }
-      };
       if (response.status === "success") {
          //console.log("res", response)
 
-         await create({
-            payload: {
-               sale: {
-                  business_branch_id: null,
-                  card_payment_ref: null,
-                  created_at: new Date().getMilliseconds(),
-                  discount_amount: null,
-                  has_discount: false,
-                  is_paid_with_card: true,
-                  is_paid_with_cash: false,
-                  is_paid_with_customer_account: false,
-                  is_paid_with_mobile: false,
-                  is_paid_with_mtransfer: false,
-                  is_paid_with_point: false,
-                  loyalty_id: null,
-                  mtier_amount: null,
-                  payment_reference: response.reference,
-                  reference_code: new Date().getMilliseconds(),
-                  shared_loyalty_txn: false,
-                  user_id: Number(loystarUserId),
-                  merchant_id: 21750,
-                  transactions: orderedItem,
-               },
-            },
-         });
          // createOrder();
+         await createLoystarOrder(response.reference);
 
          if (couponCode) {
             applyCouponCode();
          }
-        await createOrder()
-         
+         await createOrder(response.reference);
       }
    };
 
@@ -352,19 +301,78 @@ function Page() {
       // }
    };
 
-   
-const updateProductQuantities = async () => {
-   const batch = writeBatch(db); 
-   currentCart.forEach((item) => {
-      const productRef = doc(db, "products", item.id); 
-      const newQuantity =  Array.isArray(item?.units) && item?.units?.length > 0
-      ?Number(item?.quantity) - (Number(item?.no_of_items || 0) * Number(item?.loystarUnitQty || 0))
-      : Number(item?.quantity) - Number(item?.no_of_items); 
-      batch.update(productRef, { quantity: newQuantity });
-   });
-   await batch.commit(); // Commit the batch
-};
-   
+   const updateProductQuantities = async () => {
+      const batch = writeBatch(db);
+      currentCart.forEach((item) => {
+         const productRef = doc(db, "products", item.id);
+         const newQuantity =
+            Array.isArray(item?.units) && item?.units?.length > 0
+               ? Number(item?.quantity) -
+                 Number(item?.no_of_items || 0) * Number(item?.loystarUnitQty || 0)
+               : Number(item?.quantity) - Number(item?.no_of_items);
+         batch.update(productRef, { quantity: newQuantity });
+      });
+      await batch.commit();
+   };
+
+   const createLoystarOrder = async (reference: string) => {
+      const loystarUserId = localStorage.getItem("loystarUserId");
+
+      // console.log({ currentCart, selectedShipping });
+      const orderedItem = currentCart?.map((item) => {
+         return {
+            product_id: Number(item?.loystarId),
+            quantity:
+               Array.isArray(item?.units) && item?.units?.length > 0
+                  ? Number(item?.no_of_items || 0) * Number(item?.loystarUnitQty || 0)
+                  : Number(item?.no_of_items),
+            user_id: Number(loystarUserId),
+            amount: item?.price,
+            merchant_id: 21750,
+            created_at: new Date().toISOString(),
+            has_custom_qty: Array.isArray(item?.units) && item?.units?.length > 0 ? true : false,
+            id: Number(item?.loystarId),
+            merchant_product_category_id: item?.category?.loystarId,
+            name: item?.name,
+            price: item?.price,
+            product_type: "product",
+            track_inventory: true,
+            unit: "units",
+            updated_at: new Date().toISOString(),
+            publish_to_loystar_shop: true,
+            bundle_products: [],
+            bundles: [],
+            business_branch_id: null,
+            custom_quantities: item?.units,
+         };
+      });
+
+      await create({
+         payload: {
+            sale: {
+               business_branch_id: null,
+               card_payment_ref: null,
+               created_at: new Date().getMilliseconds(),
+               discount_amount: null,
+               has_discount: false,
+               is_paid_with_card: true,
+               is_paid_with_cash: false,
+               is_paid_with_customer_account: false,
+               is_paid_with_mobile: false,
+               is_paid_with_mtransfer: false,
+               is_paid_with_point: false,
+               loyalty_id: null,
+               mtier_amount: null,
+               payment_reference: reference,
+               reference_code: new Date().getMilliseconds(),
+               shared_loyalty_txn: false,
+               user_id: Number(loystarUserId),
+               merchant_id: 21750,
+               transactions: orderedItem,
+            },
+         },
+      });
+   };
 
    useEffect(() => {
       if (isSuccess && shippingRates.length > 0) {
@@ -422,7 +430,6 @@ const updateProductQuantities = async () => {
                   <div className="flex w-full flex-col items-start justify-between gap-4 px-4 md:flex-row">
                      <div className="mt-6 w-full flex-[4] bg-white p-3">
                         <CheckoutForm />
-
                      </div>
                      <div className="flex w-full md:w-auto md:flex-[2]">
                         <div className="mt-6 w-full bg-white p-4">
@@ -560,6 +567,11 @@ const updateProductQuantities = async () => {
                                        router.push("/account/signin?redirect=/shop/checkout");
                                        return;
                                     }
+                                    if (isUserDeliveryNotAvailable) {
+                                       toast.warning("Please Update ur profile");
+                                       router.push("/dashboard/settings");
+                                       return;
+                                    }
 
                                     setOpenWalletModal(true);
                                  }}
@@ -572,9 +584,9 @@ const updateProductQuantities = async () => {
                                  onClose={onClose}
                                  onSuccess={onSuccess}
                                  hookConfig={config}
+                                 isUserDeliveryNotAvailable={isUserDeliveryNotAvailable}
                               />
                            )}
-
                         </div>
                      </div>
                   </div>
@@ -590,6 +602,8 @@ const updateProductQuantities = async () => {
                      }}
                      revokeCouponCodeForUser={applyCouponCode}
                      couponCode={couponCode}
+                     createOrder={createOrder}
+                     createLoystarOrder={createLoystarOrder}
                   />
                </main>
             </EmptyContentWrapper>
@@ -606,9 +620,11 @@ function SuccessModal({ close }: { close: () => void }) {
       <div onClick={close} className="fixed inset-0 z-[99999] h-full w-full bg-white/60">
          <div
             onClick={(e) => e.stopPropagation()}
-            className="fle absolute inset-0 m-auto w-[95%] max-w-2xl flex flex-col items-center h-fit justify-center gap-y-10 rounded-xl bg-white py-10  px-6"
+            className="fle absolute inset-0 m-auto flex h-fit w-[95%] max-w-2xl flex-col items-center justify-center gap-y-10 rounded-xl bg-white px-6  py-10"
          >
-            <h2 className="text-xl text-center font-semibold">Your Order has been placed successfully 🎁</h2>
+            <h2 className="text-center text-xl font-semibold">
+               Your Order has been placed successfully 🎁
+            </h2>
 
             <button onClick={close} className="rounded-xl bg-primary-2 px-4 py-2 text-white">
                Close

@@ -112,7 +112,7 @@ function Page() {
          }
       },
       onError: (err) => {
-         // ProcessError(err);
+          ProcessError(err);
       },
    });
 

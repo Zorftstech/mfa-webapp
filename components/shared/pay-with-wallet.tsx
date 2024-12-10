@@ -32,6 +32,8 @@ interface IProps {
    orderDetails: any;
    revokeCouponCodeForUser: any;
    couponCode: string;
+   createOrder: (ref: string) => Promise<void>;
+   createLoystarOrder: (ref: string) => Promise<void>;
 }
 
 const PayWithWalletModal: React.FC<IProps> = ({
@@ -41,6 +43,8 @@ const PayWithWalletModal: React.FC<IProps> = ({
    orderDetails,
    revokeCouponCodeForUser,
    couponCode,
+   createOrder,
+   createLoystarOrder,
 }) => {
    const [isLoading, setIsLoading] = useState(false);
    const { authDetails } = useStore((store) => store);
@@ -69,6 +73,11 @@ const PayWithWalletModal: React.FC<IProps> = ({
 
       try {
          await axios.post("/api/payment/pay-with-wallet", payload);
+         const reference =
+            "MFAPaidWithWallet" + Math.floor(Math.random() * 100000000000000000 + 165538);
+         await createLoystarOrder(reference);
+
+         await createOrder(reference);
 
          toast.success("Wallet updated successfully");
          queryClient.invalidateQueries({

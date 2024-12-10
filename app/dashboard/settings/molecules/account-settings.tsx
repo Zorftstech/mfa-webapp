@@ -175,7 +175,7 @@ const AccountSettings = ({ refetchUserInfo }: { refetchUserInfo: () => void }) =
      console.log("response ",response)
       if (response?.headers && !loystarToken) {
          localStorage.setItem("loystarToken",response?.headers["access-token"])
-         localStorage.setItem("loystarUserId", response?.data?.customer?.id)
+         localStorage.setItem("loystarUserId", response?.data?.user_id)
       }
          if (response !== null) {
             const postData = {
