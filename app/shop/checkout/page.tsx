@@ -129,7 +129,12 @@ function Page() {
    const [selectedShipping, setSelectedShipping] = useState("");
    const { authDetails, loggedIn } = useStore((state) => state);
 
+   const [isOpen, setOpen] = useState(false);
+
+
+
    const { create } = useCreateUserRequest("sales");
+
    const router = useRouter();
 
    const form = useForm<formInterface>({
@@ -196,6 +201,7 @@ function Page() {
       }
       setIsLoading(false);
    };
+
 
    const onSuccess = async (response: any) => {
       toast.success("Payment Successful! Reference: " + response.reference);
@@ -370,6 +376,9 @@ const updateProductQuantities = async () => {
       }
    }, [fetchingShippingRates, isSuccess]);
 
+   function onToggle() {
+      setOpen(!isOpen);
+   }
    return (
       <div className="pt-[69px]">
          <head>
@@ -413,6 +422,7 @@ const updateProductQuantities = async () => {
                   <div className="flex w-full flex-col items-start justify-between gap-4 px-4 md:flex-row">
                      <div className="mt-6 w-full flex-[4] bg-white p-3">
                         <CheckoutForm />
+
                      </div>
                      <div className="flex w-full md:w-auto md:flex-[2]">
                         <div className="mt-6 w-full bg-white p-4">
@@ -541,6 +551,7 @@ const updateProductQuantities = async () => {
                                  </Button>
                               </p>
                            </div>
+
                            {selectedValue === "wallet" ? (
                               <Button
                                  onClick={() => {
@@ -563,6 +574,7 @@ const updateProductQuantities = async () => {
                                  hookConfig={config}
                               />
                            )}
+
                         </div>
                      </div>
                   </div>
@@ -582,8 +594,26 @@ const updateProductQuantities = async () => {
                </main>
             </EmptyContentWrapper>
          </Container>
+         {isOpen && <SuccessModal close={onToggle} />}
       </div>
    );
 }
 
 export default Page;
+
+function SuccessModal({ close }: { close: () => void }) {
+   return (
+      <div onClick={close} className="fixed inset-0 z-[99999] h-full w-full bg-white/60">
+         <div
+            onClick={(e) => e.stopPropagation()}
+            className="fle absolute inset-0 m-auto w-[95%] max-w-2xl flex flex-col items-center h-fit justify-center gap-y-10 rounded-xl bg-white py-10  px-6"
+         >
+            <h2 className="text-xl text-center font-semibold">Your Order has been placed successfully 🎁</h2>
+
+            <button onClick={close} className="rounded-xl bg-primary-2 px-4 py-2 text-white">
+               Close
+            </button>
+         </div>
+      </div>
+   );
+}
