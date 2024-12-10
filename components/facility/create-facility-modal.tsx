@@ -75,7 +75,7 @@ const CreateFacilityModal = ({
          // });
          toast(`Facility ${values.name} created successfully`);
       } catch (error: unknown) {
-         if (error instanceof AxiosError) ProcessError(error);
+         if (error instanceof AxiosError) console.log(error);
       }
    };
 

@@ -51,7 +51,7 @@ const useQueryCollectionByField = (
 
    useEffect(() => {
       if (isError) {
-         ProcessError(error);
+         // ProcessError(error);
       }
    }, [isError, error]);
 

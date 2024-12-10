@@ -30,6 +30,9 @@ const ShoppingCartDropdown = ({ children }: { children?: React.ReactNode }) => {
    const { authDetails, setLoggedIn, setCurrentUser, setAuthDetails } = useStore((store) => store);
    const router = useRouter();
    const { currentCart, handleRemove } = useContext(CartContext);
+
+
+   console.log({currentCart})
   
    return (
       <Dropdown>

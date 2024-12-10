@@ -53,7 +53,7 @@ export function NewsletterForm({ mode }: { mode?: "light" | "dark" }) {
          form.reset();
       },
       onError: (err) => {
-         ProcessError(err);
+         // ProcessError(err);
       },
    });
 

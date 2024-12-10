@@ -3,6 +3,7 @@ import React from "react";
 
 import { Text } from "@/components/ui/text";
 import Each from "../helpers/each";
+import Link from "next/link";
 
 function RouteDisplay({ route, routes }: { route: string; routes?: string[] }) {
    return (
@@ -15,7 +16,7 @@ function RouteDisplay({ route, routes }: { route: string; routes?: string[] }) {
          className="hidden w-full items-center justify-between bg-black p-8 md:flex"
       >
          <div className="mx-auto flex w-full max-w-[1200px] items-center justify-start gap-2">
-            <ShoppingBag className="w-6 text-white" />
+           <Link href="/"> <ShoppingBag className="w-6 text-white" /> </Link>
             {!routes ? (
                <>
                   <ChevronRight className="w-6 text-white" />

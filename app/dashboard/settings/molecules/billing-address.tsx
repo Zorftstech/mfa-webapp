@@ -91,7 +91,7 @@ const BillingAddress = ({ refetchUserInfo }: { refetchUserInfo: () => void }) =>
          refetchUserInfo();
          toast.success("Profile updated successfully");
       } catch (error) {
-         ProcessError(error);
+         // ProcessError(error);
          toast.error("An error occurred, please try again.");
       } finally {
          setFormIsLoading(false);

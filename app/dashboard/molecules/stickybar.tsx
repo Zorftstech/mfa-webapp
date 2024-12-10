@@ -36,6 +36,10 @@ function Stickybar({ handleSticky }: { handleSticky: any }) {
                   setLoggedIn(false);
                   setCurrentUser(null);
                   setAuthDetails({});
+                  localStorage.removeItem("loystarUserId");
+                  localStorage.removeItem("loystarToken");
+                
+                  
 
                   router.push("/account/signin");
                }} className="mt-10 w-full">Logout</Button>

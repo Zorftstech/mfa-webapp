@@ -1,46 +1,57 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+// import { zodResolver } from "@hookform/resolvers/zod";
+// import { useForm } from "react-hook-form";
+// import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-   Form,
-   FormControl,
-   FormField,
-   FormItem,
-   FormLabel,
-   FormMessage,
-} from "@/components/ui/form";
-import { Input, inputVariants } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-   SelectContent,
-   Select,
-   SelectItem,
-   SelectTrigger,
-   SelectValue,
-} from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
+// import { Checkbox } from "@/components/ui/checkbox";
+// import {
+//    Form,
+//    FormControl,
+//    FormField,
+//    FormItem,
+//    FormLabel,
+//    FormMessage,
+// } from "@/components/ui/form";
+// import { Input, inputVariants } from "@/components/ui/input";
+// import { Label } from "@/components/ui/label";
+// import {
+//    SelectContent,
+//    Select,
+//    SelectItem,
+//    SelectTrigger,
+//    SelectValue,
+// } from "@/components/ui/select";
+// import { Separator } from "@/components/ui/separator";
 import { Text } from "@/components/ui/text";
-import { Textarea } from "@/components/ui/textarea";
-import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
+// import { Textarea } from "@/components/ui/textarea";
+// import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
+import useStore from "@/store";
+import { useRouter } from "next/navigation";
 
 interface checkoutFormInterface {
    form: any;
    onSubmit: any;
 }
-export function CheckoutForm({ form, onSubmit }: checkoutFormInterface) {
+export function CheckoutForm() {
+   const { authDetails, loggedIn } = useStore((state) => state);
+   const router = useRouter();
    return (
-      <Form {...form}>
-         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 bg-white p-3">
-            <Text size={"md"} weight={"semibold"}>
-               Billing Information
-            </Text>
-            <div className="flex w-full flex-col items-center justify-between gap-2 md:flex-row">
-               <FormField
+      // <Form {...form}>
+      <div className="space-y-8 bg-white p-3">
+         <Text size={"md"} weight={"semibold"}>
+            Billing Information
+         </Text>
+         <div className="flex w-full items-center  gap-2 ">
+            <div className="flex flex-row items-start gap-2 text-sm">
+               <p className="font-semibold"> Name:</p>
+               <p className="capitalize">
+                  {authDetails?.firstName ?? ""} {authDetails?.lastName ?? ""}
+               </p>
+            </div>
+
+            {/* <FormField
                   control={form.control}
                   name="fname"
                   render={({ field }) => (
@@ -65,9 +76,17 @@ export function CheckoutForm({ form, onSubmit }: checkoutFormInterface) {
                         <FormMessage />
                      </FormItem>
                   )}
-               />
-            </div>
-            <FormField
+               /> */}
+         </div>
+         <div className="flex flex-row items-start gap-2 text-sm">
+            <p className="font-semibold">Email:</p>
+            <p className=""> {authDetails.email ?? ""}</p>
+         </div>
+         <div className="flex flex-row items-start gap-2 text-sm">
+            <p className="font-semibold">Phone Number:</p>
+            <p className="capitalize"> {authDetails.phone ?? ""}</p>
+         </div>
+         {/* <FormField
                control={form.control}
                name="streetAddress"
                render={({ field }) => (
@@ -79,8 +98,22 @@ export function CheckoutForm({ form, onSubmit }: checkoutFormInterface) {
                      <FormMessage />
                   </FormItem>
                )}
-            />
-            <section className="grid grid-cols-2 gap-2 pb-2">
+            /> */}
+         <div className="flex flex-row items-start gap-2 text-sm">
+            <p className="font-semibold"> Street Address:</p>
+            <p className="capitalize"> {authDetails.addressDetails?.address ?? ""}</p>
+         </div>
+
+         <div className="flex flex-row items-start gap-2 text-sm">
+            <p className="font-semibold">Location :</p>
+            <p className="capitalize">
+               {" "}
+               {authDetails.addressDetails?.state ?? ""},{" "}
+               {authDetails.addressDetails?.country ?? ""}
+            </p>
+         </div>
+
+         {/* <section className="grid grid-cols-2 gap-2 pb-2">
                <div>
                   <Label htmlFor="country" className="text-text-dim mb-2 text-xs">
                      Country
@@ -113,8 +146,8 @@ export function CheckoutForm({ form, onSubmit }: checkoutFormInterface) {
                      }}
                   />
                </div>
-            </section>
-            <div className="flex w-full flex-col items-center justify-between gap-2 md:flex-row">
+            </section> */}
+         {/* <div className="flex w-full flex-col items-center justify-between gap-2 md:flex-row">
                <FormField
                   control={form.control}
                   name="email"
@@ -141,8 +174,8 @@ export function CheckoutForm({ form, onSubmit }: checkoutFormInterface) {
                      </FormItem>
                   )}
                />
-            </div>
-            {/* <div className="flex items-end gap-2">
+            </div> */}
+         {/* <div className="flex items-end gap-2">
                <Checkbox id="terms" />
                <label
                   htmlFor="terms"
@@ -151,7 +184,7 @@ export function CheckoutForm({ form, onSubmit }: checkoutFormInterface) {
                   Ship to a different address
                </label>
             </div> */}
-            <Separator className="my-4" />
+         {/* <Separator className="my-4" />
             <Text size={"md"} weight={"semibold"}>
                Additional Info
             </Text>
@@ -176,9 +209,10 @@ export function CheckoutForm({ form, onSubmit }: checkoutFormInterface) {
                      <FormMessage />
                   </FormItem>
                )}
-            />
-            {/* <Button type="submit">Submit</Button> */}
-         </form>
-      </Form>
+            /> */}
+         <Button onClick={() => router.push("/dashboard/settings")} className="h-11" type="submit">
+            Update Delivery Information
+         </Button>
+      </div>
    );
 }

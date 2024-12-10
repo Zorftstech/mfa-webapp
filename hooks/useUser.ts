@@ -73,7 +73,7 @@ const useUserInfo = () => {
 
    useEffect(() => {
       if (isError && error) {
-         ProcessError(error);
+         // ProcessError(error);
          console.error("Error fetching user data:", error);
       }
    }, [isError, error]);

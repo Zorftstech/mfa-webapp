@@ -138,7 +138,7 @@ function Page() {
             return res.user;
          } catch (err) {
             console.log(err);
-            ProcessError(err);
+            // ProcessError(err);
 
             throw err;
          }
@@ -147,7 +147,7 @@ function Page() {
          doLoginAttempt({ email: variables.email, password: variables.password });
       },
       onError: (err) => {
-         ProcessError(err);
+          ProcessError(err);
       },
    });
 
@@ -178,7 +178,8 @@ function Page() {
             if (redirectUrl) {
                router.push(redirectUrl);
             } else {
-               router.push("/dashboard");
+               toast.success("Pls update your profile");
+               router.push("/dashboard/settings");
             }
             return docSnap.data(); // Return the document data
          } else {
@@ -188,7 +189,7 @@ function Page() {
          }
       },
       onError: (err) => {
-         ProcessError(err);
+         // ProcessError(err);
       },
    });
 

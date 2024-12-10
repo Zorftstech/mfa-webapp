@@ -55,7 +55,7 @@ const useProducts = (LandingPageCategory?: string) => {
 
    useEffect(() => {
       if (isError) {
-         ProcessError(error);
+       ProcessError(error);
       }
    }, [isError, error]);
 

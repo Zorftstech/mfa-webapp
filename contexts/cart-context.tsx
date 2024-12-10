@@ -20,6 +20,10 @@ interface CartItem {
    chosenUnit?: string;
    no_of_items?: number;
    status?: string;
+   loystarUnit?: string;
+   loystarId: string;
+   loystarUnitQty?: number;
+   loystarUnitId?: number;
 }
 
 interface CartContextType {
@@ -30,6 +34,8 @@ interface CartContextType {
       selectedUnit?: {
          unit?: string;
          price?: number | string;
+         quantity?: number;
+         unitId?: number;
       },
    ) => void;
    handlePlus: (
@@ -37,7 +43,10 @@ interface CartContextType {
       selectedUnit?: {
          unit?: string;
          price?: number | string;
+         quantity?: number;
+         unitId?: number;
       },
+      noUnitPrice?: number,
    ) => void;
    handleRemove: (itemId: any, chosenUnit?: string) => void;
    clearCart: () => void;
@@ -68,9 +77,11 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
       selectedUnit?: {
          unit?: string;
          price?: number | string;
+         quantity?: number;
+         unitId?: number;
       },
    ) => {
-      const chosenUnit = `${selectedUnit?.unit}${selectedUnit?.price}`;
+      const chosenUnit = `${selectedUnit?.unit}_${selectedUnit?.price}`;
       let currentItemIndex;
       if (selectedUnit) {
          currentItemIndex = currentCart.findIndex(
@@ -89,8 +100,9 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
             ...currentItem,
             no_of_items: updatedNoOfItems,
          };
+         console.log("updatedCart", updatedCart);
 
-         setCurrentCart(updatedCart);
+         setCurrentCart(currentItemIndex === 0 && currentCart?.length === 1 ? [] : updatedCart);
       } else {
          // If item is not found in the cart, add it with no_of_items set to 1
          setCurrentCart([...currentCart, { ...item, no_of_items: 1 }]);
@@ -104,18 +116,21 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
       selectedUnit?: {
          unit?: string;
          price?: number | string;
+         quantity?: number;
+         unitId?: number;
       },
+      noUnitPrice?: number,
    ) => {
-      const chosenUnit = `${selectedUnit?.unit}${selectedUnit?.price}`;
       let currentItemIndex;
       if (selectedUnit) {
+         const chosenUnit = `${selectedUnit?.unit}_${selectedUnit?.price}`;
          currentItemIndex = currentCart.findIndex(
             (cartItem) => cartItem.chosenUnit === chosenUnit && cartItem.id === item.id,
          );
       } else {
          currentItemIndex = currentCart.findIndex((cartItem) => cartItem.id === item.id);
       }
-      console.log(chosenUnit);
+      // console.log(chosenUnit);
       if (currentItemIndex !== -1) {
          const updatedCart = [...currentCart];
          const currentItem = updatedCart[currentItemIndex];
@@ -133,8 +148,11 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
             {
                ...item,
                no_of_items: 1,
-               chosenUnit: chosenUnit,
-               price: Number(selectedUnit?.price || (item.units && item.units[0].price)),
+               chosenUnit: `${selectedUnit?.unit}_${selectedUnit?.price}`,
+               loystarUnit: selectedUnit?.unit,
+               loystarUnitQty: selectedUnit?.quantity || 0,
+               loystarUnitId: selectedUnit?.unitId,
+               price: Number(selectedUnit?.price) || Number(noUnitPrice) || 0,
             },
          ]);
       }

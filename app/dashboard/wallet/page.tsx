@@ -29,7 +29,13 @@ function Page() {
       authDetails.id ?? "",
    );
    const refetchTransactions = () => {
-      refetch();
+      try {
+         refetch();
+      }
+      catch(error) {
+
+      }
+     
    };
    return (
       <DashboardLayout>

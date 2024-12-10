@@ -15,7 +15,7 @@ function Page() {
    return (
       <DashboardLayout backgroundColor={"bg-transparent"}>
          <AccountSettings refetchUserInfo={refetchUserInfo} />
-         <BillingAddress refetchUserInfo={refetchUserInfo} />
+         {/* <BillingAddress refetchUserInfo={refetchUserInfo} /> */}
          <PasswordChange refetchUserInfo={refetchUserInfo} />
       </DashboardLayout>
    );
