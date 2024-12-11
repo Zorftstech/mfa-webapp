@@ -140,10 +140,8 @@ function Page() {
    });
 
    const isUserDeliveryNotAvailable = useMemo(() => {
-      if (authDetails && authDetails?.addressDetails  && authDetails?.addressDetails !== null ) {
-      
+      if (authDetails && authDetails?.addressDetails && authDetails?.addressDetails !== null) {
          return (
-          
             (authDetails?.addressDetails?.address === null ||
                authDetails?.addressDetails?.address === "") &&
             (authDetails?.addressDetails?.country === null ||
@@ -154,10 +152,9 @@ function Page() {
                authDetails?.addressDetails?.zipcode === "")
          );
       } else {
-         return true
-      };
+         return true;
+      }
    }, [authDetails]);
-
 
    //console.log({isUserDeliveryNotAvailable}, authDetails && authDetails?.addressDetails  && authDetails?.addressDetails !== null)
 
@@ -219,9 +216,7 @@ function Page() {
          await updateProductQuantities();
          form.reset();
          clearCart();
-         onToggle();
-
-         router.push("/shop/categories");
+         // onToggle();
       } catch (error) {
          console.error("Error creating order: ", error);
          toast("Error creating order. Please try again.");
@@ -608,7 +603,14 @@ function Page() {
                </main>
             </EmptyContentWrapper>
          </Container>
-         {isOpen && <SuccessModal close={onToggle} />}
+         {isOpen && (
+            <SuccessModal
+               close={() => {
+                  router.push("/shop/categories");
+                  onToggle;
+               }}
+            />
+         )}
       </div>
    );
 }
@@ -620,7 +622,7 @@ function SuccessModal({ close }: { close: () => void }) {
       <div onClick={close} className="fixed inset-0 z-[99999] h-full w-full bg-white/60">
          <div
             onClick={(e) => e.stopPropagation()}
-            className="fle absolute inset-0 m-auto flex h-fit w-[95%] max-w-2xl flex-col items-center justify-center gap-y-10 rounded-xl bg-white px-6  py-10"
+            className="fle absolute inset-0 m-auto flex h-fit w-[95%] max-w-xl flex-col items-center justify-center gap-y-10 rounded-xl bg-white px-6  py-10"
          >
             <h2 className="text-center text-xl font-semibold">
                Your Order has been placed successfully 🎁
