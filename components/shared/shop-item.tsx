@@ -143,7 +143,8 @@ const Shop = ({ itemDetails, isFlashSale }: { itemDetails: ShopItem; isFlashSale
 
    return (
       <div
-         //  href={`/shop/${itemDetails.id}`}
+      role="button"
+        onClick={() => router.push(`/shop/${itemDetails?.id}?name=${splitStringBySpaceAndReplaceWithDash(itemDetails.name)}`)}
          className="relative w-full cursor-pointer border border-transparent bg-white py-10 shadow-none duration-300 md:px-4 md:hover:border-gray-300"
       >
          {/* {isFlashSale && (
