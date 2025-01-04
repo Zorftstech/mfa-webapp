@@ -132,12 +132,7 @@ const Header = () => {
                         <div className="flex items-center justify-start gap-4">
                            {/* <ShoppingCart /> */}
                            <ShoppingCartDropdown />
-                           <span className="flex flex-col">
-                              <Text size={"xs"}>Shopping cart</Text>
-                              <Text weight={"bold"} size={"xs"}>
-                                 ₦{calculateTotalPrice(currentCart).toLocaleString() || 0}
-                              </Text>
-                           </span>
+                          
                         </div>
                      </div>
 

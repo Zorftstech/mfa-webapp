@@ -477,7 +477,7 @@ function Page() {
                                           className="cursor-pointer py-3 text-sm  text-white transition-all duration-100 ease-linear hover:text-black"
                                           key={index}
                                        >
-                                          {item.location} - {formatToNaira(item.price)}
+                                          {item.location}
                                        </SelectItem>
                                     ))}
                                  </SelectContent>

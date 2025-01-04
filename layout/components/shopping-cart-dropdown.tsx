@@ -38,7 +38,8 @@ const ShoppingCartDropdown = ({ children }: { children?: React.ReactNode }) => {
       <Dropdown>
          <Dropdown.Trigger>
             {children ?? (
-               <Button variant={"ghost"} size={"none"} className="relative pr-2">
+            <div className="flex items-center justify-start gap-4">
+                  <Button variant={"ghost"} size={"none"} className="relative pr-2">
                   <ShoppingBag className="w-6" />
                   <span
                      className="absolute right-0 rounded-full bg-primary px-2"
@@ -49,10 +50,19 @@ const ShoppingCartDropdown = ({ children }: { children?: React.ReactNode }) => {
                      </Text>
                   </span>
                </Button>
+                <span className="flex items-start justify-start flex-col">
+                <Text size={"xs"}>Shopping cart</Text>
+                <Text weight={"bold"} size={"xs"}>
+                   ₦{calculateTotalPrice(currentCart).toLocaleString() || 0}
+                </Text>
+             </span>
+            </div>
             )}
          </Dropdown.Trigger>
-         <Dropdown.Content className=" scrollbar w-[25rem] overflow-scroll border  bg-white  py-6 shadow-lg transition-all duration-300 ease-linear">
-            <div className="grid h-[10rem] gap-4 overflow-scroll px-4 pb-4">
+         <Dropdown.Content className=" scrollbar w-[20rem] overflow-scroll border  bg-white  py-6 shadow-lg transition-all duration-300 ease-linear">
+            <div
+            style={{paddingBottom: "200px"}}
+            className="grid h-[300px] relative gap-4 overflow-scroll px-4 pb-[200px]">
                <div className="space-y-2">
                   <h4 className="font-medium leading-none">Shopping Card ({currentCart.length})</h4>
                </div>
@@ -95,6 +105,8 @@ const ShoppingCartDropdown = ({ children }: { children?: React.ReactNode }) => {
                               </>
                            )}
                         />
+                       
+                        <div className="mt-6 flex fixed inset-x-0 bottom-0 bg-white p-3 w-full flex-col gap-4">
                         <div className="mt-3 flex items-center justify-between gap-2">
                            <Text size={"xs"} weight={"medium"}>
                               {currentCart.length} {currentCart.length > 1 ? "Products" : "Product"}
@@ -103,16 +115,15 @@ const ShoppingCartDropdown = ({ children }: { children?: React.ReactNode }) => {
                               ₦{calculateTotalPrice(currentCart).toLocaleString()}
                            </Text>
                         </div>
-                        <div className="mt-6 flex w-full flex-col gap-4">
                            <a
                               href={"/shop/checkout"}
-                              className="w-full rounded-3xl bg-[#7ab42c] py-2 text-center text-xs text-white"
+                              className="w-full rounded-3xl  bg-[#7ab42c] py-2 text-center text-xs text-white"
                            >
                               Checkout
                            </a>
                            <a
                               href={"/shop/cart"}
-                              className="w-full rounded-3xl bg-gray-100 py-2 text-center text-xs text-[#7ab42c]"
+                              className="w-full rounded-3xl  bg-gray-100 py-2 text-center text-xs text-[#7ab42c]"
                            >
                               Go to Cart
                            </a>
