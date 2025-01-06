@@ -22,7 +22,7 @@ function Page() {
          const createdDate = getCreatedDateFromDocument(doc as any);
          const expirationDate = doc.data().expirationDate;
          const currentTime = Math.floor(Date.now() / 1000); 
-
+         
          if (expirationDate.seconds > currentTime) {
             coupons.push({
                id: doc.id,
