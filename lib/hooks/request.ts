@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import ProcessError from "../error";
 import { toast } from "sonner";
+import { baseUrl } from "@/config/__data_url";
 
 export function useCreate<T extends object>(params: string) {
    const [loading, setLoading] = useState(false);
@@ -21,7 +22,7 @@ export function useCreate<T extends object>(params: string) {
          //    await axiosRequest.post({ url: params, payload: payload });
 
          const response = await axios.post(
-            `https://api0.loystar.co/api/v2/${infunctionParam || params}`,
+            `${baseUrl}${infunctionParam || params}`,
             payload,
             {
                headers: {
@@ -145,7 +146,7 @@ export function useDelete() {
       try {
          setLoading(true);
          await axios.delete(
-            `https://api0.loystar.co/api/v2/${params}`,
+            `${baseUrl}${params}`,
 
             {
                headers: {
@@ -162,31 +163,6 @@ export function useDelete() {
       }
    }
 
-   //     async function postDeletes(params: string) {
-   //       try {
-   //         setLoading(true);
-   //         await axios.post(
-   //           `https://api0.loystar.co/api/v2/${params}`,
-   //           {},
-   //           {
-   //             headers: {
-   //               client: user?.client,
-   //               'access-token': user?.access_token,
-   //               uid: user?.uid,
-   //             },
-   //           },
-   //         );
-   //       } catch (error: any) {
-   //         processError(error);
-   //       } finally {
-   //         setLoading(false);
-   //       }
-   //     }
-   //     return {
-   //       deleteLoading :loading,
-   //       postDeletes,
-   //       deletes
-   //     };
 }
 
 export function useMutate<T extends object>(params: string) {
@@ -199,7 +175,7 @@ export function useMutate<T extends object>(params: string) {
          //    await axiosRequest.post({ url: params, payload: payload });
 
          const response = await axios.put(
-            `https://api0.loystar.co/api/v2/${infunctionParam || params}`,
+            `${baseUrl}${infunctionParam || params}`,
             payload,
             {
                headers: {
@@ -294,7 +270,7 @@ export function useMutateRequest<T extends object>(params: string) {
          //    await axiosRequest.post({ url: params, payload: payload });
 
          const response = await axios.patch(
-            `https://api0.loystar.co/api/v2/${infunctionParam || params}`,
+            `${baseUrl}${infunctionParam || params}`,
             payload,
             {
                headers: {

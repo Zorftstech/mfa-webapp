@@ -69,10 +69,11 @@ function Page() {
       onSuccess: async (data, variables) => {
          // setAuthDetails(data);
          // check if user is in loystar db
+         const merchantId= process.env.NEXT_PUBLIC_MERCHANT_ID
          const response = await create({
-            payload: { email: variables?.email, merchant_id: 21750 },
+            payload: { email: variables?.email, merchant_id: merchantId },
 
-            errorMessage: "Incomplete details. Kindly update your profile",
+            errorMessage: "Invalid Login credential",
          });
 
       

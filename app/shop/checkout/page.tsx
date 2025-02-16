@@ -314,6 +314,7 @@ function Page() {
       const loystarUserId = localStorage.getItem("loystarUserId");
 
       // console.log({ currentCart, selectedShipping });
+      const merchantId = process.env.NEXT_PUBLIC_MERCHANT_ID;
       const orderedItem = currentCart?.map((item) => {
          return {
             product_id: Number(item?.loystarId),
@@ -323,7 +324,7 @@ function Page() {
                   : Number(item?.no_of_items),
             user_id: Number(loystarUserId),
             amount: item?.price,
-            merchant_id: 21750,
+            merchant_id: merchantId,
             created_at: new Date().toISOString(),
             has_custom_qty: Array.isArray(item?.units) && item?.units?.length > 0 ? true : false,
             id: Number(item?.loystarId),
@@ -362,7 +363,7 @@ function Page() {
                reference_code: new Date().getMilliseconds(),
                shared_loyalty_txn: false,
                user_id: Number(loystarUserId),
-               merchant_id: 21750,
+               merchant_id: merchantId,
                transactions: orderedItem,
             },
          },
