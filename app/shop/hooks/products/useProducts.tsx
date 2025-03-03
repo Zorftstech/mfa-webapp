@@ -66,7 +66,7 @@ const useProducts = (LandingPageCategory?: string) => {
             // update the quamtity with the quamtity from loystar
             // quantity   // quantity
             const refinedProducts = updateProductQuantities(data, loystarProducts)
-            console.log("dddddd", refinedProducts);
+          
             let products = refinedProducts;
             if (!showFarmOffTakesForAll) {
                products = products.filter(

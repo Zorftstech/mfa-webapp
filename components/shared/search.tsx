@@ -5,12 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Paperclip, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { splitStringBySpaceAndReplaceWithDash } from "@/lib/utils";
 
 const Hit = ({ hit }: { hit: any }) => {
    console.log(hit);
    return (
       <Link
-         href={`/shop/${hit.slug}`}
+         href={`/shop/${hit?.objectID}?name=${splitStringBySpaceAndReplaceWithDash(hit.name)}`}
          className="flex items-center  gap-2 p-2 capitalize hover:bg-gray-100"
       >
          <Paperclip className="w-4" />

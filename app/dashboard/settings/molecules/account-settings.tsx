@@ -105,19 +105,19 @@ const AccountSettings = ({ refetchUserInfo }: { refetchUserInfo: () => void }) =
    // 2. Define a submit handler.
    async function onSubmit(data: z.infer<typeof formSchema>) {
       setFormIsLoading(true);
-      let downloadURL = "https://altinsmart.com";
+      let downloadURL = "";
 
-      // if (file) {
-      //    const storageRef = ref(getStorage(), `users/${file.name}`);
-      //    const snapshot = await uploadBytes(storageRef, file);
-      //    downloadURL = await getDownloadURL(snapshot.ref);
-      // }
+      if (file) {
+         const storageRef = ref(getStorage(), `users/${file.name}`);
+         const snapshot = await uploadBytes(storageRef, file);
+         downloadURL = await getDownloadURL(snapshot.ref);
+      }
 
-      // if (!downloadURL) {
-      //    toast.error("Image is required.");
-      //    setFormIsLoading(false);
-      //    return;
-      // }
+      if (!downloadURL) {
+         toast.error("Image is required.");
+         setFormIsLoading(false);
+         return;
+      }
 
       try {
          // const payloadLoystar = {
@@ -176,6 +176,7 @@ const AccountSettings = ({ refetchUserInfo }: { refetchUserInfo: () => void }) =
       if (response?.headers && !loystarToken) {
          localStorage.setItem("loystarToken",response?.headers["access-token"])
          localStorage.setItem("loystarUserId", response?.data?.user_id)
+
       }
          if (response !== null) {
             const postData = {
